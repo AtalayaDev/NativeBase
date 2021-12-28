@@ -39,6 +39,7 @@ const Select = (
     dropdownCloseIcon,
     dropdownOpenIcon,
     placeholder,
+    currentValue,
     accessibilityLabel,
     defaultValue,
     size,
@@ -85,8 +86,10 @@ const Select = (
   const selectedItemArray = itemsList.filter(
     (item: any) => item.value === value
   );
+  
   const selectedItem =
-    selectedItemArray && selectedItemArray.length ? selectedItemArray[0] : null;
+  currentValue?.value !==  undefined 
+  ? currentValue : selectedItemArray && selectedItemArray.length ? selectedItemArray[0] : null;
 
   const {
     variant,

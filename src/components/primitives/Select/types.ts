@@ -3,6 +3,10 @@ import type { IButtonProps } from '../Button';
 import type { IActionsheetContentProps } from '../../composites/Actionsheet/types';
 
 export interface ISelectProps extends IBoxProps {
+    /**
+   *The current value from a external state
+   */
+   currentValue?: { value: string, label: string };
   /**
    * The placeholder that describes the Select.
    */
