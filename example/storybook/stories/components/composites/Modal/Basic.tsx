@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Modal, FormControl, Input } from 'native-base';
+import { Button, Modal } from 'native-base';
 import { useState } from 'react';
 
 export const Example = () => {
@@ -11,34 +11,40 @@ export const Example = () => {
       <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
         <Modal.Content maxWidth="400px">
           <Modal.CloseButton />
-          <Modal.Header>Contact Us</Modal.Header>
+          <Modal.Header>Modal Title</Modal.Header>
           <Modal.Body>
-            <FormControl>
-              <FormControl.Label>Name</FormControl.Label>
-              <Input />
-            </FormControl>
-            <FormControl mt="3">
-              <FormControl.Label>Email</FormControl.Label>
-              <Input />
-            </FormControl>
+            Sit nulla est ex deserunt exercitation anim occaecat. Nostrud
+            ullamco deserunt aute id consequat veniam incididunt duis in sint
+            irure nisi. Mollit officia cillum Lorem ullamco minim nostrud elit
+            officia tempor esse quis. Sunt ad dolore quis aute consequat. Magna
+            exercitation reprehenderit magna aute tempor cupidatat consequat
+            elit dolor adipisicing. Mollit dolor eiusmod sunt ex incididunt
+            cillum quis. Velit duis sit officia eiusmod Lorem aliqua enim
+            ullamco deserunt aute id consequat veniam incididunt duis in sint
+            irure nisi. Mollit officia cillum Lorem ullamco minim nostrud elit
+            officia tempor esse quis. Sunt ad dolore quis aute consequat. Magna
+            exercitation reprehenderit magna aute tempor cupidatat consequat
+            elit dolor adipisicing. Mollit dolor eiusmod sunt ex incididunt
+            cillum quis. Velit duis sit officia eiusmod Lorem aliqua enim
+            exercitation reprehenderit magna aute tempor cupidatat consequat
+            elit dolor adipisicing. Mollit dolor eiusmod sunt ex incididunt
+            cillum quis. Velit duis sit officia eiusmod Lorem aliqua enim
+            ullamco deserunt aute id consequat veniam incididunt duis in sint
+            irure nisi. Mollit officia cillum Lorem ullamco minim nostrud elit
+            officia tempor esse quis. Sunt ad dolore quis aute consequat. Magna
+            exercitation reprehenderit magna aute tempor cupidatat consequat
+            elit dolor adipisicing. Mollit dolor eiusmod sunt ex incididunt
+            cillum quis. Velit duis sit officia eiusmod Lorem aliqua enim
           </Modal.Body>
           <Modal.Footer>
-            <Button.Group space={2}>
-              <Button
-                variant="ghost"
-                colorScheme="blueGray"
-                onPress={() => {
-                  setShowModal(false);
-                }}
-              >
-                Cancel
-              </Button>
+            <Button.Group variant="ghost" space={2}>
+              <Button>LEARN MORE</Button>
               <Button
                 onPress={() => {
                   setShowModal(false);
                 }}
               >
-                Save
+                ACCEPT
               </Button>
             </Button.Group>
           </Modal.Footer>

@@ -1,6 +1,6 @@
 import type { IBoxProps } from 'native-base';
 
-export type ITypeaheadProps = IBoxProps<ITypeaheadProps> & {
+export type ITypeaheadProps = IBoxProps & {
   options: any[];
   renderItem?: (item: any) => any;
   onChange?: (value: string) => void;

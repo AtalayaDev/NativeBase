@@ -1,28 +1,25 @@
 import React, { forwardRef } from 'react';
 import { ScrollView as RNScrollView } from 'react-native';
+
 import {
   usePropsResolution,
   useStyledSystemPropsResolver,
 } from '../../../hooks';
-import { makeStyledComponent } from '../../../utils/styled';
+import { makeStyledBox } from '../../../utils/styled';
 import type { IScrollViewProps } from './types';
-import { useHasResponsiveProps } from '../../../hooks/useHasResponsiveProps';
 
-const StyledScrollView: any = makeStyledComponent(RNScrollView);
+const StyledScrollView: any = makeStyledBox(RNScrollView);
 
 export const ScrollView = forwardRef((props: IScrollViewProps, ref: any) => {
   const {
     _contentContainerStyle,
     contentContainerStyle,
     ...resolvedProps
-  } = usePropsResolution('ScrollView', props, {});
+  } = usePropsResolution('ScrollView', props, ['contentContainerStyle']);
   const resolved_ContentContainerStyle = useStyledSystemPropsResolver(
-    _contentContainerStyle || {}
+    _contentContainerStyle
   );
-  //TODO: refactor for responsive prop
-  if (useHasResponsiveProps(props)) {
-    return null;
-  }
+
   return (
     <StyledScrollView
       {...resolvedProps}

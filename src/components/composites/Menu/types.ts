@@ -1,9 +1,8 @@
 import type { ITextProps } from '../../primitives/Text';
 import type { IBoxProps } from '../../primitives/Box';
 import type { IPressableProps } from '../../primitives/Pressable';
-import type { MutableRefObject } from 'react';
 
-export interface IMenuProps extends IBoxProps<IMenuProps> {
+export interface IMenuProps extends IBoxProps {
   /**
    * Function that returns a React Element. This element will be used as a Trigger for the menu
    */
@@ -132,23 +131,19 @@ export type IMenuOptionContextProps = {
 };
 
 export type IMenuComponent = ((
-  props: IMenuProps & { ref?: MutableRefObject<any> }
+  props: IMenuProps & { ref?: any }
 ) => JSX.Element) & {
   Item: React.MemoExoticComponent<
-    (props: IMenuItemProps & { ref?: MutableRefObject<any> }) => JSX.Element
+    (props: IMenuItemProps & { ref?: any }) => JSX.Element
   >;
   Group: React.MemoExoticComponent<
-    (props: IMenuGroupProps & { ref?: MutableRefObject<any> }) => JSX.Element
+    (props: IMenuGroupProps & { ref?: any }) => JSX.Element
   >;
   ItemOption: React.MemoExoticComponent<
-    (
-      props: IMenuItemOptionProps & { ref?: MutableRefObject<any> }
-    ) => JSX.Element
+    (props: IMenuItemOptionProps & { ref?: any }) => JSX.Element
   >;
   OptionGroup: React.MemoExoticComponent<
-    (
-      props: IMenuOptionGroupProps & { ref?: MutableRefObject<any> }
-    ) => JSX.Element
+    (props: IMenuOptionGroupProps & { ref?: any }) => JSX.Element
   >;
 };
 

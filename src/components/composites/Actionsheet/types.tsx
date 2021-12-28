@@ -1,8 +1,7 @@
 import type { IButtonProps } from '../../primitives/Button';
 import type { IBoxProps } from '../../primitives/Box';
-import type { MutableRefObject } from 'react';
 
-export interface IActionsheetProps extends IBoxProps<IActionsheetProps> {
+export interface IActionsheetProps extends IBoxProps {
   /**
    * If true, the ActionSheet will open. Useful for controllable state behaviour
    */
@@ -10,7 +9,7 @@ export interface IActionsheetProps extends IBoxProps<IActionsheetProps> {
   /**
    * Callback invoked when the modal is closed
    */
-  onClose?: () => any;
+  onClose?: any;
   /**
    * If true, disables the overlay.
    * @default false
@@ -27,25 +26,18 @@ export interface IActionsheetProps extends IBoxProps<IActionsheetProps> {
   _backdrop?: any;
 }
 
-export interface IActionsheetContentProps
-  extends IBoxProps<IActionsheetContentProps> {}
-export interface IActionsheetFooterProps
-  extends IBoxProps<IActionsheetFooterProps> {}
-export interface IActionsheetHeaderProps
-  extends IBoxProps<IActionsheetHeaderProps> {}
+export interface IActionsheetContentProps extends IBoxProps {}
+export interface IActionsheetFooterProps extends IBoxProps {}
+export interface IActionsheetHeaderProps extends IBoxProps {}
 export interface IActionsheetItemProps extends IButtonProps {}
 
 export type IActionsheetComponentType = ((
-  props: IActionsheetProps & { ref?: MutableRefObject<any> }
+  props: IActionsheetProps & { ref?: any }
 ) => JSX.Element) & {
   Content: React.MemoExoticComponent<
-    (
-      props: IActionsheetContentProps & { ref?: MutableRefObject<any> }
-    ) => JSX.Element
+    (props: IActionsheetContentProps & { ref?: any }) => JSX.Element
   >;
   Item: React.MemoExoticComponent<
-    (
-      props: IActionsheetItemProps & { ref?: MutableRefObject<any> }
-    ) => JSX.Element
+    (props: IActionsheetItemProps & { ref?: any }) => JSX.Element
   >;
 };

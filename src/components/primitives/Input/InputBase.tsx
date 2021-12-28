@@ -1,15 +1,47 @@
 import React, { memo, forwardRef } from 'react';
 import { TextInput, Platform } from 'react-native';
+import styled from 'styled-components/native';
+import {
+  border,
+  flex,
+  space,
+  color,
+  flexbox,
+  layout,
+  typography,
+} from 'styled-system';
+import {
+  customBorder,
+  customBackground,
+  customOutline,
+  customLayout,
+  customExtra,
+  customShadow,
+  customTypography,
+} from '../../../utils/customProps';
 import type { IInputProps } from './types';
 import { useToken } from '../../../hooks';
 import { usePropsResolution } from '../../../hooks/useThemeProps';
 import { useHover } from '@react-native-aria/interactions';
 import { mergeRefs } from '../../../utils';
-import { makeStyledComponent } from '../../../utils/styled';
 import { useResolvedFontFamily } from '../../../hooks/useResolvedFontFamily';
-import { useHasResponsiveProps } from '../../../hooks/useHasResponsiveProps';
 
-const StyledInput = makeStyledComponent(TextInput);
+const StyledInput = styled(TextInput)<IInputProps>(
+  flex,
+  color,
+  space,
+  layout,
+  flexbox,
+  border,
+  typography,
+  customBorder,
+  customBackground,
+  customOutline,
+  customShadow,
+  customExtra,
+  customTypography,
+  customLayout
+);
 
 const InputBase = (
   {
@@ -39,12 +71,10 @@ const InputBase = (
     isRequired: inputProps.required,
   };
 
-  const _ref = React.useRef(null);
-  const { isHovered } = useHover({}, _ref);
-
   const {
     isFullWidth,
     isDisabled,
+    isInvalid,
     isReadOnly,
     ariaLabel,
     accessibilityLabel,
@@ -52,49 +82,28 @@ const InputBase = (
     selectionColor,
     underlineColorAndroid,
     type,
+    _hover,
+    _focus,
+    _disabled,
+    _invalid,
     fontFamily,
     fontWeight,
     fontStyle,
-    ...resolvedProps
-  } = usePropsResolution(
-    'Input',
-    {
-      ...inputThemeProps,
-      ...props,
-    },
-    {
-      isDisabled: inputThemeProps.isDisabled,
-      isHovered,
-      isFocused,
-      isInvalid: inputThemeProps.isInvalid,
-      isReadOnly: inputThemeProps.isReadOnly,
-    }
-  );
+    ...themedProps
+  } = usePropsResolution('Input', {
+    ...inputThemeProps,
+    ...props,
+  });
+
+  const _ref = React.useRef(null);
+  const { isHovered } = useHover({}, _ref);
 
   const resolvedFontFamily = useResolvedFontFamily({
     fontFamily,
-    fontWeight: fontWeight ?? 400,
-    fontStyle: fontStyle ?? 'normal',
+    fontWeight,
+    fontStyle,
   });
-  const resolvedPlaceholderTextColor = useToken('colors', placeholderTextColor);
-  const resolvedSelectionColor = useToken('colors', selectionColor);
-  const resolvedUnderlineColorAndroid = useToken(
-    'colors',
-    underlineColorAndroid
-  );
-  //TODO: refactor for responsive prop
-  if (
-    useHasResponsiveProps({
-      ...props,
-      onKeyPress,
-      onFocus,
-      onBlur,
-      disableFocusHandling,
-      inputProps,
-    })
-  ) {
-    return null;
-  }
+
   return (
     <StyledInput
       {...inputProps}
@@ -104,21 +113,24 @@ const InputBase = (
       accessibilityLabel={ariaLabel || accessibilityLabel}
       editable={isDisabled || isReadOnly ? false : true}
       w={isFullWidth ? '100%' : undefined}
-      {...resolvedProps}
-      placeholderTextColor={resolvedPlaceholderTextColor}
-      selectionColor={resolvedSelectionColor}
-      underlineColorAndroid={resolvedUnderlineColorAndroid}
+      {...themedProps}
+      {...(isHovered && _hover)}
+      {...(isFocused && _focus)}
+      {...(isDisabled && _disabled)}
+      {...(isInvalid && _invalid)}
+      placeholderTextColor={useToken('colors', placeholderTextColor)}
+      selectionColor={useToken('colors', selectionColor)}
+      underlineColorAndroid={useToken('colors', underlineColorAndroid)}
       onKeyPress={(e: any) => {
         e.persist();
         onKeyPress && onKeyPress(e);
       }}
-      onFocus={(e: any) => {
+      onFocus={(e) => {
         handleFocus(true, onFocus ? () => onFocus(e) : () => {});
       }}
-      onBlur={(e: any) => {
+      onBlur={(e) => {
         handleFocus(false, onBlur ? () => onBlur(e) : () => {});
       }}
-      // TODO: this can be moved to baseStyle using _web
       {...(Platform.OS === 'web'
         ? {
             disabled: isDisabled,

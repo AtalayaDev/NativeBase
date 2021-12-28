@@ -2,7 +2,7 @@ import type { RefObject } from 'react';
 import type { ViewProps } from 'react-native';
 import type { IBoxProps, IIconProps } from '../../primitives';
 
-export type ITabsProps = IBoxProps<ITabsProps> & {
+export type ITabsProps = IBoxProps & {
   align?: 'center' | 'end' | 'start';
   id?: string;
   colorScheme?: string;
@@ -18,14 +18,14 @@ export type ITabsProps = IBoxProps<ITabsProps> & {
   keyboardActivation?: 'manual' | 'automatic';
 };
 
-export type ITabBarProps = IBoxProps<ITabBarProps> & {
+export type ITabBarProps = IBoxProps & {
   align?: 'center' | 'end' | 'start';
   isFitted?: boolean;
   size?: 'sm' | 'md' | 'lg';
   tablistRef?: RefObject<any>;
   tabListProps?: ViewProps;
 };
-export type ITabProps = IBoxProps<ITabProps> & {
+export type ITabProps = IBoxProps & {
   isDisabled?: boolean;
   _active?: any;
   _disabled?: any;
@@ -33,8 +33,8 @@ export type ITabProps = IBoxProps<ITabProps> & {
   item?: any;
 };
 
-export type ITabViewsProps = IBoxProps<ITabViewsProps>;
-export type ITabViewProps = IBoxProps<ITabViewProps> & {
+export type ITabViewsProps = IBoxProps;
+export type ITabViewProps = IBoxProps & {
   index?: number;
 };
 

@@ -1,8 +1,7 @@
-import type { IAlertProps } from '../Alert/types';
 import type { ReactNode } from 'react';
 import type { IBoxProps } from '../../primitives/Box';
 
-export interface IToastProps extends IBoxProps<IToastProps> {
+export interface IToastProps extends IBoxProps {
   /**
    * The title to be rendered in the Toast
    */
@@ -46,10 +45,16 @@ export interface IToastProps extends IBoxProps<IToastProps> {
   /**
    * The status of the toast. Adding status will render an [Alert](alert.md) component inside the `Toast`
    */
-  status?: IAlertProps['status'];
+  status?: 'info' | 'warning' | 'error' | 'success';
   /** The variants of the [Alert](alert.md) component.
    */
-  variant?: IAlertProps['variant'];
+  variant?:
+    | 'subtle'
+    | 'solid'
+    | 'left-accent'
+    | 'top-accent'
+    | 'outline'
+    | 'outline-light';
   /**
    * The text to be announced by a screen reader when the Toast opens.
    */

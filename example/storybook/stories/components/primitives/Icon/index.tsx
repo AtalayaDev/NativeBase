@@ -7,7 +7,6 @@ import { Example as Sizes } from './Sizes';
 import { Example as AllIcons } from './AllIcons';
 import { Example as CustomIcon } from './CustomIcon';
 import { Example as CreateIcon } from './CreateIcon';
-import { Example as ThirdPartyIcons } from './ThirdPartyIcons';
 
 storiesOf('Icon', module)
   .addDecorator(withKnobs)
@@ -16,5 +15,4 @@ storiesOf('Icon', module)
   .add('Basic', () => <Basic />)
   .add('Sizes', () => <Sizes />)
   .add('CustomIcon', () => <CustomIcon />)
-  .add('CreateIcon', () => <CreateIcon />)
-  .add('Integration with Third Party Icons', () => <ThirdPartyIcons />);
+  .add('CreateIcon', () => <CreateIcon />);

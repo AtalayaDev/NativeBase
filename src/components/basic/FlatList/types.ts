@@ -1,13 +1,32 @@
-import type { StyledProps } from '../../../theme/types';
 import type { FlatListProps } from 'react-native';
-import type { PlatformProps } from '../../types';
+import type {
+  BorderProps,
+  ColorProps,
+  FlexboxProps,
+  LayoutProps,
+  PositionProps,
+  SpaceProps,
+  ExtraProps,
+  OutlineProps,
+  ShadowProps,
+  BackgroundProps,
+  SafeAreaProps,
+  TransformProps,
+  PlatformProps,
+} from '../../types';
 
 export interface IFlatListProps
   extends FlatListProps<any>,
-    StyledProps,
-    PlatformProps<IFlatListProps> {
-  /**
-   * pass props to contentContainerStyle, and this also resolved NB tokens.
-   */
-  _contentContainerStyle?: IFlatListProps;
-}
+    ColorProps,
+    SpaceProps,
+    LayoutProps,
+    FlexboxProps,
+    PositionProps,
+    BorderProps,
+    ExtraProps,
+    OutlineProps,
+    ShadowProps,
+    BackgroundProps,
+    SafeAreaProps,
+    TransformProps,
+    PlatformProps {}

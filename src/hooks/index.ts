@@ -3,7 +3,6 @@ export { useDisclose } from './useDisclose';
 export { useNativeBase } from './useNativeBase';
 export { useMediaQuery } from './useMediaQuery';
 export { useBreakpointValue } from './useBreakpointValue';
-export { useBreakpointResolvedProps } from './useBreakpointResolvedProps';
 export { usePlatformProps } from './usePlatformProps';
 export { useStyledSystemPropsResolver } from './useStyledSystemPropsResolver';
 export {
@@ -14,7 +13,6 @@ export {
 export { useThemeProps, usePropsWithComponentTheme } from './useThemeProps';
 // TODO: instead export only this.
 export { usePropsResolution } from './useThemeProps';
-export { usePropsResolutionTest } from './useThemeProps/usePropsResolutionTest';
 export { useTheme } from './useTheme';
 export { useToken } from './useToken';
 export { useSafeArea } from './useSafeArea';

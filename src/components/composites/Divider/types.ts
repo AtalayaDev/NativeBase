@@ -1,13 +1,8 @@
-import type { SpaceType } from '../../../components/types';
 import type { IBoxProps } from '../../primitives/Box/types';
 
-export interface IDividerProps extends IBoxProps<IDividerProps> {
+export interface IDividerProps extends IBoxProps {
   /**
    * The orientation of the divider.
    */
   orientation?: 'vertical' | 'horizontal';
-  /**
-   * The thickness of the divider.
-   */
-  thickness?: SpaceType;
 }

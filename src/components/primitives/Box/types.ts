@@ -1,10 +1,19 @@
 import type { ViewProps } from 'react-native';
-import type { StyledProps } from '../../../theme/types';
-import type { IColors } from '../../../theme/base/colors';
+
 import type {
+  BorderProps,
+  ColorProps,
+  FlexboxProps,
+  LayoutProps,
+  PositionProps,
+  SpaceProps,
+  ExtraProps,
+  OutlineProps,
+  ShadowProps,
+  BackgroundProps,
   SafeAreaProps,
   PlatformProps,
-  ResponsiveValue,
+  TransformProps,
 } from '../../types';
 import type { ITextProps } from './../Text/types';
 
@@ -16,28 +25,35 @@ export interface ILinearGradientProps {
     location?: Array<number>;
   };
 }
-
-export interface IBoxProps<T = null>
+export interface IBoxProps
   extends ViewProps,
+    Omit<ColorProps, 'backgroundColor' | 'bg' | 'color' | 'fill' | 'stroke'>,
+    SpaceProps,
+    LayoutProps,
+    FlexboxProps,
+    PositionProps,
+    BorderProps,
+    ExtraProps,
+    OutlineProps,
+    ShadowProps,
+    Omit<BackgroundProps, 'bgColor' | 'background' | 'bg' | 'backgroundColor'>,
     SafeAreaProps,
-    PlatformProps<T extends null ? IBoxProps<any> : T>,
-    Omit<StyledProps, 'bgColor' | 'background' | 'bg' | 'backgroundColor'> {
+    TransformProps,
+    PlatformProps {
   /**
    * Renders components as Box children. Accepts a JSX.Element or an array of JSX.Element. */
   children?: JSX.Element | JSX.Element[] | string | any;
-  // /**
-  //  * Applies box shadow and accepts a number from 0 to 9
-  //  * @default 0
-  //  */
-  // shadow?: number;
+  /**
+   * Applies box shadow and accepts a number from 0 to 9
+   * @default 0
+   */
+  shadow?: number;
   /**
    * For providing props to Text inside Box
    */
   _text?: ITextProps;
-  bg?: ResponsiveValue<IColors | (string & {}) | ILinearGradientProps>;
-  background?: ResponsiveValue<IColors | (string & {}) | ILinearGradientProps>;
-  bgColor?: ResponsiveValue<IColors | (string & {}) | ILinearGradientProps>;
-  backgroundColor?: ResponsiveValue<
-    IColors | (string & {}) | ILinearGradientProps
-  >;
+  bg?: string | ILinearGradientProps;
+  background?: string | ILinearGradientProps;
+  bgColor?: string | ILinearGradientProps;
+  backgroundColor?: string | ILinearGradientProps;
 }

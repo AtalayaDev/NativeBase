@@ -1,5 +1,5 @@
 import React from 'react';
-import { usePropsResolution } from '../../../hooks';
+import { useThemeProps, usePlatformProps } from '../../../hooks';
 import type { ITextFieldProps } from './types';
 import { Stack } from '../../primitives/Stack';
 import { Input } from '../../primitives/Input';
@@ -7,7 +7,6 @@ import Text from '../../primitives/Text';
 import { extractInObject, stylingProps } from '../../../theme/tools/utils';
 import Select from '../../primitives/Select';
 import TextArea from '../../primitives/TextArea';
-import { useHasResponsiveProps } from '../../../hooks/useHasResponsiveProps';
 
 const TextField = (mainProps: ITextFieldProps, ref?: any) => {
   //TODO: Remove `any`
@@ -21,15 +20,17 @@ const TextField = (mainProps: ITextFieldProps, ref?: any) => {
     ...props
   }: any = mainProps;
 
+  const { divider, ...themedProps } = useThemeProps('TextField', props);
+
+  // usePlatformProps is merging Platform specific props to themedProps
   const {
-    divider,
     _errorMessageProps,
     _helperTextProps,
     component,
-    ...resolvedProps
-  } = usePropsResolution('TextField', props);
+    ...platformProps
+  } = usePlatformProps(themedProps);
 
-  const [layoutProps, componentProps] = extractInObject(resolvedProps, [
+  const [layoutProps, componentProps] = extractInObject(platformProps, [
     'space',
     'reversed',
     ...stylingProps.margin,
@@ -37,10 +38,7 @@ const TextField = (mainProps: ITextFieldProps, ref?: any) => {
     ...stylingProps.flexbox,
     ...stylingProps.position,
   ]);
-  //TODO: refactor for responsive prop
-  if (useHasResponsiveProps(props)) {
-    return null;
-  }
+
   const activeComponent = () => {
     switch (component) {
       case 'select':

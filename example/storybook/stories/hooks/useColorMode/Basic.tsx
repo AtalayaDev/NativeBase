@@ -10,12 +10,9 @@ import {
 function UseColorMode() {
   const { colorMode, toggleColorMode } = useColorMode();
   return (
-    <Center flex={1} bg={colorMode === 'dark' ? 'coolGray.800' : 'warmGray.50'}>
-      <Text fontSize="lg" display="flex" mb="20">
-        The active color mode is{' '}
-        <Text bold fontSize="lg">
-          {colorMode}
-        </Text>
+    <Center flex={1} bg={colorMode === 'dark' ? 'black' : 'white'}>
+      <Text fontSize="lg" display="flex">
+        The active color mode is <Text bold>{colorMode}</Text>
       </Text>
       <Button onPress={toggleColorMode}>Toggle</Button>
     </Center>

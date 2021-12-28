@@ -1,9 +1,8 @@
 import React, { memo, forwardRef } from 'react';
 import type { IInputGroupProps } from './types';
 import { getAttachedChildren } from '../../../utils';
-import { HStack } from '../Stack';
-import { extractInObject, stylingProps } from '../../../theme/tools/utils';
-import { useHasResponsiveProps } from '../../../hooks/useHasResponsiveProps';
+import Flex from '../Flex';
+import { themeTools } from '../../../theme';
 
 const supplyPropsToChildren = (children: any, props: any) => {
   return React.Children.map(children, (child: JSX.Element) => {
@@ -13,25 +12,22 @@ const supplyPropsToChildren = (children: any, props: any) => {
 
 export const InputGroup = memo(
   forwardRef(({ children, ...props }: IInputGroupProps, ref: any) => {
-    const [layoutProps, nonLayoutProps] = extractInObject(props, [
-      ...stylingProps.margin,
-      ...stylingProps.border,
-      ...stylingProps.layout,
-      ...stylingProps.flexbox,
-      ...stylingProps.position,
-      ...stylingProps.background,
-      'space',
-      'shadow',
-      'opacity',
+    let [layoutProps, remProps] = themeTools.extractInObject(props, [
+      'w',
+      'width',
+      'm',
+      'mr',
+      'ml',
+      'mt',
+      'mb',
+      'mx',
+      'my',
     ]);
-    //TODO: refactor for responsive prop
-    if (useHasResponsiveProps(props)) {
-      return null;
-    }
+
     return (
-      <HStack {...layoutProps} ref={ref}>
-        {supplyPropsToChildren(getAttachedChildren(children), nonLayoutProps)}
-      </HStack>
+      <Flex direction="row" {...layoutProps} ref={ref}>
+        {supplyPropsToChildren(getAttachedChildren(children), remProps)}
+      </Flex>
     );
   })
 );

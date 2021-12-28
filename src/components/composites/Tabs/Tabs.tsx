@@ -9,7 +9,6 @@ import TabViews from './TabViews';
 import TabBar from './TabBar';
 import { useTabs } from '@react-native-aria/tabs';
 import { mergeRefs } from '../../../utils';
-import { useHasResponsiveProps } from '../../../hooks/useHasResponsiveProps';
 const getTabsAndBars = (children: any) => {
   let bars: any = [];
   let views: any = [];
@@ -37,6 +36,8 @@ const convertToCollectionItems = (children: any) => {
       textValue = bar.props.accessibilityLabel;
     } else if (typeof bar.props.children === 'string') {
       textValue = bar.props.children;
+    } else if (__DEV__) {
+      console.warn('Please pass accessibilityLabel into Tabs.Tab component');
     }
     return (
       <Item key={index} title={bar} textValue={textValue}>
@@ -86,10 +87,6 @@ const Tabs = ({ children, ...props }: ITabsProps, ref: any) => {
   };
   let tablistRef = React.useRef<any>();
   let { tabListProps, tabPanelProps } = useTabs(mappedProps, state, tablistRef);
-  //TODO: refactor for responsive prop
-  if (useHasResponsiveProps(props)) {
-    return null;
-  }
   return (
     <TabsContext.Provider
       value={{

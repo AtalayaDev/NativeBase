@@ -3,27 +3,16 @@ import { Button } from 'native-base';
 
 export const Example = () => {
   const myRef = React.useRef({});
-
   React.useEffect(() => {
-    const styleObj = {
-      backgroundColor: '#facc15',
-      borderColor: '#CA8A04',
-      borderWidth: 1,
-      borderRadius: 4,
-    };
-
-    //@ts-ignore
-    myRef?.current?.setNativeProps({ style: styleObj });
+    myRef?.current.setNativeProps({
+      borderWidth: 10,
+      opacity: 0.5,
+      borderRadius: 10,
+    });
   }, [myRef]);
   return (
-    <Button
-      size="sm"
-      variant={'solid'}
-      _text={{ color: '#1F2937' }}
-      ref={myRef}
-      px="3"
-    >
-      Send
+    <Button size="sm" variant={'solid'} ref={myRef}>
+      BUTTON
     </Button>
   );
 };

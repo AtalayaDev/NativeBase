@@ -2,23 +2,17 @@ import React from 'react';
 import { SliderContext } from './Context';
 import { StyleSheet } from 'react-native';
 import Box from '../Box';
-import type { ISliderTrackFilledProps } from './types';
+import type { ISliderProps } from './types';
 import { usePropsResolution } from '../../../hooks/useThemeProps';
-import { useHasResponsiveProps } from '../../../hooks/useHasResponsiveProps';
 
-const SliderFilledTrack = (
-  { style, ...props }: ISliderTrackFilledProps,
-  ref?: any
-) => {
+const SliderFilledTrack = ({ style, ...props }: ISliderProps, ref?: any) => {
   const {
     isReversed,
     colorScheme,
     state,
     trackLayout,
     orientation,
-    isDisabled,
     sliderSize,
-    isReadOnly,
   } = React.useContext(SliderContext);
 
   const sliderTrackPosition = isReversed
@@ -27,15 +21,11 @@ const SliderFilledTrack = (
       : trackLayout.width - trackLayout.width * state.getThumbPercent(0)
     : state.getThumbPercent(0) * 100 + '%';
 
-  const resolvedProps = usePropsResolution(
-    'SliderFilledTrack',
-    {
-      size: sliderSize,
-      colorScheme,
-      ...props,
-    },
-    { isDisabled, isReadOnly }
-  );
+  const themeProps = usePropsResolution('SliderFilledTrack', {
+    size: sliderSize,
+    colorScheme,
+    ...props,
+  });
   // NOTE: Required for WEB compatibility
   const customStyle = StyleSheet.create({
     verticalStyle: {
@@ -47,19 +37,16 @@ const SliderFilledTrack = (
       height: sliderSize,
     },
   });
-  //TODO: refactor for responsive prop
-  if (useHasResponsiveProps(props)) {
-    return null;
-  }
 
   return (
     <Box
       position="absolute"
-      {...resolvedProps}
+      {...themeProps}
       left={orientation !== 'vertical' && !isReversed ? 0 : undefined}
       bottom={orientation === 'vertical' && !isReversed ? 0 : undefined}
       right={orientation !== 'vertical' && isReversed ? 0 : undefined}
       top={orientation === 'vertical' && isReversed ? 0 : undefined}
+      {...props}
       style={[
         style,
         orientation === 'vertical'
@@ -67,8 +54,6 @@ const SliderFilledTrack = (
           : customStyle.horizontalStyle,
       ]}
       ref={ref}
-      // {...(isReadOnly && _readOnly)}
-      // {...(isDisabled && _disabled)}
     />
   );
 };

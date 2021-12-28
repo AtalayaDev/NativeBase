@@ -5,26 +5,16 @@ import {
   findLastValidBreakpoint,
 } from '../theme/tools';
 import { useTheme } from './../hooks/useTheme';
-import type { ITheme } from '../theme/index';
 
-type UseBreakpointValueParam =
-  | { [key in keyof ITheme['breakpoints']]?: any }
-  | Array<any>;
-
-export function useBreakpointValue(values: UseBreakpointValueParam) {
+export function useBreakpointValue(values: any) {
   let windowWidth = useWindowDimensions()?.width;
   const theme = useTheme();
-
-  if (hasValidBreakpointFormat(values, theme.breakpoints)) {
+  if (hasValidBreakpointFormat(values)) {
     let currentBreakpoint = getClosestBreakpoint(
       theme.breakpoints,
       windowWidth
     );
-    return findLastValidBreakpoint(
-      values,
-      theme.breakpoints,
-      currentBreakpoint
-    );
+    return findLastValidBreakpoint(values, currentBreakpoint);
   } else {
     return values;
   }

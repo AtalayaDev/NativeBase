@@ -9,13 +9,13 @@ function getBg(props: Record<string, any>) {
   );
   const lightBg =
     variant === 'solid'
-      ? getColor(theme, `${colorScheme}.600`, colorScheme)
+      ? getColor(theme, `${colorScheme}.400`, colorScheme)
       : getColor(theme, `${colorScheme}.100`, colorScheme);
 
   const darkBg =
     variant === 'solid'
       ? getColor(theme, `${colorScheme}.700`, colorScheme)
-      : getColor(theme, `${colorScheme}.200`, colorScheme);
+      : getColor(theme, `${colorScheme}.400`, colorScheme);
   return mode(lightBg, darkBg)(props);
 }
 
@@ -27,20 +27,21 @@ const variantSubtle = (props: Record<string, any>) => {
   );
   return {
     bg: getBg(props),
-    _icon: { color: mode(`${colorScheme}.600`, `${colorScheme}.700`)(props) },
+    iconColor: mode(`${colorScheme}.500`, `${colorScheme}.200`)(props),
   };
 };
 
 const variantOutline = (props: Record<string, any>) => {
-  let { colorScheme, status } = props;
+  let { colorScheme, status, theme } = props;
   colorScheme = getColorScheme(
     props,
     colorScheme !== 'primary' ? colorScheme : status
   );
   return {
     borderWidth: 1,
-    borderColor: mode(`${colorScheme}.600`, `${colorScheme}.700`)(props),
-    _icon: { color: mode(`${colorScheme}.600`, `${colorScheme}.700`)(props) },
+    borderColor: mode(`${colorScheme}.600`, `${colorScheme}.500`)(props),
+    iconColor: mode(`${colorScheme}.500`, `${colorScheme}.500`)(props),
+    textColor: getColor(theme, `${colorScheme}.700`, colorScheme),
   };
 };
 const variantOutlineLight = (props: Record<string, any>) => {
@@ -51,20 +52,24 @@ const variantOutlineLight = (props: Record<string, any>) => {
   );
   return {
     borderWidth: 1,
-    borderColor: transparentize(
-      mode(`${colorScheme}.600`, `${colorScheme}.500`)(props),
-      0.2
-    )(theme),
-    _icon: { color: mode(`${colorScheme}.600`, `${colorScheme}.200`)(props) },
+    borderColor: transparentize(`${colorScheme}.600`, 0.2)(theme),
+    iconColor: mode(`${colorScheme}.500`, `${colorScheme}.200`)(props),
+    textColor: getColor(theme, `${colorScheme}.900`, colorScheme),
   };
 };
 
 const variantSolid = (props: Record<string, any>) => {
+  let { colorScheme, status } = props;
+  colorScheme = getColorScheme(
+    props,
+    colorScheme !== 'primary' ? colorScheme : status
+  );
   return {
     borderWidth: 6,
     borderColor: 'transparent',
     bg: getBg(props),
-    _icon: { color: mode(`coolGray.50`, `warmGray.50`)(props) },
+    iconColor: mode(`white`, `gray.900`)(props),
+    textColor: mode('white', `${colorScheme}.200`)(props),
   };
 };
 const variantLeftAccent = (props: Record<string, any>) => {
@@ -76,9 +81,10 @@ const variantLeftAccent = (props: Record<string, any>) => {
   return {
     borderWidth: 4,
     bg: getBg(props),
-    _icon: { color: mode(`${colorScheme}.600`, `${colorScheme}.700`)(props) },
+    iconColor: mode(`${colorScheme}.500`, `${colorScheme}.200`)(props),
+    textColor: mode(`${colorScheme}.600`, `${colorScheme}.300`)(props),
     borderColor: 'transparent',
-    borderLeftColor: mode(`${colorScheme}.600`, `${colorScheme}.700`)(props),
+    borderLeftColor: mode(`${colorScheme}.600`, `${colorScheme}.300`)(props),
   };
 };
 const variantTopAccent = (props: Record<string, any>) => {
@@ -90,9 +96,10 @@ const variantTopAccent = (props: Record<string, any>) => {
   return {
     borderWidth: 4,
     borderColor: 'transparent',
-    borderTopColor: mode(`${colorScheme}.600`, `${colorScheme}.700`)(props),
+    borderTopColor: mode(`${colorScheme}.600`, `${colorScheme}.300`)(props),
     bg: getBg(props),
-    _icon: { color: mode(`${colorScheme}.600`, `${colorScheme}.700`)(props) },
+    iconColor: mode(`${colorScheme}.500`, `${colorScheme}.200`)(props),
+    textColor: mode(`${colorScheme}.600`, `${colorScheme}.300`)(props),
   };
 };
 
@@ -111,7 +118,16 @@ export const Alert = {
     justifyContent: 'flex-start',
     p: 3,
     space: 3,
-    borderRadius: 'sm',
+    borderRadius: 'md',
+    _actionProps: {
+      alignSelf: 'center',
+      ml: 'auto',
+    },
+    _text: {
+      fontSize: 'sm',
+      lineHeight: 5,
+      color: 'gray.700',
+    },
   },
   variants,
   defaultProps: {
@@ -120,10 +136,32 @@ export const Alert = {
   },
 };
 
+// AlertTitle
+
+export const AlertTitle = {
+  baseStyle: {
+    _text: {
+      fontSize: 'md',
+      lineHeight: 5,
+      fontWeight: 'bold',
+    },
+  },
+};
+
 // AlertIcon
 
 export const AlertIcon = {
   baseStyle: {
-    size: 4,
+    size: 6,
+  },
+};
+
+// AlertDescription
+export const AlertDescription = {
+  baseStyle: {
+    _text: {
+      fontSize: 'sm',
+    },
+    flexShrink: 1,
   },
 };

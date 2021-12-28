@@ -2,27 +2,26 @@ import React from 'react';
 import { Select, VStack, CheckIcon } from 'native-base';
 
 export const Example = () => {
-  let [service, setService] = React.useState('');
+  let [language, setLanguage] = React.useState('');
 
   return (
     <VStack alignItems="center" space={4}>
       <Select
-        selectedValue={service}
-        minWidth="200"
-        accessibilityLabel="Choose Service"
-        placeholder="Choose Service"
+        selectedValue={language}
+        minWidth={200}
+        accessibilityLabel="Select your favorite programming language"
+        placeholder="Select your favorite programming language"
+        onValueChange={(itemValue) => setLanguage(itemValue)}
         _selectedItem={{
-          bg: 'teal.600',
-          endIcon: <CheckIcon size="5" />,
+          bg: 'cyan.600',
+          endIcon: <CheckIcon size={4} />,
         }}
-        mt={1}
-        onValueChange={(itemValue) => setService(itemValue)}
       >
-        <Select.Item label="UX Research" value="ux" />
-        <Select.Item label="Web Development" value="web" />
-        <Select.Item label="Cross Platform Development" value="cross" />
-        <Select.Item label="UI Designing" value="ui" />
-        <Select.Item label="Backend Development" value="backend" />
+        <Select.Item label="JavaScript" value="js" />
+        <Select.Item label="TypeScript" value="ts" />
+        <Select.Item label="C" value="c" />
+        <Select.Item label="Python" value="py" />
+        <Select.Item label="Java" value="java" />
       </Select>
     </VStack>
   );

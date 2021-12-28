@@ -1,13 +1,8 @@
 import React from 'react';
 import Center from './Center';
 import type { ICircleProps } from './types';
-import { useHasResponsiveProps } from '../../../hooks/useHasResponsiveProps';
 
 const Circle = ({ style, size, ...props }: ICircleProps, ref: any) => {
-  //TODO: refactor for responsive prop
-  if (useHasResponsiveProps(props)) {
-    return null;
-  }
   return (
     <Center
       rounded="full"

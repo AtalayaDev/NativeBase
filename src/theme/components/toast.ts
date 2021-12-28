@@ -2,16 +2,17 @@ import { mode } from './../tools';
 
 const baseStyle = (props: Record<string, any>) => {
   return {
-    bg: mode(`coolGray.600`, `warmGray.200`)(props),
-    p: '2',
-    rounded: 'sm',
+    bg: mode(`gray.700`, `gray.300`)(props),
+    py: 2,
+    px: 3,
+    rounded: 'md',
     shadow: 1,
     _title: {
-      color: mode(`warmGray.200`, `coolGray.600`)(props),
-      fontWeight: 700,
+      color: mode(`gray.300`, `gray.700`)(props),
+      fontWeight: 500,
     },
     _description: {
-      color: mode(`warmGray.200`, `coolGray.600`)(props),
+      color: mode(`gray.300`, `gray.700`)(props),
       fontWeight: 400,
     },
     _closeIcon: {

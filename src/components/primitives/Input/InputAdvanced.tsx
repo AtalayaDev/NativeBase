@@ -6,14 +6,11 @@ import { usePropsResolution } from '../../../hooks/useThemeProps';
 import { extractInObject, stylingProps } from '../../../theme/tools/utils';
 import { useHover } from '@react-native-aria/interactions';
 import { mergeRefs } from '../../../utils';
-import { useHasResponsiveProps } from '../../../hooks/useHasResponsiveProps';
 
 const InputAdvance = (
   {
     InputLeftElement,
     InputRightElement,
-    leftElement,
-    rightElement,
     onFocus,
     onBlur,
     inputProps,
@@ -31,12 +28,18 @@ const InputAdvance = (
     isRequired: inputProps.required,
   };
 
-  if (InputLeftElement) {
-    leftElement = InputLeftElement;
-  }
-  if (InputRightElement) {
-    rightElement = InputRightElement;
-  }
+  const {
+    isInvalid,
+    isDisabled,
+    _hover,
+    _disabled,
+    _invalid,
+    _focus,
+    ...themedProps
+  } = usePropsResolution('Input', {
+    ...inputThemeProps,
+    ...props,
+  });
 
   const [isFocused, setIsFocused] = React.useState(false);
   const handleFocus = (focusState: boolean, callback: any) => {
@@ -44,52 +47,20 @@ const InputAdvance = (
     callback();
   };
 
-  const _ref = React.useRef(null);
-  const { isHovered } = useHover({}, _ref);
-
-  const resolvedProps = usePropsResolution(
-    'Input',
-    {
-      ...inputThemeProps,
-      ...props,
-    },
-    {
-      isDisabled: inputThemeProps.isDisabled,
-      isHovered,
-      isFocused,
-      isInvalid: inputThemeProps.isInvalid,
-      isReadOnly: inputThemeProps.isReadOnly,
-    }
-  );
-
-  const [layoutProps, nonLayoutProps] = extractInObject(resolvedProps, [
+  const [layoutProps, nonLayoutProps] = extractInObject(themedProps, [
     ...stylingProps.margin,
     ...stylingProps.border,
     ...stylingProps.layout,
     ...stylingProps.flexbox,
     ...stylingProps.position,
     ...stylingProps.background,
-    'shadow',
-    'opacity',
   ]);
 
   // Extracting baseInputProps from remaining props
   const [, baseInputProps] = extractInObject(nonLayoutProps, ['variant']);
 
-  //TODO: refactor for responsive prop
-  if (
-    useHasResponsiveProps({
-      ...props,
-      InputLeftElement,
-      InputRightElement,
-      onFocus,
-      onBlur,
-      inputProps,
-      wrapperRef,
-    })
-  ) {
-    return null;
-  }
+  const _ref = React.useRef(null);
+  const { isHovered } = useHover({}, _ref);
 
   return (
     <Box
@@ -97,13 +68,17 @@ const InputAdvance = (
       flexDirection="row"
       alignItems="center"
       justifyContent="space-between"
+      overflow="hidden"
       {...layoutProps}
+      {...(isHovered && _hover)}
+      {...(isFocused && _focus)}
+      {...(isDisabled && _disabled)}
+      {...(isInvalid && _invalid)}
       ref={mergeRefs([_ref, wrapperRef])}
     >
-      {InputLeftElement || leftElement ? InputLeftElement || leftElement : null}
+      {InputLeftElement ? InputLeftElement : null}
       <InputBase
         inputProps={inputProps}
-        bg="transparent"
         {...baseInputProps}
         flex={1}
         disableFocusHandling
@@ -115,11 +90,8 @@ const InputAdvance = (
         onBlur={(e) => {
           handleFocus(false, onBlur ? () => onBlur(e) : () => {});
         }}
-        shadow="none"
       />
-      {InputRightElement || rightElement
-        ? InputRightElement || rightElement
-        : null}
+      {InputRightElement ? InputRightElement : null}
     </Box>
   );
 };

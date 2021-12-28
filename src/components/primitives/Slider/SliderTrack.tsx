@@ -3,44 +3,32 @@ import { usePropsResolution } from '../../../hooks/useThemeProps';
 import { Pressable } from '../Pressable';
 import Box from '../Box';
 import { SliderContext } from './Context';
-import { useHasResponsiveProps } from '../../../hooks/useHasResponsiveProps';
-import type { ISliderTrackProps } from './types';
+import type { ISliderProps } from './types';
 
-const SliderTrack = ({ children, ...props }: ISliderTrackProps, ref?: any) => {
+const SliderTrack = ({ children, ...props }: ISliderProps, ref?: any) => {
   const {
     orientation,
     trackProps,
     onTrackLayout,
     colorScheme,
     sliderSize,
-    isReadOnly,
-    isDisabled,
   } = React.useContext(SliderContext);
 
-  const resolvedProps = usePropsResolution(
-    'SliderTrack',
-    {
-      size: sliderSize,
-      colorScheme,
-      ...props,
-    },
-    { isReadOnly, isDisabled }
-  );
+  const themeProps = usePropsResolution('SliderTrack', {
+    size: sliderSize,
+    colorScheme,
+    ...props,
+  });
 
   const isVertical = orientation === 'vertical';
 
   const trackStyle = React.useMemo(
     () => ({
-      height: isVertical ? '100%' : resolvedProps.size,
-      width: !isVertical ? '100%' : resolvedProps.size,
+      height: isVertical ? '100%' : themeProps.size,
+      width: !isVertical ? '100%' : themeProps.size,
     }),
-    [isVertical, resolvedProps.size]
+    [isVertical, themeProps.size]
   );
-
-  //TODO: refactor for responsive prop
-  if (useHasResponsiveProps(props)) {
-    return null;
-  }
 
   return (
     <Pressable
@@ -53,7 +41,7 @@ const SliderTrack = ({ children, ...props }: ISliderTrackProps, ref?: any) => {
       justifyContent="center"
       alignItems="center"
     >
-      <Box {...resolvedProps} style={trackStyle}>
+      <Box {...themeProps} style={trackStyle}>
         {children}
       </Box>
     </Pressable>

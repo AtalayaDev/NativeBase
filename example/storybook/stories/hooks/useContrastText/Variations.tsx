@@ -29,7 +29,7 @@ export const Example = () => {
       {Object.keys(colors.primary).map((key) => (
         <ButtonTemplate shade={key} />
       ))}
-      <Button mt={2} onPress={toggleAccessibleColors} colorScheme="indigo">
+      <Button mt={2} onPress={toggleAccessibleColors} colorScheme="secondary">
         Toggle Accessible Colors
       </Button>
     </>

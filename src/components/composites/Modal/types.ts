@@ -1,12 +1,7 @@
 import type { IBoxProps } from '../../primitives/Box';
-import type { IIconButtonProps } from '../../composites/IconButton';
-import type { MutableRefObject } from 'react';
+import type { IButtonProps } from 'native-base';
 
-import type { ResponsiveValue } from '../../../components/types';
-import type { ISizes } from '../../../theme/base/sizes';
-import type { IScrollViewProps } from '../../basic/ScrollView';
-
-export interface IModalProps extends IBoxProps<IModalProps> {
+export interface IModalProps extends IBoxProps {
   /**
    * If true, the modal will open. Useful for controllable state behaviour
    */
@@ -22,15 +17,15 @@ export interface IModalProps extends IBoxProps<IModalProps> {
   /**
    * The size of the modal
    */
-  size?: ResponsiveValue<ISizes | (string & {}) | number>;
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'full' | number | string;
   /**
    * The ref of element to receive focus when the modal opens.
    */
-  initialFocusRef?: React.RefObject<any>;
+  initialFocusRef?: any;
   /**
    * The ref of element to receive focus when the modal closes.
    */
-  finalFocusRef?: React.RefObject<any>;
+  finalFocusRef?: any;
   /**
    * If true and the keyboard is opened, the modal will move up equvivalent to the keyboard height.
    * @default false
@@ -60,39 +55,24 @@ export interface IModalProps extends IBoxProps<IModalProps> {
    * Props applied on Overlay.
    */
   _backdrop?: any;
-  /**
-   * Sets the animation type
-   * @default "fade"
-   */
-  animationPreset?: 'fade' | 'slide';
 }
 
 export type IModalComponentType = ((
-  props: IModalProps & { ref?: MutableRefObject<any> }
+  props: IModalProps & { ref?: any }
 ) => JSX.Element) & {
   Body: React.MemoExoticComponent<
-    (
-      props: IBoxProps<IModalProps> & { _scrollview?: IScrollViewProps } & {
-        ref?: MutableRefObject<any>;
-      }
-    ) => JSX.Element
+    (props: IBoxProps & { ref?: any }) => JSX.Element
   >;
   CloseButton: React.MemoExoticComponent<
-    (props: IIconButtonProps & { ref?: MutableRefObject<any> }) => JSX.Element
+    (props: IButtonProps & { ref?: any }) => JSX.Element
   >;
   Content: React.MemoExoticComponent<
-    (
-      props: IBoxProps<IModalProps> & { ref?: MutableRefObject<any> }
-    ) => JSX.Element
+    (props: IBoxProps & { ref?: any }) => JSX.Element
   >;
   Footer: React.MemoExoticComponent<
-    (
-      props: IBoxProps<IModalProps> & { ref?: MutableRefObject<any> }
-    ) => JSX.Element
+    (props: IBoxProps & { ref?: any }) => JSX.Element
   >;
   Header: React.MemoExoticComponent<
-    (
-      props: IBoxProps<IModalProps> & { ref?: MutableRefObject<any> }
-    ) => JSX.Element
+    (props: IBoxProps & { ref?: any }) => JSX.Element
   >;
 };

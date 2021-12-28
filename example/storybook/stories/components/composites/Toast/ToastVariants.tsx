@@ -3,7 +3,7 @@ import { Button, useToast, Wrap } from 'native-base';
 
 export const Example = () => {
   const toast = useToast();
-  const variants = ['solid', 'subtle', 'left-accent', 'top-accent', 'outline'];
+  const variants = ['solid', 'subtle', 'left-accent', 'top-accent'];
 
   return (
     <Wrap>
@@ -13,6 +13,7 @@ export const Example = () => {
           onPress={() =>
             toast.show({
               title: `${variant} toast`,
+              // @ts-ignore
               variant: variant,
               isClosable: true,
             })

@@ -1,11 +1,8 @@
 import type { IBoxProps } from '../Box';
 import type { IButtonProps } from '../Button';
 import type { IActionsheetContentProps } from '../../composites/Actionsheet/types';
-import type { MutableRefObject } from 'react';
-import type { ResponsiveValue } from '../../../components/types';
-import type { IColors } from '../../../theme/base/colors';
 
-export interface ISelectProps extends IBoxProps<ISelectProps> {
+export interface ISelectProps extends IBoxProps {
   /**
    * The placeholder that describes the Select.
    */
@@ -13,11 +10,11 @@ export interface ISelectProps extends IBoxProps<ISelectProps> {
   /**
    * The Selected Item text color.
    */
-  color?: ResponsiveValue<IColors | (string & {})>;
+  color?: string;
   /**
    * The placeholder text color
    */
-  placeholderTextColor?: ResponsiveValue<IColors | (string & {})>;
+  placeholderTextColor?: string;
   /**
    * Item props passed here will be passed to each Select.Item component.
    */
@@ -60,21 +57,13 @@ export interface ISelectProps extends IBoxProps<ISelectProps> {
    */
   variant?: 'outline' | 'filled' | 'underlined' | 'unstyled' | 'rounded';
   /**
-   * Callback to be invoked when Select Dropdown or BottomSheet is opened.
-   */
-  onOpen?: (nativeEvent: any) => void;
-  /**
-   * Callback to be invoked when Select Dropdown or BottomSheet is closed.
-   */
-  onClose?: (nativeEvent: any) => void;
-  /**
    * props to be passed to underlying ActionSheet.Content. Select uses ActionSheet underneath.
    */
   _actionSheetContent?: IActionsheetContentProps;
   /**
    * Ref to be attached to the Select wrapper
    */
-  wrapperRef?: MutableRefObject<any>;
+  wrapperRef?: any;
 }
 
 export interface ISelectItemProps extends IButtonProps {
@@ -89,9 +78,9 @@ export interface ISelectItemProps extends IButtonProps {
 }
 
 export type ISelectComponentType = ((
-  props: ISelectProps & { ref?: MutableRefObject<any> }
+  props: ISelectProps & { ref?: any }
 ) => JSX.Element) & {
   Item: React.MemoExoticComponent<
-    (props: ISelectItemProps & { ref?: MutableRefObject<any> }) => JSX.Element
+    (props: ISelectItemProps & { ref?: any }) => JSX.Element
   >;
 };

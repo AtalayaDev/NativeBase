@@ -1,15 +1,15 @@
 import get from 'lodash.get';
 import React from 'react';
 import { Animated, Easing, StyleSheet } from 'react-native';
-import { makeStyledComponent } from '../../../utils/styled';
+import styled from 'styled-components/native';
+import { border, color } from 'styled-system';
 import { useTheme, useThemeProps } from '../../../hooks';
 import { canUseDom } from '../../../utils';
-import { default as Box } from '../../primitives/Box';
+import { default as Box, IBoxProps } from '../../primitives/Box';
 import type { ICircularProgressProps } from './types';
 import { themeTools } from '../../../theme';
-import { useHasResponsiveProps } from '../../../hooks/useHasResponsiveProps';
 
-const StyleAnimatedView = makeStyledComponent(Animated.View);
+const StyleAnimatedView = styled(Animated.View)<IBoxProps>(color, border);
 
 const CircularProgress = (
   { value, isIndeterminate, max, min, ...props }: ICircularProgressProps,
@@ -150,10 +150,7 @@ const CircularProgress = (
   } else {
     firstProgressLayerStyle = propStyle(value, -135);
   }
-  //TODO: refactor for responsive prop
-  if (useHasResponsiveProps(props)) {
-    return null;
-  }
+
   return (
     <Box
       {...sizeProps}

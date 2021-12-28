@@ -8,7 +8,7 @@ export const Example = () => {
 
   return (
     <>
-      <Button bg={bgDark} _text={{ color: colorContrastDark }} my={6}>
+      <Button bg={bgDark} _text={{ color: colorContrastDark }}>
         NativeBase
       </Button>
       <Button bg={bgLight} _text={{ color: colorContrastLight }}>

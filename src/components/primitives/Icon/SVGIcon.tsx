@@ -1,12 +1,46 @@
 import React, { memo, forwardRef } from 'react';
 import { useToken, usePropsResolution } from '../../../hooks';
-import { makeStyledComponent } from '../../../utils/styled';
+import styled from 'styled-components/native';
+import {
+  border,
+  color,
+  flexbox,
+  layout,
+  space,
+  typography,
+  position,
+} from 'styled-system';
+import {
+  customBorder,
+  customBackground,
+  customOutline,
+  customLayout,
+  customExtra,
+  customShadow,
+  customTypography,
+  customPosition,
+} from '../../../utils/customProps';
 import { Svg, G } from './nbSvg';
 import type { IIconProps } from './types';
 import { questionOutlineIconPath } from './Icons/questionIconPath';
-import { useHasResponsiveProps } from '../../../hooks/useHasResponsiveProps';
 
-const SVG = makeStyledComponent(Svg);
+const SVG = styled(Svg)<IIconProps>(
+  color,
+  space,
+  layout,
+  flexbox,
+  border,
+  typography,
+  position,
+  customPosition,
+  customBorder,
+  customBackground,
+  customOutline,
+  customShadow,
+  customExtra,
+  customLayout,
+  customTypography
+);
 
 const SVGIcon = ({ children, ...props }: IIconProps, ref: any) => {
   const {
@@ -18,10 +52,7 @@ const SVGIcon = ({ children, ...props }: IIconProps, ref: any) => {
   } = usePropsResolution('Icon', props);
   const strokeHex = useToken('colors', stroke || '');
   const colorHex = useToken('colors', color || '');
-  //TODO: refactor for responsive prop
-  if (useHasResponsiveProps(props)) {
-    return null;
-  }
+
   return (
     <SVG
       {...resolvedProps}

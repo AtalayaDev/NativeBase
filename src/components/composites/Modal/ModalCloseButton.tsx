@@ -4,22 +4,15 @@ import { usePropsResolution } from '../../../hooks';
 import Button from '../../primitives/Button/Button';
 import { CloseIcon } from '../../primitives/Icon/Icons';
 import type { IButtonProps } from '../../primitives/Button';
-import { useHasResponsiveProps } from '../../../hooks/useHasResponsiveProps';
 
 const ModalCloseButton = (props: IButtonProps, ref?: any) => {
-  const { _icon, ...resolvedProps } = usePropsResolution(
-    'ModalCloseButton',
-    props
-  );
+  const newProps = usePropsResolution('ModalCloseButton', props);
+  const { _icon, ...rest } = newProps;
   const { handleClose } = React.useContext(ModalContext);
-  //TODO: refactor for responsive prop
-  if (useHasResponsiveProps(props)) {
-    return null;
-  }
   return (
     <Button
       variant="ghost"
-      {...resolvedProps}
+      {...rest}
       onPress={handleClose}
       accessibilityLabel="Close dialog"
       ref={ref}

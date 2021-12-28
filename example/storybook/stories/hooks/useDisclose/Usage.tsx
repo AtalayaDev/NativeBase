@@ -1,27 +1,29 @@
 import React from 'react';
-import { Modal, Button, useDisclose } from 'native-base';
+import { Modal, Button, Input, useDisclose } from 'native-base';
 
 export const Example = () => {
   const { isOpen, onOpen, onClose } = useDisclose();
   return (
     <>
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal isCentered isOpen={isOpen} onClose={onClose}>
+        <Modal.Overlay />
         <Modal.Content>
           <Modal.CloseButton />
           <Modal.Header fontSize="4xl" fontWeight="bold">
-            Delete Customer
+            Hello World
           </Modal.Header>
           <Modal.Body>
-            This will remove all data relating to Alex. This action cannot be
-            reversed. Deleted data can not be recovered.
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos quasi
+            cupiditate expedita, ipsa corporis officia totam similique delectus!
+            Debitis esse, ea blanditiis iste enim iure at odit fugiat autem.
+            Accusamus?
+            <Input mt={4} placeholder="Lorem ipsum dolor sit" />
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="unstyled" mr="1">
-              Cancel
+            <Button colorScheme="blue" mr={1}>
+              Save
             </Button>
-            <Button colorScheme="error" onPress={onClose}>
-              Delete
-            </Button>
+            <Button onPress={onClose}>Close</Button>
           </Modal.Footer>
         </Modal.Content>
       </Modal>

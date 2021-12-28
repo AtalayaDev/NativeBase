@@ -2,7 +2,6 @@ import React from 'react';
 import { useThemeProps } from '../../../hooks/useThemeProps';
 import type { IScaleFadeProps } from './types';
 import PresenceTransition from './PresenceTransition';
-import { useHasResponsiveProps } from '../../../hooks/useHasResponsiveProps';
 
 const ScaleFade = (
   { children, style, ...props }: IScaleFadeProps,
@@ -12,10 +11,6 @@ const ScaleFade = (
     'ScaleFade',
     props
   );
-  //TODO: refactor for responsive prop
-  if (useHasResponsiveProps(props)) {
-    return null;
-  }
 
   return (
     <PresenceTransition

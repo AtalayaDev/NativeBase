@@ -1,11 +1,15 @@
-import React, { forwardRef, memo } from 'react';
+import React from 'react';
 import { StyleSheet, ViewStyle, Platform } from 'react-native';
-import { default as Box } from '../../primitives/Box';
-import { useHasResponsiveProps } from '../../../hooks/useHasResponsiveProps';
-import { usePropsResolution } from '../../../hooks';
-import type { IAspectRatioProps } from './types';
+import { default as Box, IBoxProps } from '../../primitives/Box';
+import isNil from 'lodash.isnil';
 
-const AspectView = forwardRef((props: any, ref?: any) => {
+export type IAspectRatioProps = IBoxProps & {
+  style?: ViewStyle;
+  ratio?: number;
+  children: JSX.Element;
+};
+
+const AspectView = React.forwardRef((props: any, ref?: any) => {
   const [layout, setLayout] = React.useState();
   const inputStyle = [StyleSheet.flatten(props.style) || {}];
   if (layout) {
@@ -17,7 +21,6 @@ const AspectView = forwardRef((props: any, ref?: any) => {
       inputStyle.push({ width, height: width / props.aspectRatio });
     }
   }
-
   return (
     <Box
       {...props}
@@ -30,13 +33,10 @@ const AspectView = forwardRef((props: any, ref?: any) => {
   );
 });
 
-const AspectRatio = (props: IAspectRatioProps, ref?: any) => {
-  const { style, ratio, children, ...resolvedProps } = usePropsResolution(
-    'AspectRatio',
-    props,
-    {},
-    { resolveResponsively: ['ratio'] }
-  );
+const AspectRatio = (
+  { style, ratio, children, ...props }: IAspectRatioProps,
+  ref?: any
+) => {
   let computedStyle: ViewStyle | undefined = style;
   let newChildWithProps = React.cloneElement(
     children,
@@ -46,31 +46,23 @@ const AspectRatio = (props: IAspectRatioProps, ref?: any) => {
     },
     children.props.children
   );
+  let aspectRatio = !isNil(ratio) ? ratio : 4 / 3;
 
-  //TODO: refactor for responsive prop
-  if (useHasResponsiveProps(resolvedProps)) {
-    return null;
-  }
   // DOC:  It uses a aspectRatio property of React Native and manually calculate on Web
   if (Platform.OS === 'web') {
     return (
-      <AspectView
-        {...resolvedProps}
-        aspectRatio={ratio}
-        style={style}
-        ref={ref}
-      >
+      <AspectView {...props} aspectRatio={aspectRatio} style={style} ref={ref}>
         {newChildWithProps}
       </AspectView>
     );
   } else {
-    computedStyle = StyleSheet.flatten([style, { aspectRatio: ratio }]);
+    computedStyle = StyleSheet.flatten([style, { aspectRatio }]);
     return (
-      <Box {...resolvedProps} style={computedStyle} ref={ref}>
+      <Box {...props} style={computedStyle} ref={ref}>
         {newChildWithProps}
       </Box>
     );
   }
 };
 
-export default memo(forwardRef(AspectRatio));
+export default React.memo(React.forwardRef(AspectRatio));

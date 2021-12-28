@@ -5,31 +5,21 @@ import { useFormControlContext } from './useFormControl';
 import { usePropsResolution } from '../../../hooks/useThemeProps';
 import type { IFormControlLabelProps } from './types';
 import { mergeRefs } from '../../../utils';
-import { combineContextAndProps } from '../../../utils';
 
 const FormControlLabel = (
-  { children, ...props }: IFormControlLabelProps,
+  { children, _disabled, _invalid, ...props }: IFormControlLabelProps,
   ref: any
 ) => {
   const formControlContext = useFormControlContext();
-  const combinedProps = combineContextAndProps(formControlContext, props);
   const _ref = React.useRef<HTMLLabelElement>(null);
-  const { astrickColor, ...reslovedProps } = usePropsResolution(
+  const { astrickColor, ...themedProps } = usePropsResolution(
     'FormControlLabel',
-    combinedProps,
-    {
-      isDisabled: combinedProps.isDisabled,
-      isReadOnly: combinedProps.isReadOnly,
-      isInvalid: combinedProps.isInvalid,
-      // isRequired: combinedProps.isRequired,
-    }
+    props
   );
-
   const requiredAsterisk = () => (
     <Text
       _web={{
         accessibilityHidden: true,
-        //@ts-ignore
         accessibilityRole: 'presentation',
       }}
       color={astrickColor}
@@ -43,26 +33,27 @@ const FormControlLabel = (
       // RN web doesn't support htmlFor for Label element yet
       if (props.htmlFor) {
         _ref.current.htmlFor = props.htmlFor;
-      } else if (reslovedProps?.nativeID) {
-        _ref.current.htmlFor = reslovedProps.nativeID;
+      } else if (formControlContext?.nativeID) {
+        _ref.current.htmlFor = formControlContext.nativeID;
       }
     }
-  }, [reslovedProps?.nativeID, props.htmlFor]);
-
+  }, [formControlContext?.nativeID, props.htmlFor]);
   return (
     <Box
       flexDirection="row"
       justifyContent="flex-start"
       _web={{
-        //@ts-ignore
         accessibilityRole: 'label',
       }}
-      {...reslovedProps}
-      nativeID={reslovedProps?.labelId}
+      {...themedProps}
+      nativeID={formControlContext?.labelId}
+      {...props}
       ref={mergedRef}
+      {...(formControlContext?.isInvalid && _invalid)}
+      {...(formControlContext?.isDisabled && _disabled)}
     >
       {children}
-      {reslovedProps?.isRequired && requiredAsterisk()}
+      {formControlContext?.isRequired && requiredAsterisk()}
     </Box>
   );
 };

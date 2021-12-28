@@ -8,14 +8,13 @@ import type { IPopoverComponentType } from './types';
 import PopoverArrow from './PopoverArrow';
 export type { IPopoverProps } from './types';
 
-const PopoverTemp: any = PopoverMain;
+let PopoverTemp: any = PopoverMain;
 PopoverTemp.Content = PopoverContent;
 PopoverTemp.CloseButton = PopoverCloseButton;
 PopoverTemp.Header = PopoverHeader;
 PopoverTemp.Footer = PopoverFooter;
 PopoverTemp.Body = PopoverBody;
 PopoverTemp.Arrow = PopoverArrow;
-
 // To add typings
 const Popover = PopoverTemp as IPopoverComponentType;
 export { Popover };

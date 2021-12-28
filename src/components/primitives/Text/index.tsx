@@ -1,20 +1,51 @@
 import React, { memo, forwardRef, useRef } from 'react';
+import { Text as NativeText } from 'react-native';
+import styled from 'styled-components/native';
+import {
+  color,
+  position,
+  space,
+  typography,
+  layout,
+  flexbox,
+  border,
+} from 'styled-system';
 import { usePropsResolution } from '../../../hooks/useThemeProps';
+import {
+  customBorder,
+  customBackground,
+  customOutline,
+  customLayout,
+  customExtra,
+  customShadow,
+  customTypography,
+  customPosition,
+} from '../../../utils/customProps';
 import type { ITextProps } from './types';
 import { useHover } from '@react-native-aria/interactions';
 import { mergeRefs } from '../../../utils/mergeRefs';
-import { makeStyledComponent } from '../../../utils/styled';
 import { useResolvedFontFamily } from '../../../hooks/useResolvedFontFamily';
-import { Text as NativeText } from 'react-native';
-import { useHasResponsiveProps } from '../../../hooks/useHasResponsiveProps';
 
-const StyledText = makeStyledComponent(NativeText);
-// To have a RN compatible behaviour, we'll inherit parent text styles as base style
-const TextAncestorContext = React.createContext(false);
+const StyledText = styled(NativeText)<ITextProps>(
+  color,
+  space,
+  position,
+  layout,
+  flexbox,
+  border,
+  typography,
+  position,
+  customPosition,
+  customBorder,
+  customBackground,
+  customOutline,
+  customShadow,
+  customExtra,
+  customLayout,
+  customTypography
+);
 
 const Text = ({ children, ...props }: ITextProps, ref: any) => {
-  const hasTextAncestor = React.useContext(TextAncestorContext);
-
   const {
     isTruncated,
     noOfLines,
@@ -28,72 +59,52 @@ const Text = ({ children, ...props }: ITextProps, ref: any) => {
     fontWeight: propFontWeight,
     fontStyle: propFontStyle,
     _hover,
-    fontSize,
+    fontSize = 'md',
     numberOfLines,
     ...reslovedProps
-  } = usePropsResolution(
-    'Text',
-    props,
-    {},
-    {
-      resolveResponsively: ['noOfLines', 'numberOfLines'],
-      // We override the component base theme if text has an ancestor.
-      componentTheme: hasTextAncestor ? {} : undefined,
-    }
-  );
+  } = usePropsResolution('Text', props);
 
   const _ref = useRef(null);
   // TODO: might have to add this condition
   const { isHovered } = useHover({}, _hover ? _ref : null);
   // const { isHovered } = useHover({}, _ref);
   let fontFamily = propFontFamily;
-  const fontStyle = italic ? 'italic' : propFontStyle;
-  const fontWeight = bold ? 'bold' : propFontWeight;
+  let fontStyle = italic ? 'italic' : propFontStyle;
+  let fontWeight = bold ? 'bold' : propFontWeight;
 
   const resolvedFontFamily = useResolvedFontFamily({
     fontFamily,
-    fontWeight: fontWeight ?? (hasTextAncestor ? undefined : 400),
-    fontStyle: fontStyle ?? (hasTextAncestor ? undefined : 'normal'),
+    fontWeight,
+    fontStyle,
   });
 
-  if (resolvedFontFamily) {
-    fontFamily = resolvedFontFamily;
-  }
-
-  //TODO: refactor for responsive prop
-  if (useHasResponsiveProps(props)) {
-    return null;
-  }
-
-  const propsToSpread = {
-    ...reslovedProps,
-    numberOfLines:
-      numberOfLines || noOfLines
-        ? numberOfLines || noOfLines
-        : isTruncated
-        ? 1
-        : undefined,
-    ...resolvedFontFamily,
-    bg: highlight ? 'warning.300' : reslovedProps.bg,
-    textDecorationLine:
-      underline && strikeThrough
-        ? 'underline line-through'
-        : underline
-        ? 'underline'
-        : strikeThrough
-        ? 'line-through'
-        : reslovedProps.textDecorationLine,
-    fontSize: sub ? 10 : fontSize,
-    ref: mergeRefs([ref, _ref]),
-    ...(isHovered && _hover),
-  };
-
-  return hasTextAncestor ? (
-    <StyledText {...propsToSpread}>{children}</StyledText>
-  ) : (
-    <TextAncestorContext.Provider value={true}>
-      <StyledText {...propsToSpread}>{children}</StyledText>
-    </TextAncestorContext.Provider>
+  return (
+    <StyledText
+      {...reslovedProps}
+      numberOfLines={
+        numberOfLines || noOfLines
+          ? numberOfLines || noOfLines
+          : isTruncated
+          ? 1
+          : undefined
+      }
+      {...resolvedFontFamily}
+      bg={highlight ? 'warning.200' : reslovedProps.bg}
+      textDecorationLine={
+        underline && strikeThrough
+          ? 'underline line-through'
+          : underline
+          ? 'underline'
+          : strikeThrough
+          ? 'line-through'
+          : reslovedProps.textDecorationLine
+      }
+      fontSize={sub ? 10 : fontSize}
+      ref={mergeRefs([ref, _ref])}
+      {...(isHovered && _hover)}
+    >
+      {children}
+    </StyledText>
   );
 };
 

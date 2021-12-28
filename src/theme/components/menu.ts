@@ -6,8 +6,9 @@ function baseStyle(props: Record<string, any>) {
     bg: mode(`#fff`, `gray.700`)(props),
     py: 2,
     borderWidth: 1,
-    borderColor: mode(`coolGray.200`, `gray.600`)(props),
-    borderRadius: 'sm',
+    borderColor: mode(`gray.200`, `gray.700`)(props),
+    shadow: 1,
+    borderRadius: 5,
     transition: {
       initial: { opacity: 0, translateY: -10 },
       animate: {
@@ -29,33 +30,31 @@ export const MenuGroup = {
   baseStyle: (props: any) => ({
     _title: {
       fontSize: 'xs',
-      fontWeight: 600,
+      fontWeight: 500,
       textTransform: 'uppercase',
       color: mode(`gray.500`, `gray.300`)(props),
     },
-    p: 3,
+    p: 4,
   }),
 };
 export const MenuItem = {
   baseStyle: (props: any) => ({
-    px: 3,
-    py: 2,
+    p: 4,
     outlineWidth: Platform.OS === 'web' ? 0 : undefined,
-    _disabled: {
-      _text: {
-        color: mode('gray.400', 'gray.400')(props),
-      },
-    },
     _focus: {
-      bg: mode(`coolGray.200`, `gray.600`)(props),
+      bg: mode(`gray.100`, `gray.600`)(props),
     },
     _pressed: {
-      bg: mode(`coolGray.300`, `gray.500`)(props),
+      bg: mode(`gray.200`, `gray.500`)(props),
     },
     _icon: {
       size: 4,
       color: mode('gray.500', 'gray.100')(props),
     },
   }),
-  defaultProps: {},
+  defaultProps: {
+    _disabled: {
+      opacity: 0.5,
+    },
+  },
 };

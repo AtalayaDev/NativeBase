@@ -4,12 +4,9 @@ import { Image } from 'native-base';
 
 export function Example() {
   const myRef = React.useRef(null);
-
   React.useEffect(() => {
-    if (myRef.current && myRef.current.setNativeProps)
-      myRef.current?.setNativeProps({ borderWidth: 10, opacity: 0.5 });
+    myRef.current?.setNativeProps({ borderWidth: 10, opacity: 0.5 });
   }, [myRef]);
-
   return (
     <Image
       ref={myRef}

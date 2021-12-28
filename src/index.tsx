@@ -1,3 +1,9 @@
+export default {
+  multiply(a: number, b: number) {
+    return Promise.resolve(a * b);
+  },
+};
+
 import {
   // AppBar,
   Badge,
@@ -11,7 +17,6 @@ import {
   Avatar,
   Breadcrumb,
   IBreadcrumbProps,
-  Card,
   Container,
   IContainerProps,
   Divider,
@@ -81,14 +86,14 @@ import {
   IMenuOptionGroupProps,
   SimpleGrid,
   ISimpleGridProps,
-  // Tabs,
+  Tabs,
   ITagProps,
-  // ITabsProps,
-  // ITabBarProps,
-  // ITabProps,
-  // ITabViewsProps,
-  // ITabViewProps,
-  // ITabsContextProps,
+  ITabsProps,
+  ITabBarProps,
+  ITabProps,
+  ITabViewsProps,
+  ITabViewProps,
+  ITabsContextProps,
   Actionsheet,
   IActionsheetProps,
   IActionsheetContentProps,
@@ -100,10 +105,6 @@ import {
   Typeahead,
   useTypeahead,
   Modal,
-  IModalProps,
-  ICardProps,
-  IAvatarProps,
-  IDrawerProps,
   useToast,
   Toast,
   IToastProps,
@@ -124,8 +125,6 @@ import {
   IRadioProps,
   IRadioValue,
   IRadioGroupProps,
-  Hidden,
-  IHiddenProps,
   Button,
   IButtonProps,
   Column,
@@ -168,9 +167,6 @@ import {
   ISelectItemProps,
   Pressable,
   IPressableProps,
-  IStackProps,
-  ITextAreaProps,
-  IZStackProps,
 } from './components/primitives';
 
 export * from './components/basic';
@@ -179,7 +175,6 @@ export * from './theme';
 export * from './core';
 export * from './hooks';
 export * from './factory';
-export * from './theme/v3-compatible-theme';
 
 export {
   // AppBar,
@@ -188,10 +183,8 @@ export {
   Avatar,
   Badge,
   Button,
-  Card,
   IconButton,
   Heading,
-  Hidden,
   // View,
   Text,
   Code,
@@ -254,7 +247,7 @@ export {
   // useToast,
   Menu,
   SimpleGrid,
-  // Tabs,
+  Tabs,
   Actionsheet,
   Fab,
   Typeahead,
@@ -277,7 +270,6 @@ export type {
   ITextProps,
   ICheckboxProps,
   ICheckboxGroupProps,
-  IHiddenProps,
   IRadioProps,
   IRadioValue,
   IRadioGroupProps,
@@ -318,12 +310,6 @@ export type {
   IScaleFadeProps,
   ISlideProps,
   ISlideFadeProps,
-  IModalProps,
-  ICardProps,
-  IAvatarProps,
-  IDrawerProps,
-  ITextAreaProps,
-  IZStackProps,
   INumberInputProps,
   INumberInputFieldProps,
   INumberInputContext,
@@ -337,12 +323,12 @@ export type {
   IMenuGroupProps,
   IMenuOptionGroupProps,
   ISimpleGridProps,
-  // ITabsProps,
-  // ITabBarProps,
-  // ITabProps,
-  // ITabViewsProps,
-  // ITabViewProps,
-  // ITabsContextProps,
+  ITabsProps,
+  ITabBarProps,
+  ITabProps,
+  ITabViewsProps,
+  ITabViewProps,
+  ITabsContextProps,
   IToastProps,
   IActionsheetProps,
   IActionsheetContentProps,
@@ -352,8 +338,4 @@ export type {
   ISelectItemProps,
   ITextFieldProps,
   IScrollViewProps,
-  IStackProps,
 };
-
-export { StyledProps } from './theme';
-export type { ITheme, ICustomTheme } from './theme';

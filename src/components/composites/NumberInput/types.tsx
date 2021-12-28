@@ -1,7 +1,7 @@
 import type { IInputProps, IBoxProps, IStackProps } from '../../primitives';
 
 export type INumberInputProps = IInputProps &
-  IBoxProps<INumberInputProps> & {
+  IBoxProps & {
     onChange?: (value: number) => void;
     min?: number;
     max?: number;
@@ -22,10 +22,10 @@ export type INumberInputFieldProps = IInputProps & {};
 export type INumberInputSteppersProps = IStackProps & {
   children: JSX.Element[] | JSX.Element;
 };
-export type INumberInputStepperProps = IBoxProps<INumberInputStepperProps> & {
+export type INumberInputStepperProps = IBoxProps & {
   isDisabled?: boolean;
-  _disabled?: Omit<INumberInputStepperProps, '_disabled'>;
-  _active?: Omit<INumberInputStepperProps, '_active'>;
+  _disabled?: any;
+  _active?: any;
 };
 export type INumberInputContext = INumberInputProps & {
   numberInputValue?: number;

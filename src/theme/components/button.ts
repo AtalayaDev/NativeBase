@@ -6,14 +6,11 @@ const baseStyle = (props: any) => {
   const { primary } = props.theme.colors;
   const focusRing =
     Platform.OS === 'web'
-      ? mode(
-          { boxShadow: `${primary[400]} 0px 0px 0px 2px`, zIndex: 1 },
-          { boxShadow: `${primary[500]} 0px 0px 0px 2px`, zIndex: 1 }
-        )(props)
+      ? { boxShadow: `${primary[400]} 0px 0px 0px 3px` }
       : {};
 
   return {
-    borderRadius: 'sm',
+    borderRadius: 'lg',
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
@@ -25,7 +22,7 @@ const baseStyle = (props: any) => {
         : 'pointer',
     },
     _text: {
-      fontWeight: 'medium',
+      fontWeight: 600,
     },
     _focusVisible: {
       style: props.variant !== 'unstyled' ? { ...focusRing } : {},
@@ -34,15 +31,8 @@ const baseStyle = (props: any) => {
       space: 2,
       alignItems: 'center',
     },
-    _loading: {
-      opacity: '80',
-    },
     _disabled: {
-      opacity: '50',
-    },
-    _spinner: {
-      size: 'sm',
-      focusable: false,
+      opacity: 0.5,
     },
   };
 };
@@ -61,26 +51,20 @@ function variantGhost(props: Dict) {
     _text: {
       color: props.isDisabled
         ? disabledTextColor(props)
-        : mode(`${c}.500`, `${c}.300`)(props),
+        : mode(`${c}.500`, `${c}.200`)(props),
     },
     bg: 'transparent',
     _web: {
-      outlineWidth: '0',
+      outlineWidth: 0,
     },
     _hover: {
-      borderColor: mode(`${c}.500`, `${c}.200`)(props),
-      bg: transparentize(mode(`${c}.200`, `${c}.400`)(props), 0.5)(props.theme),
+      bg: transparentize(mode(`${c}.200`, `${c}.500`)(props), 0.5)(props.theme),
     },
     _focusVisible: {
-      borderColor: mode(`${c}.700`, `${c}.200`)(props),
-      bg: transparentize(mode(`${c}.200`, `${c}.400`)(props), 0.5)(props.theme),
+      bg: transparentize(mode(`${c}.200`, `${c}.500`)(props), 0.5)(props.theme),
     },
     _pressed: {
-      borderColor: mode(`${c}.600`, `${c}.200`)(props),
-      bg: transparentize(mode(`${c}.300`, `${c}.500`)(props), 0.5)(props.theme),
-    },
-    _spinner: {
-      size: 'sm',
+      bg: transparentize(mode(`${c}.200`, `${c}.500`)(props), 0.6)(props.theme),
     },
   };
 }
@@ -89,93 +73,50 @@ function variantOutline(props: Dict) {
   const { colorScheme: c } = props;
   const borderColor = mode(`muted.200`, `muted.500`)(props);
   return {
-    borderWidth: '1',
+    border: '1px solid',
     borderColor:
       c === 'muted'
         ? borderColor
         : props.isDisabled
         ? disabledTextColor(props)
-        : mode(`${c}.300`, `${c}.300`)(props),
+        : mode(`${c}.300`, `${c}.600`)(props),
     ...variantGhost(props),
   };
 }
 
+type AccessibleColor = {
+  bg?: string;
+  color?: string;
+};
+
+/** Accessible color overrides for less accessible colors. */
+const accessibleColorMap: { [key: string]: AccessibleColor } = {
+  yellow: {
+    bg: 'yellow.400',
+  },
+  cyan: {
+    bg: 'cyan.400',
+  },
+};
+
 function variantSolid(props: Dict) {
   const { colorScheme: c } = props;
-  let bg = `${c}.500`;
+  let { bg = `${c}.500` } = accessibleColorMap[c] || {};
+  bg = mode(bg, `${c}.400`)(props);
   if (props.isDisabled) {
     bg = mode(`muted.300`, `muted.500`)(props);
   }
 
   const styleObject = {
     _web: {
-      outlineWidth: '0',
+      outlineWidth: 0,
     },
     bg,
     _hover: {
-      bg: `${c}.600`,
+      bg: mode(`${c}.600`, `${c}.500`)(props),
     },
     _pressed: {
-      bg: `${c}.700`,
-    },
-    _focus: {
-      bg: `${c}.600`,
-    },
-    _loading: {
-      bg: mode(`warmGray.50`, `${c}.300`)(props),
-      opacity: '50',
-    },
-    _disabled: { bg: mode(`trueGray.300`, `trueGray.600`)(props) },
-  };
-
-  return styleObject;
-}
-
-// function getBg(props: Record<string, any>) {
-//   const { theme, status, variant } = props;
-//   let { colorScheme } = props;
-
-//   colorScheme = getColorScheme(
-//     props,
-//     colorScheme !== 'primary' ? colorScheme : status
-//   );
-//   const lightBg =
-//     variant === 'solid'
-//       ? getColor(theme, `${colorScheme}.400`, colorScheme)
-//       : getColor(theme, `${colorScheme}.100`, colorScheme);
-
-//   const darkBg =
-//     variant === 'solid'
-//       ? getColor(theme, `${colorScheme}.700`, colorScheme)
-//       : getColor(theme, `${colorScheme}.400`, colorScheme);
-//   return mode(lightBg, darkBg)(props);
-// }
-
-function variantSubtle(props: Dict) {
-  const { colorScheme: c } = props;
-  let bg = `${c}.100`;
-  bg = mode(bg, `${c}.200`)(props);
-  let color;
-  if (props.isDisabled) {
-    bg = mode(`muted.300`, `muted.500`)(props);
-  } else {
-    color = mode(`${c}.500`, `${c}.600`)(props);
-  }
-  const styleObject = {
-    _text: {
-      color: color,
-    },
-    _web: {
-      outlineWidth: '0',
-    },
-    bg,
-    _hover: {
-      _text: { color: mode(`${c}.600`, `${c}.700`)(props) },
-      bg: mode(`${c}.200`, `${c}.300`)(props),
-    },
-    _pressed: {
-      _text: { color: mode(`${c}.700`, `${c}.800`)(props) },
-      bg: mode(`${c}.300`, `${c}.400`)(props),
+      bg: mode(`${c}.700`, `${c}.600`)(props),
     },
   };
 
@@ -188,31 +129,28 @@ function variantLink(props: Dict) {
   return {
     ...variantGhost(props),
     _text: {
-      textDecorationLine: Platform.select({
-        ios: 'underline',
-        web: 'underline',
-      }),
+      // textDecorationLine: 'underline',
       color:
         c === 'muted'
           ? mode(`muted.800`, `${c}.200`)(props)
           : props.isDisabled
           ? disabledTextColor(props)
-          : mode(`${c}.500`, `${c}.300`)(props),
+          : mode(`${c}.500`, `${c}.200`)(props),
     },
     _hover: {
       _text: {
-        color: mode(`${c}.600`, `${c}.400`)(props),
         textDecorationLine: 'underline',
       },
     },
-    _focusVisible: {
+    _ios: {
       _text: {
-        color: mode(`${c}.600`, `${c}.400`)(props),
         textDecorationLine: 'underline',
       },
     },
-    _pressed: {
-      _text: { color: mode(`${c}.700`, `${c}.500`)(props) },
+    _android: {
+      _text: {
+        textDecorationLine: 'underline',
+      },
     },
   };
 }
@@ -225,38 +163,37 @@ const variants = {
   ghost: variantGhost,
   outline: variantOutline,
   solid: variantSolid,
-  subtle: variantSubtle,
   link: variantLink,
   unstyled: variantUnstyled,
 };
 
 const sizes = {
   lg: {
-    px: '4',
-    py: '2',
+    px: 6,
+    py: 3,
+    _text: {
+      fontSize: 'lg',
+    },
+  },
+  md: {
+    px: 4,
+    py: 3,
     _text: {
       fontSize: 'md',
     },
   },
-  md: {
-    px: '3',
-    py: '2',
+  sm: {
+    px: 4,
+    py: 2,
     _text: {
       fontSize: 'sm',
     },
   },
-  sm: {
-    px: '2',
-    py: '2',
+  xs: {
+    px: 2,
+    py: 1,
     _text: {
       fontSize: 'xs',
-    },
-  },
-  xs: {
-    px: '2',
-    py: '2',
-    _text: {
-      fontSize: '2xs',
     },
   },
 };

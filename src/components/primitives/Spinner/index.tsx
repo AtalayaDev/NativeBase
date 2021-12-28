@@ -1,33 +1,28 @@
 import React, { memo, forwardRef } from 'react';
 import { ActivityIndicator } from 'react-native';
-import {
-  usePropsResolution,
-  useStyledSystemPropsResolver,
-} from '../../../hooks';
-import { getColor } from '../../../theme';
+import styled from 'styled-components/native';
+import { color, space, position } from 'styled-system';
+import { usePropsResolution } from '../../../hooks/useThemeProps';
+import { useToken } from '../../../hooks';
 import type { ISpinnerProps } from './types';
-import { useHasResponsiveProps } from '../../../hooks/useHasResponsiveProps';
-import { useTheme } from '../../../hooks';
 
+const StyledSpinner = styled(ActivityIndicator)<ISpinnerProps>(
+  color,
+  space,
+  position
+);
 const Spinner = (props: ISpinnerProps, ref: any) => {
-  const { color, size, style, ...resolvedProps } = usePropsResolution(
-    'Spinner',
-    props
-  );
-  const resolvedColor = getColor(color, useTheme().colors, useTheme());
-  const resolvedStyle = useStyledSystemPropsResolver(resolvedProps);
-  //TODO: refactor for responsive prop
-  if (useHasResponsiveProps(props)) {
-    return null;
-  }
+  const { color, ...resolvedProps } = usePropsResolution('Spinner', props);
+  const resolvedColor = useToken('colors', color);
+
   return (
-    <ActivityIndicator
+    <StyledSpinner
       accessible
       accessibilityLabel="loading"
+      {...resolvedProps}
+      // TODO: Fix color resolution issue in styled component.
       color={resolvedColor}
       ref={ref}
-      size={size}
-      style={[resolvedStyle, style]}
     />
   );
 };

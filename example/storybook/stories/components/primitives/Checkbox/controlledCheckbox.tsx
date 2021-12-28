@@ -11,9 +11,9 @@ export const Example = () => {
       accessibilityLabel="choose numbers"
     >
       <Checkbox value="one" my={2}>
-        UX Research
+        One
       </Checkbox>
-      <Checkbox value="two">Software Development</Checkbox>
+      <Checkbox value="two">Two</Checkbox>
     </Checkbox.Group>
   );
 };

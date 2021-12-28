@@ -10,155 +10,104 @@ import { VisuallyHidden } from '@react-aria/visually-hidden';
 import { RadioContext } from './RadioGroup';
 import { useFocusRing } from '@react-native-aria/focus';
 import { CircleIcon } from '../Icon/Icons';
-import { useHasResponsiveProps } from '../../../hooks/useHasResponsiveProps';
-import { combineContextAndProps, isEmptyObj } from '../../../utils';
-import { extractInObject, stylingProps } from '../../../theme/tools/utils';
-
-const RadioComponent = memo(
-  forwardRef(
-    (
-      { icon, inputProps, combinedProps, children, wrapperRef, ...props }: any,
-      ref: any
-    ) => {
-      const { isInvalid, isReadOnly, isIndeterminate } = combinedProps;
-
-      const { disabled: isDisabled, checked: isChecked } = inputProps;
-      const _ref = React.useRef(null);
-      const { isHovered } = useHover({}, _ref);
-      const mergedRefs = mergeRefs([_ref, wrapperRef]);
-      const { focusProps, isFocusVisible } = useFocusRing();
-      // const mergedWrapperRef = React.useMemo(() => mergeRefs([wrapperRef, _ref]), []);
-
-      const { _interactionBox, _icon, ...resolvedProps } = usePropsResolution(
-        'Radio',
-        combinedProps,
-        {
-          isInvalid,
-          isReadOnly,
-          isFocusVisible,
-          isDisabled,
-          isIndeterminate,
-          isChecked,
-          isHovered,
-        }
-      );
-
-      const [layoutProps, nonLayoutProps] = extractInObject(resolvedProps, [
-        ...stylingProps.margin,
-        ...stylingProps.layout,
-        ...stylingProps.flexbox,
-        ...stylingProps.position,
-        '_text',
-      ]);
-
-      // only calling below function when icon exist.
-      const sizedIcon = () =>
-        //@ts-ignore
-        React.cloneElement(icon, {
-          ..._icon,
-        });
-
-      const component = (
-        <Box
-          flexDirection="row"
-          alignItems="center"
-          {...layoutProps}
-          opacity={isDisabled ? 0.4 : 1}
-          cursor={isDisabled ? 'not-allowed' : 'pointer'}
-        >
-          <Center>
-            {/* Interaction Box */}
-            <Box
-              {..._interactionBox}
-              style={{
-                // @ts-ignore - only for web"
-                transition: 'height 200ms, width 200ms',
-              }}
-              h={isFocusVisible || isHovered ? '200%' : '100%'}
-              w={isFocusVisible || isHovered ? '200%' : '100%'}
-              pointerEvents="none"
-            />
-            {/* Radio */}
-            <Center {...nonLayoutProps}>
-              {icon && sizedIcon && isChecked ? (
-                sizedIcon()
-              ) : (
-                <CircleIcon {..._icon} opacity={isChecked ? 1 : 0} />
-              )}
-            </Center>
-          </Center>
-          {children}
-        </Box>
-      );
-      //TODO: refactor for responsive prop
-      if (useHasResponsiveProps(props)) {
-        return null;
-      }
-
-      // console.log(inputProps, focusProps, ref);
-      // return null;
-
-      return (
-        <Box
-          // @ts-ignore - RN web supports accessibilityRole="label"
-          accessibilityRole="label"
-          ref={mergedRefs}
-        >
-          <VisuallyHidden>
-            <input {...inputProps} {...focusProps} ref={ref} />
-          </VisuallyHidden>
-          {component}
-        </Box>
-      );
-    }
-  )
-);
 
 const Radio = (
   { icon, children, wrapperRef, ...props }: IRadioProps,
   ref: any
 ) => {
   const contextState = React.useContext(RadioContext);
-
-  const combinedProps = combineContextAndProps(contextState, props);
-
-  const inputRef = React.useRef(null);
-  const radioState = useRadio(
-    { ...combinedProps, 'aria-label': props.accessibilityLabel, children },
-    contextState.state ?? {},
-    inputRef
-  );
-
-  // console.log('radio', radioState);
-  //@ts-ignore
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const inputProps = React.useMemo(() => radioState.inputProps, [
-    radioState.inputProps.checked,
-    radioState.inputProps.disabled,
-  ]);
-
-  const [contextCombinedProps] = React.useState({
-    ...combinedProps,
+  const {
+    _interactionBox: {
+      _hover: _iterationBoxHover,
+      _focus: _iterationBoxFocus,
+      _disabled: _iterationBoxDisabled,
+      ..._interactionBox
+    },
+    _radio: {
+      _checked: _radioChecked,
+      _disabled: _radioDisabled,
+      _invalid: _radioInvalid,
+      ..._radio
+    },
+    _icon,
+    isInvalid,
+    ...themedProps
+  } = usePropsResolution('Radio', {
+    ...contextState,
+    ...props,
   });
 
-  //TODO: refactor for responsive prop
-  if (useHasResponsiveProps(props)) {
-    return null;
-  }
-  if (isEmptyObj(contextState)) {
-    console.error('Error: Radio must be wrapped inside a Radio.Group');
-    return <></>;
-  }
+  const inputRef = React.useRef(null);
+  const { inputProps } = useRadio(
+    { ...props, 'aria-label': props.accessibilityLabel, children },
+    contextState.state,
+    inputRef
+  );
+  const { disabled, checked } = inputProps;
+
+  const _ref = React.useRef(null);
+  const { isHovered } = useHover({}, _ref);
+  const mergedRefs = mergeRefs([_ref, wrapperRef]);
+  const { focusProps, isFocusVisible } = useFocusRing();
+
+  // only calling below function when icon exist.
+  const sizedIcon = () =>
+    //@ts-ignore
+    React.cloneElement(icon, {
+      ..._icon,
+    });
+
+  const component = (
+    <Box
+      flexDirection="row"
+      alignItems="center"
+      {...themedProps}
+      opacity={disabled ? 0.4 : 1}
+      cursor={disabled ? 'not-allowed' : 'pointer'}
+    >
+      <Center>
+        {/* Interaction Box */}
+        <Box
+          {..._interactionBox}
+          {...(isFocusVisible && _iterationBoxFocus)}
+          {...(isHovered && _iterationBoxHover)}
+          {...(disabled && _iterationBoxDisabled)}
+          style={{
+            // @ts-ignore - only for web"
+            transition: 'height 200ms, width 200ms',
+          }}
+          h={isFocusVisible || isHovered ? '200%' : '100%'}
+          w={isFocusVisible || isHovered ? '200%' : '100%'}
+        />
+        {/* Radio */}
+        <Center
+          {..._radio}
+          {...(checked && _radioChecked)}
+          {...(disabled && _radioDisabled)}
+          {...(isInvalid && _radioInvalid)}
+        >
+          {icon && sizedIcon && checked ? (
+            sizedIcon()
+          ) : (
+            <CircleIcon {..._icon} opacity={checked ? 1 : 0} />
+          )}
+        </Center>
+      </Center>
+      {children}
+    </Box>
+  );
 
   return (
-    <RadioComponent
-      inputProps={inputProps}
-      combinedProps={contextCombinedProps}
-      children={children}
-      ref={ref}
-      icon={icon}
-      wrapperRef={wrapperRef}
-    />
+    <Box
+      // @ts-ignore - RN web supports accessibilityRole="label"
+      accessibilityRole="label"
+      ref={mergedRefs}
+    >
+      <VisuallyHidden>
+        <input {...inputProps} ref={ref} {...focusProps} />
+      </VisuallyHidden>
+      {component}
+    </Box>
   );
 };
 

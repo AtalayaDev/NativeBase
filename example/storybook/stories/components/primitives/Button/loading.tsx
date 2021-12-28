@@ -10,24 +10,10 @@ export const Example = () => {
     >
       <Button isLoading>Button</Button>
       <Button isLoading isLoadingText="Submitting">
-        Button
-      </Button>
-      <Button isLoading spinnerPlacement="end" isLoadingText="Submitting">
-        Button
-      </Button>
-      <Button
-        isLoading
-        _loading={{
-          bg: 'amber.400:alpha.70',
-          _text: { color: 'coolGray.700' },
-        }}
-        _spinner={{ color: 'white' }}
-        isLoadingText="Submitting"
-      >
-        Button
+        BUTTON
       </Button>
       <Button isLoading isLoadingText="Submitting" variant="outline">
-        Button
+        BUTTON
       </Button>
     </Stack>
   );

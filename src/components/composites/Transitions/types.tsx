@@ -1,26 +1,25 @@
-import type { ReactNode } from 'react';
 import type { ViewProps } from 'react-native';
 import type { IBoxProps } from '../../primitives';
 
-export type IFadeProps = IBoxProps<IFadeProps> & {
+export type IFadeProps = IBoxProps & {
   in?: boolean;
   entryDuration?: number;
   exitDuration?: number;
   delay?: number;
 };
-export type IScaleFadeProps = IBoxProps<IScaleFadeProps> & {
+export type IScaleFadeProps = IBoxProps & {
   in?: boolean;
   duration?: number;
   delay?: number;
   initialScale?: number;
 };
-export type ISlideProps = IBoxProps<ISlideProps> & {
+export type ISlideProps = IBoxProps & {
   in?: boolean;
   duration?: number;
   delay?: number;
   placement?: 'top' | 'bottom' | 'right' | 'left';
 };
-export type ISlideFadeProps = IBoxProps<ISlideFadeProps> & {
+export type ISlideFadeProps = IBoxProps & {
   in?: boolean;
   delay?: number;
   duration?: number;
@@ -81,8 +80,6 @@ export interface ITransitionProps extends ViewProps {
    * Determines whether to start the animation
    */
   visible?: boolean;
-
-  animationExited?: boolean;
   children?: any;
   as?: any;
 }
@@ -108,9 +105,9 @@ export interface IPresenceTransitionProps extends ViewProps {
    * Determines whether to start the animation
    */
   visible?: boolean;
-  children?: ReactNode;
+  children?: any;
   /**
    * Accepts a Component to be rendered as Wrapper. Defaults to `View`
    */
-  as?: ReactNode;
+  as?: any;
 }

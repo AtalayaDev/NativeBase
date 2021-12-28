@@ -1,5 +1,5 @@
 import { useTheme } from './useTheme';
-import type { ITheme } from '../theme';
+
 /**
  *
  * @param props
@@ -10,19 +10,19 @@ import type { ITheme } from '../theme';
  * This function depends upon fontConfig token in typography for mapping.
  */
 export function useResolvedFontFamily(props: {
-  fontFamily?: keyof ITheme['fonts'];
+  fontFamily?: string;
   fontStyle?: string;
-  fontWeight?: keyof ITheme['fontWeights'];
+  fontWeight?: string | number;
 }) {
-  const { fontFamily, fontStyle, fontWeight } = props;
+  const { fontFamily, fontStyle = 'normal', fontWeight = 400 } = props;
   let newFontFamily = fontFamily;
   let newFontStyle = fontStyle;
   let newFontWeight = fontWeight;
 
   const { fontConfig, fontWeights, fonts } = useTheme();
-  if (fontWeight && fontStyle && fontFamily && fontFamily in fonts) {
-    // TODO: Fix typing remove any.
-    const fontToken: any = fonts[fontFamily];
+  if (fontFamily && fontFamily in fonts) {
+    const fontToken = fonts[fontFamily];
+
     if (fontConfig && fontConfig[fontToken]) {
       // If a custom font family is resolved, set fontWeight and fontStyle to undefined.
       // https://github.com/GeekyAnts/NativeBase/issues/3811

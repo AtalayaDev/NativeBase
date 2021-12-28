@@ -3,8 +3,8 @@ import { Text } from 'native-base';
 
 export const Example = () => {
   return (
-    <Text italic>
-      <Text bold>Taj Mahal</Text> is in Agra.
+    <Text>
+      This is the <Text bold>nested</Text> example.
     </Text>
   );
 };

@@ -1,50 +1,45 @@
 import React from 'react';
-import { SectionList, Heading, Center } from 'native-base';
+import { Box, SectionList } from 'native-base';
 export const Example = () => {
   const data = [
     {
-      title: 'Cyan',
-      data: ['cyan.100', 'cyan.200', 'cyan.300', 'cyan.400', 'cyan.500'],
+      title: 'Main dishes',
+      data: ['Pizza', 'Burger', 'Risotto'],
     },
     {
-      title: 'Yellow',
-      data: [
-        'yellow.100',
-        'yellow.200',
-        'yellow.300',
-        'yellow.400',
-        'yellow.500',
-      ],
+      title: 'Sides',
+      data: ['French Fries', 'Onion Rings', 'Fried Shrimps'],
     },
     {
-      title: 'Violet',
-      data: [
-        'violet.100',
-        'violet.200',
-        'violet.300',
-        'violet.400',
-        'violet.500',
-      ],
+      title: 'Drinks',
+      data: ['Water', 'Coke', 'Beer'],
+    },
+    {
+      title: 'Desserts',
+      data: ['Cheese Cake', 'Ice Cream'],
     },
   ];
 
   return (
     <SectionList
-      px="12"
-      mb="4"
       sections={data}
       keyExtractor={(item, index) => item + index}
       renderItem={({ item }) => (
-        <Center py="4" minW="64" bg={item}>
-          {item.split('.')[1]}
-        </Center>
+        <Box px={5} py={2} rounded="md" my={2} bg="secondary.200">
+          {item}
+        </Box>
       )}
       renderSectionHeader={({ section: { title } }) => (
-        <Center>
-          <Heading fontSize="xl" mt="8" pb="4">
-            {title}
-          </Heading>
-        </Center>
+        <Box
+          px={5}
+          py={2}
+          rounded="md"
+          my={2}
+          bg="primary.200"
+          _text={{ fontWeight: 'bold' }}
+        >
+          {title}
+        </Box>
       )}
     />
   );

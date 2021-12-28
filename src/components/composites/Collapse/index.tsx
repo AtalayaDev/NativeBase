@@ -2,9 +2,8 @@ import isNil from 'lodash.isnil';
 import React, { useEffect, useRef, forwardRef } from 'react';
 import { ViewStyle, LayoutAnimation, UIManager, Platform } from 'react-native';
 import { Box, IBoxProps } from '../../primitives';
-import { useHasResponsiveProps } from '../../../hooks/useHasResponsiveProps';
 
-export type ICollapseProps = IBoxProps<ICollapseProps> & {
+export type ICollapseProps = IBoxProps & {
   style?: ViewStyle;
   endingHeight?: number;
   startingHeight?: number;
@@ -83,10 +82,7 @@ const Collapse = (
     transition: `height ${duration ?? '400'}ms`,
     height: isOpen ? endingHeight || size : startingHeight || 0,
   };
-  //TODO: refactor for responsive prop
-  if (useHasResponsiveProps(props)) {
-    return null;
-  }
+
   return (
     <Box
       style={{ ...animatedStyle, ...(Platform.OS === 'web' && _web) }}
@@ -94,7 +90,6 @@ const Collapse = (
       ref={ref}
     >
       <Box
-        //@ts-ignore
         overflow={Platform.OS === 'web' ? 'auto' : 'scroll'}
         onLayout={(e) => provideSize(e.nativeEvent.layout)}
         {...props}

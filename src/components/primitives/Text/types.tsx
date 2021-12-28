@@ -1,18 +1,32 @@
 import type { TextProps } from 'react-native';
-import type { StyledProps } from '../../../theme/types';
 import type {
-  IFont,
-  IFontSize,
-  IFontWeight,
-  ILetterSpacing,
-  ILineHeight,
-} from '../../../theme/base/typography';
-import type { PlatformProps, ResponsiveValue } from '../../types';
-import type { VariantType } from '../../../components/types';
+  BorderProps,
+  ColorProps,
+  BackgroundProps,
+  OutlineProps,
+  ExtraProps,
+  PlatformProps,
+  ShadowProps,
+  FlexboxProps,
+  LayoutProps,
+  PositionProps,
+  SpaceProps,
+  TypographyProps,
+} from '../../types';
 
 export interface ITextProps
-  extends PlatformProps<ITextProps>,
-    StyledProps,
+  extends Omit<ColorProps, 'fill' | 'stroke'>,
+    SpaceProps,
+    BorderProps,
+    BackgroundProps,
+    PositionProps,
+    LayoutProps,
+    OutlineProps,
+    ExtraProps,
+    PlatformProps,
+    ShadowProps,
+    FlexboxProps,
+    TypographyProps,
     TextProps {
   /**
    *  Renders components as Text children. Accepts a JSX.Element or an array of JSX.Element.
@@ -21,31 +35,22 @@ export interface ITextProps
   /**
    * The size of font
    */
-
-  fontSize?: ResponsiveValue<IFontSize | number | (string & {})>;
-
-  /**
-   * Letter spacing
-   */
-
-  letterSpacing?: ResponsiveValue<ILetterSpacing | number | (string & {})>;
-
-  /**
-   * Line height
-   */
-
-  lineHeight?: ResponsiveValue<ILineHeight | number | (string & {})>;
-  /**
-   * Font weight
-   */
-
-  fontWeight?: ResponsiveValue<IFontWeight | number | (string & {})>;
-  /**
-   * Fonts
-   */
-
-  font?: ResponsiveValue<IFont>;
-
+  fontSize?:
+    | 'xxs'
+    | 'xs'
+    | 'sm'
+    | 'md'
+    | 'lg'
+    | 'xl'
+    | '2xl'
+    | '3xl'
+    | '4xl'
+    | '5xl'
+    | '6xl'
+    | number
+    | Array<number>
+    | Array<string>
+    | Record<string, string>;
   /**
    * Used to truncate text at a specific number of lines
    */
@@ -78,8 +83,4 @@ export interface ITextProps
    * Highlight the text with a yellow background.
    */
   highlight?: boolean;
-  /**
-   * Text component variant typings. Refer extendTheme
-   */
-  variant?: VariantType<'Text'>;
 }

@@ -2,21 +2,22 @@ import React from 'react';
 import { Checkbox, Heading, HStack, VStack, Text, Box } from 'native-base';
 
 export const Example = () => {
-  const [groupValue, setGroupValue] = React.useState([
-    'Photography',
-    'Gardening',
-  ]);
+  const [groupValue, setGroupValue] = React.useState(['Item 1', 'Item 3']);
+
+  const getSelectedGroupValue = () => {
+    if (groupValue.length === 0) return '[]';
+
+    let arrayString = groupValue.reduce(
+      (accumulator, currentValue) => accumulator + ', ' + currentValue
+    );
+    return '[' + arrayString + ']';
+  };
 
   return (
-    <VStack space={2}>
-      <HStack alignItems="baseline">
-        <Heading fontSize="lg">Hobbies</Heading>
+    <Box display="flex" justifyContent="space-between" alignItems="center">
+      <HStack mb={3} alignItems="baseline">
+        <Heading mt={3}>CheckboxGroup </Heading>
       </HStack>
-      <VStack>
-        <Box>
-          <Text>Selected: ({groupValue.length})</Text>
-        </Box>
-      </VStack>
       <Checkbox.Group
         colorScheme="green"
         defaultValue={groupValue}
@@ -25,19 +26,32 @@ export const Example = () => {
           setGroupValue(values || []);
         }}
       >
-        <Checkbox value="Photography" my="1">
-          Photography
+        <Checkbox value="Item 1" my={1}>
+          Item 1
         </Checkbox>
-        <Checkbox value="Writing" my="1">
-          Writing
+        <Checkbox value="Item 2" my={1}>
+          Item 2
         </Checkbox>
-        <Checkbox value="Gardening" my="1">
-          Gardening
+        <Checkbox value="Item 3" my={1}>
+          Item 3
         </Checkbox>
-        <Checkbox value="Cooking" my="1">
-          Cooking
+        <Checkbox
+          colorScheme="orange"
+          isIndeterminate
+          value="Indeterminate Item"
+          my={1}
+        >
+          Indeterminate Item
         </Checkbox>
       </Checkbox.Group>
-    </VStack>
+      <VStack mt={3}>
+        <Box>
+          <Text fontSize="md">Selected Values: </Text>
+          <Text fontSize="md" bold>
+            {getSelectedGroupValue()}
+          </Text>
+        </Box>
+      </VStack>
+    </Box>
   );
 };

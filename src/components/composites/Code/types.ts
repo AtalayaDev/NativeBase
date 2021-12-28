@@ -1,5 +1,5 @@
 import type { IBoxProps } from '../../primitives/Box';
 
-export type ICodeProps = IBoxProps<ICodeProps> & {
+export type ICodeProps = IBoxProps & {
   colorScheme?: string | undefined;
 };

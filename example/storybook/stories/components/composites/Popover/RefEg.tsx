@@ -1,60 +1,33 @@
 import React from 'react';
-import { Popover, Button, Input, FormControl, Box } from 'native-base';
+import { Popover, Button, Input } from 'native-base';
 
 export function Example() {
   const initialFocusRef = React.useRef(null);
   return (
-    <Box h="60%" w="100%" alignItems="center">
-      <Popover
-        initialFocusRef={initialFocusRef}
-        trigger={(triggerProps) => {
-          return <Button {...triggerProps}>Edit Info</Button>;
-        }}
-      >
-        <Popover.Content width="56">
-          <Popover.Arrow />
-          <Popover.CloseButton />
-          {/* @ts-ignore */}
-          <Popover.Header>Personal Details</Popover.Header>
-          <Popover.Body>
-            <FormControl>
-              <FormControl.Label
-                _text={{
-                  fontSize: 'xs',
-                  fontWeight: 'medium',
-                }}
-              >
-                First Name
-              </FormControl.Label>
-              <Input
-                rounded="sm"
-                fontSize="xs"
-                backgroundColor="white"
-                ref={initialFocusRef}
-              />
-            </FormControl>
-            <FormControl mt="3">
-              <FormControl.Label
-                _text={{
-                  fontSize: 'xs',
-                  fontWeight: 'medium',
-                }}
-              >
-                Last Name
-              </FormControl.Label>
-              <Input rounded="sm" fontSize="xs" backgroundColor="white" />
-            </FormControl>
-          </Popover.Body>
-          <Popover.Footer>
-            <Button.Group>
-              <Button colorScheme="coolGray" variant="ghost">
-                Cancel
-              </Button>
-              <Button>Save</Button>
-            </Button.Group>
-          </Popover.Footer>
-        </Popover.Content>
-      </Popover>
-    </Box>
+    <Popover
+      initialFocusRef={initialFocusRef}
+      trigger={(triggerProps) => {
+        return <Button {...triggerProps}>Trigger</Button>;
+      }}
+    >
+      <Popover.Content width={250}>
+        <Popover.Arrow />
+        <Popover.CloseButton />
+        {/* @ts-ignore */}
+        <Popover.Header fontSize={20} fontWeight={700}>
+          Header
+        </Popover.Header>
+        <Popover.Body>
+          <Input
+            mb={3}
+            backgroundColor="white"
+            ref={initialFocusRef}
+            placeholder="I will get focused on Popover opening"
+          />
+          This Popover won't close on clicking outside the popover area.
+        </Popover.Body>
+        <Popover.Footer>This is the footer</Popover.Footer>
+      </Popover.Content>
+    </Popover>
   );
 }

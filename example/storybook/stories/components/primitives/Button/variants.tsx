@@ -1,145 +1,150 @@
 import React from 'react';
-import {
-  Button,
-  Divider,
-  Heading,
-  VStack,
-  Stack,
-  ScrollView,
-} from 'native-base';
+import { Button, Divider, Heading, VStack, Stack } from 'native-base';
 
 export const Example = () => {
   return (
-    <ScrollView showsVerticalScrollIndicator={false} px="3">
-      <VStack
-        w="100%"
-        space={2.5}
-        px="2"
-        mt="4"
-        alignItems="center"
-        justifyContent="center"
+    <VStack space={4} px={2} w="100%">
+      {/* Solid */}
+      <Heading size="xs" textAlign="left">
+        Solid
+      </Heading>
+      <Stack
+        direction={{ base: 'column', md: 'row' }}
+        space={2}
+        mx={{ base: 'auto', md: 0 }}
       >
-        {/* Solid */}
-        <Heading size="md">Solid</Heading>
-        <Stack
-          mb="2.5"
-          mt="1.5"
-          direction={{ base: 'column', md: 'row' }}
-          space={2}
-          mx={{ base: 'auto', md: '0' }}
+        <Button size="sm" onPress={() => console.log('hello world')}>
+          PRIMARY
+        </Button>
+        <Button
+          size="sm"
+          colorScheme="secondary"
+          onPress={() => console.log('hello world')}
         >
-          <Button size="sm">PRIMARY</Button>
-          <Button size="sm" colorScheme="secondary">
-            SECONDARY
-          </Button>
-          <Button size="sm" isDisabled>
-            DISABLED
-          </Button>
-        </Stack>
+          SECONDARY
+        </Button>
+        <Button size="sm" isDisabled onPress={() => console.log('hello world')}>
+          DISABLED
+        </Button>
+      </Stack>
 
-        <Divider w="100%" />
+      <Divider />
 
-        <Heading size="md">Subtle</Heading>
+      <Heading size="xs">Outline</Heading>
 
-        {/* Subtle */}
-        <Stack
-          mb="2.5"
-          mt="1.5"
-          direction={{ base: 'column', md: 'row' }}
-          space={2}
-          mx={{ base: 'auto', md: '0' }}
+      {/* Outline */}
+      <Stack
+        direction={{ base: 'column', md: 'row' }}
+        space={2}
+        mx={{ base: 'auto', md: 0 }}
+      >
+        <Button
+          size="sm"
+          variant="outline"
+          onPress={() => console.log('hello world')}
         >
-          <Button size="sm" variant="subtle">
-            PRIMARY
-          </Button>
-          <Button size="sm" variant="subtle" colorScheme="secondary">
-            SECONDARY
-          </Button>
-          <Button size="sm" variant="subtle" isDisabled>
-            DISABLED
-          </Button>
-        </Stack>
-        <Divider />
-        <Heading size="md">Outline</Heading>
-
-        {/* Outline */}
-        <Stack
-          mb="2.5"
-          mt="1.5"
-          direction={{ base: 'column', md: 'row' }}
-          space={2}
-          mx={{ base: 'auto', md: '0' }}
+          PRIMARY
+        </Button>
+        <Button
+          size="sm"
+          variant="outline"
+          colorScheme="secondary"
+          onPress={() => console.log('hello world')}
         >
-          <Button size="sm" variant="outline">
-            PRIMARY
-          </Button>
-          <Button size="sm" variant="outline" colorScheme="secondary">
-            SECONDARY
-          </Button>
-          <Button size="sm" variant="outline" isDisabled>
-            DISABLED
-          </Button>
-        </Stack>
-        <Divider w="100%" />
-
-        <Heading size="md">Link</Heading>
-
-        {/* Link */}
-        <Stack
-          mb="2.5"
-          mt="1.5"
-          direction={{ base: 'column', md: 'row' }}
-          space={2}
-          mx={{ base: 'auto', md: '0' }}
+          SECONDARY
+        </Button>
+        <Button
+          size="sm"
+          variant="outline"
+          isDisabled
+          onPress={() => console.log('hello world')}
         >
-          <Button size="sm" variant="link">
-            PRIMARY
-          </Button>
-          <Button size="sm" variant="link" colorScheme="secondary">
-            SECONDARY
-          </Button>
-          <Button size="sm" variant="link" isDisabled>
-            DISABLED
-          </Button>
-        </Stack>
-        <Divider w="100%" />
+          DISABLED
+        </Button>
+      </Stack>
+      <Divider />
 
-        <Heading size="md">Ghost</Heading>
+      <Heading size="xs">Link</Heading>
 
-        {/* Ghost */}
-        <Stack
-          mb="2.5"
-          mt="1.5"
-          direction={{ base: 'column', md: 'row' }}
-          space={2}
-          mx={{ base: 'auto', md: '0' }}
+      {/* Link */}
+      <Stack
+        direction={{ base: 'column', md: 'row' }}
+        space={2}
+        mx={{ base: 'auto', md: 0 }}
+      >
+        <Button
+          size="sm"
+          variant="link"
+          onPress={() => console.log('hello world')}
         >
-          <Button size="sm" variant="ghost">
-            PRIMARY
-          </Button>
-          <Button size="sm" variant="ghost" colorScheme="secondary">
-            SECONDARY
-          </Button>
-          <Button size="sm" variant="ghost" isDisabled>
-            DISABLED
-          </Button>
-        </Stack>
-
-        <Divider w="100%" />
-
-        <Heading size="md">Unstyled</Heading>
-
-        {/* Unstyled */}
-        <Stack
-          mb="2.5"
-          mt="1.5"
-          direction={{ base: 'column', md: 'row' }}
-          space={2}
-          mx={{ base: 'auto', md: '0' }}
+          PRIMARY
+        </Button>
+        <Button
+          size="sm"
+          variant="link"
+          colorScheme="secondary"
+          onPress={() => console.log('hello world')}
         >
-          <Button variant="unstyled">Unstyled</Button>
-        </Stack>
-      </VStack>
-    </ScrollView>
+          SECONDARY
+        </Button>
+        <Button
+          size="sm"
+          variant="link"
+          isDisabled
+          onPress={() => console.log('hello world')}
+        >
+          DISABLED
+        </Button>
+      </Stack>
+      <Divider />
+
+      <Heading size="xs">Ghost</Heading>
+
+      {/* Ghost */}
+      <Stack
+        direction={{ base: 'column', md: 'row' }}
+        space={2}
+        mx={{ base: 'auto', md: 0 }}
+      >
+        <Button
+          size="sm"
+          variant="ghost"
+          onPress={() => console.log('hello world')}
+        >
+          PRIMARY
+        </Button>
+        <Button
+          size="sm"
+          variant="ghost"
+          colorScheme="secondary"
+          onPress={() => console.log('hello world')}
+        >
+          SECONDARY
+        </Button>
+        <Button
+          size="sm"
+          variant="ghost"
+          isDisabled
+          onPress={() => console.log('hello world')}
+        >
+          DISABLED
+        </Button>
+      </Stack>
+
+      <Divider />
+
+      <Heading size="xs">Unstyled</Heading>
+
+      {/* Unstyled */}
+      <Stack
+        direction={{ base: 'column', md: 'row' }}
+        space={2}
+        mx={{ base: 'auto', md: 0 }}
+      >
+        <Button variant="unstyled" onPress={() => console.log('hello world')}>
+          Unstyled
+        </Button>
+      </Stack>
+    </VStack>
   );
 };

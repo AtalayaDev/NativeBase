@@ -1,34 +1,34 @@
 import React from 'react';
-import { Input, Icon, Stack } from 'native-base';
+import { Input, Icon, Box } from 'native-base';
 import { MaterialIcons } from '@expo/vector-icons';
 
 export const Example = () => {
   return (
-    <Stack space={4} w="100%" alignItems="center">
+    <Box w="100%">
       <Input
-        w={{ base: '75%', md: '25%' }}
         InputLeftElement={
           <Icon
-            as={<MaterialIcons name="person" />}
-            size={5}
-            ml="2"
-            color="muted.400"
+            as={<MaterialIcons name="phone" />}
+            size="md"
+            m={2}
+            _light={{ color: 'black' }}
+            _dark={{ color: 'gray.300' }}
           />
         }
-        placeholder="Name"
-      />
-      <Input
-        w={{ base: '75%', md: '25%' }}
         InputRightElement={
           <Icon
-            as={<MaterialIcons name="visibility-off" />}
-            size={5}
-            mr="2"
-            color="muted.400"
+            as={<MaterialIcons name="person" />}
+            size="md"
+            m={2}
+            _light={{ color: 'black' }}
+            _dark={{ color: 'gray.300' }}
           />
         }
-        placeholder="Password"
+        placeholder="Input"
+        // mx={4}
+        _light={{ placeholderTextColor: 'blueGray.400' }}
+        _dark={{ placeholderTextColor: 'blueGray.50' }}
       />
-    </Stack>
+    </Box>
   );
 };

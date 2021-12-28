@@ -1,37 +1,22 @@
-import { getStyleAndFilteredProps } from '../theme/styled-system';
 import { useTheme } from './useTheme';
-import React from 'react';
-import { useNativeBaseConfig } from '../core/NativeBaseContext';
+import { resolversForBox } from '../utils/styled';
 
-export const useStyledSystemPropsResolver = ({
-  style: propStyle,
-  debug,
-  ...props
-}: any) => {
+export const useStyledSystemPropsResolver = (props: any) => {
   const theme = useTheme();
-  const { currentBreakpoint, config } = useNativeBaseConfig(
-    'makeStyledComponent'
-  );
-  const strictMode = config.strictMode;
+  const propsWithTheme = { ...props, theme };
+  let styleObject: any = {};
+  resolversForBox.forEach((resolver: any) => {
+    styleObject = { ...styleObject, ...resolver(propsWithTheme) };
+  });
 
-  const { style, restProps } = React.useMemo(() => {
-    const { styleSheet, restProps } = getStyleAndFilteredProps({
-      ...props,
-      theme,
-      debug,
-      currentBreakpoint,
-      strictMode,
-    });
-    if (propStyle) {
-      return { style: [styleSheet.box, propStyle], restProps };
-    } else {
-      return { style: styleSheet.box, restProps };
+  for (const property in styleObject) {
+    if (
+      typeof styleObject[property] === 'string' &&
+      styleObject[property].includes('px')
+    ) {
+      styleObject[property] = parseInt(styleObject[property]);
     }
-  }, [props, theme, debug, currentBreakpoint, strictMode, propStyle]);
-  if (process.env.NODE_ENV === 'development' && debug) {
-    /* eslint-disable-next-line */
-    console.log('style,resprops', currentBreakpoint);
   }
 
-  return [style, restProps];
+  return styleObject;
 };

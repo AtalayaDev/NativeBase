@@ -8,9 +8,8 @@ import { Platform, StyleSheet } from 'react-native';
 import { usePropsResolution } from '../../../hooks';
 import Box, { IBoxProps } from '../../primitives/Box';
 import { useId } from '@react-aria/utils';
-import { useHasResponsiveProps } from '../../../hooks/useHasResponsiveProps';
 
-interface ITooltipProps extends IBoxProps<ITooltipProps> {
+interface ITooltipProps extends IBoxProps {
   /**
    * Text to be placed in the tooltip
    */
@@ -102,7 +101,7 @@ export const Tooltip = ({
   hasArrow,
   arrowSize = 12,
   isOpen: isOpenProp,
-  ...props
+  ...rest
 }: ITooltipProps) => {
   if (hasArrow && offset === undefined) {
     offset = 0;
@@ -110,7 +109,7 @@ export const Tooltip = ({
     offset = 6;
   }
 
-  const resolvedProps = usePropsResolution('Tooltip', props);
+  const themeProps = usePropsResolution('Tooltip', rest);
   const [isOpen, setIsOpen] = useControllableState({
     value: isOpenProp,
     defaultValue: defaultIsOpen,
@@ -120,12 +119,12 @@ export const Tooltip = ({
   });
 
   const arrowBg =
-    props.backgroundColor ?? props.bgColor ?? props.bg ?? resolvedProps.bg;
+    rest.backgroundColor ?? rest.bgColor ?? rest.bg ?? themeProps.bg;
 
   const targetRef = React.useRef(null);
 
-  const enterTimeout = React.useRef<any>();
-  const exitTimeout = React.useRef<any>();
+  const enterTimeout = React.useRef<number>();
+  const exitTimeout = React.useRef<number>();
   const tooltipID = useId();
 
   const openWithDelay = React.useCallback(() => {
@@ -186,10 +185,7 @@ export const Tooltip = ({
     enabled: isOpen,
     callback: () => setIsOpen(false),
   });
-  //TODO: refactor for responsive prop
-  if (useHasResponsiveProps(props)) {
-    return null;
-  }
+
   return (
     <>
       {newChildren}
@@ -218,7 +214,7 @@ export const Tooltip = ({
                   />
                 )}
                 <Box
-                  {...resolvedProps}
+                  {...themeProps}
                   //@ts-ignore
                   accessibilityRole={
                     Platform.OS === 'web' ? 'tooltip' : undefined

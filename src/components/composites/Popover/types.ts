@@ -1,7 +1,6 @@
 import type { ColorValue } from 'react-native';
 import type { IBoxProps } from '../../primitives/Box';
 import type { IIconButtonProps } from '../../composites/IconButton';
-import type { MutableRefObject } from 'react';
 
 export type IPopoverArrowProps = {
   height?: number;
@@ -42,11 +41,11 @@ export interface IPopoverProps {
   /**
    * The ref of element to receive focus when the popover opens.
    */
-  initialFocusRef?: React.RefObject<any>;
+  initialFocusRef?: any;
   /**
    * The ref of element to receive focus when the modal closes.
    */
-  finalFocusRef?: React.RefObject<any>;
+  finalFocusRef?: any;
   /**
    * Function that returns a React Element. This element will be used as a Trigger for the popover
    */
@@ -124,39 +123,27 @@ export type IScrollContentStyle = {
   arrowWidth: number;
 };
 
-export interface IPopoverContentProps extends IBoxProps<IPopoverContentProps> {}
+export interface IPopoverContentProps extends IBoxProps {}
 
 export type IPopoverComponentType = ((
-  props: IPopoverProps & { ref?: MutableRefObject<any> }
-) => JSX.Element & { ref?: MutableRefObject<any> }) & {
+  props: IPopoverProps & { ref?: any }
+) => JSX.Element & { ref?: any }) & {
   Body: React.MemoExoticComponent<
-    (
-      props: IBoxProps<IPopoverProps> & { ref?: MutableRefObject<any> }
-    ) => JSX.Element
+    (props: IBoxProps & { ref?: any }) => JSX.Element
   >;
   CloseButton: React.MemoExoticComponent<
-    (
-      props: Omit<IIconButtonProps, 'icon'> & { ref?: MutableRefObject<any> }
-    ) => JSX.Element
+    (props: Omit<IIconButtonProps, 'icon'> & { ref?: any }) => JSX.Element
   >;
   Content: React.MemoExoticComponent<
-    (
-      props: IPopoverContentProps & { ref?: MutableRefObject<any> }
-    ) => JSX.Element
+    (props: IPopoverContentProps & { ref?: any }) => JSX.Element
   >;
   Footer: React.MemoExoticComponent<
-    (
-      props: IBoxProps<IPopoverProps> & { ref?: MutableRefObject<any> }
-    ) => JSX.Element
+    (props: IBoxProps & { ref?: any }) => JSX.Element
   >;
   Header: React.MemoExoticComponent<
-    (
-      props: IBoxProps<IPopoverProps> & { ref?: MutableRefObject<any> }
-    ) => JSX.Element
+    (props: IBoxProps & { ref?: any }) => JSX.Element
   >;
   Arrow: React.MemoExoticComponent<
-    (
-      props: IBoxProps<IPopoverProps> & { ref?: MutableRefObject<any> }
-    ) => JSX.Element
+    (props: IBoxProps & { ref?: any }) => JSX.Element
   >;
 };

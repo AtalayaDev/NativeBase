@@ -1,12 +1,10 @@
 import React from 'react';
-import { TextArea } from 'native-base';
+import { TextArea, Stack } from 'native-base';
 
 export const Example = () => {
   return (
-    <TextArea
-      h={20}
-      placeholder="Text Area Placeholder"
-      w={{ base: '70%', md: '25%' }}
-    />
+    <Stack space={4} w="90%">
+      <TextArea h={20} placeholder="Text Area Placeholder" />
+    </Stack>
   );
 };

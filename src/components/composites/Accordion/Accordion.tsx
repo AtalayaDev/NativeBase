@@ -4,7 +4,6 @@ import type { IAccordionProps } from './types';
 import { useThemeProps } from '../../../hooks';
 import getIndexedChildren from '../../../utils/getIndexedChildren';
 import { AccordionContext } from './Context';
-import { useHasResponsiveProps } from '../../../hooks/useHasResponsiveProps';
 
 const Accordion = (
   {
@@ -29,10 +28,6 @@ const Accordion = (
   } = useThemeProps('Accordion', props);
 
   const [index, setIndex] = React.useState(pIndex || defaultIndex || []);
-  //TODO: refactor for responsive prop
-  if (useHasResponsiveProps(props)) {
-    return null;
-  }
   const changeHandler = (isOpening: boolean, activeIndex: number) => {
     let indexCopy = index.map((i: number) => i);
     if (allowToggle) {
@@ -47,7 +42,7 @@ const Accordion = (
         indexCopy.push(activeIndex);
         allowMultiple ? setIndex(indexCopy) : setIndex([activeIndex]);
       } else {
-        indexCopy = indexCopy.filter((n: any) => n !== activeIndex);
+        indexCopy = indexCopy.filter((n) => n !== activeIndex);
         setIndex(indexCopy);
       }
     }

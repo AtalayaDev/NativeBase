@@ -1,12 +1,7 @@
 import React from 'react';
 import { Pressable, IPressableProps } from '../../primitives/Pressable';
-import { useHasResponsiveProps } from '../../../hooks/useHasResponsiveProps';
 
 const Backdrop = (props: IPressableProps) => {
-  //TODO: refactor for responsive prop
-  if (useHasResponsiveProps(props)) {
-    return null;
-  }
   return (
     <Pressable
       _web={{
@@ -19,8 +14,7 @@ const Backdrop = (props: IPressableProps) => {
       right={0}
       accessible={false}
       importantForAccessibility="no"
-      bg={props.bg || 'rgb(0, 0, 0)'}
-      opacity={0.3}
+      bg={props.bg || 'rgba(0, 0, 0, 0.3)'}
       {...props}
     ></Pressable>
   );

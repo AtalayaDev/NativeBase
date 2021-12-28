@@ -1,19 +1,12 @@
 import React from 'react';
-import {
-  Box,
-  useDisclose,
-  IconButton,
-  Stagger,
-  HStack,
-  Icon,
-} from 'native-base';
-import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
+import { Box, useDisclose, IconButton, Stagger } from 'native-base';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 export const Example = () => {
   const { isOpen, onToggle } = useDisclose();
   return (
     <Box>
-      <Box alignItems="center" minH="220">
+      <Box alignItems="center" minH={220}>
         <Stagger
           visible={isOpen}
           initial={{
@@ -28,10 +21,7 @@ export const Example = () => {
             transition: {
               type: 'spring',
               mass: 0.8,
-              stagger: {
-                offset: 30,
-                reverse: true,
-              },
+              stagger: { offset: 30, reverse: true },
             },
           }}
           exit={{
@@ -40,97 +30,45 @@ export const Example = () => {
             opacity: 0,
             transition: {
               duration: 100,
-              stagger: {
-                offset: 30,
-                reverse: true,
-              },
+              stagger: { offset: 30, reverse: true },
             },
           }}
         >
           <IconButton
-            mb="4"
+            mb={4}
             variant="solid"
-            bg="indigo.500"
-            colorScheme="indigo"
-            borderRadius="full"
-            icon={
-              <Icon
-                as={MaterialIcons}
-                size="6"
-                name="location-pin"
-                _dark={{ color: 'warmGray.50' }}
-                color="warmGray.50"
-              />
-            }
+            rounded="full"
+            icon={<MaterialCommunityIcons size={24} name="share" />}
           />
           <IconButton
-            mb="4"
+            mb={4}
             variant="solid"
-            bg="yellow.400"
-            colorScheme="yellow"
-            borderRadius="full"
-            icon={
-              <Icon
-                as={MaterialCommunityIcons}
-                _dark={{ color: 'warmGray.50' }}
-                size="6"
-                name="microphone"
-                color="warmGray.50"
-              />
-            }
+            rounded="full"
+            icon={<MaterialCommunityIcons size={24} name="heart" />}
           />
           <IconButton
-            mb="4"
+            mb={4}
             variant="solid"
-            bg="teal.400"
-            colorScheme="teal"
-            borderRadius="full"
-            icon={
-              <Icon
-                as={MaterialCommunityIcons}
-                _dark={{ color: 'warmGray.50' }}
-                size="6"
-                name="video"
-                color="warmGray.50"
-              />
-            }
+            rounded="full"
+            icon={<MaterialCommunityIcons size={24} name="library" />}
           />
           <IconButton
-            mb="4"
+            mb={4}
             variant="solid"
-            bg="red.500"
-            colorScheme="red"
-            borderRadius="full"
-            icon={
-              <Icon
-                as={MaterialIcons}
-                size="6"
-                name="photo-library"
-                _dark={{ color: 'warmGray.50' }}
-                color="warmGray.50"
-              />
-            }
+            rounded="full"
+            icon={<MaterialCommunityIcons size={24} name="lighthouse" />}
           />
         </Stagger>
       </Box>
-      <HStack alignItems="center">
-        <IconButton
-          variant="solid"
-          borderRadius="full"
-          size="lg"
-          onPress={onToggle}
-          bg="cyan.400"
-          icon={
-            <Icon
-              as={MaterialCommunityIcons}
-              size="6"
-              name="dots-horizontal"
-              color="warmGray.50"
-              _dark={{ color: 'warmGray.50' }}
-            />
-          }
-        />
-      </HStack>
+      <IconButton
+        variant="solid"
+        rounded="full"
+        size="lg"
+        onPress={onToggle}
+        icon={<MaterialCommunityIcons size={24} name="attachment" />}
+      >
+        Press me
+      </IconButton>
     </Box>
   );
 };

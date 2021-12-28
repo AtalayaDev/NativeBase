@@ -8,7 +8,6 @@ import { Platform } from 'react-native';
 import type { IPopoverContentProps } from './types';
 import { Popper } from '../Popper';
 import { PopoverContext } from './PopoverContext';
-import { useHasResponsiveProps } from '../../../hooks/useHasResponsiveProps';
 
 export const PopoverContent = React.forwardRef(
   (props: IPopoverContentProps, ref: any) => {
@@ -22,17 +21,17 @@ export const PopoverContent = React.forwardRef(
       bodyId,
       headerId,
     } = React.useContext(PopoverContext);
-    const resolvedProps = usePropsResolution('PopoverContent', props);
+    let newProps = usePropsResolution('PopoverContent', props);
 
     const arrowDefaultColor =
       props.bgColor ??
       props.bg ??
       props.backgroundColor ??
-      resolvedProps.backgroundColor;
+      newProps.backgroundColor;
     const color = useToken('colors', arrowDefaultColor);
 
     React.useEffect(() => {
-      const finalFocusRefCurrentVal = finalFocusRef?.current;
+      let finalFocusRefCurrentVal = finalFocusRef?.current;
       if (initialFocusRef && initialFocusRef.current) {
         initialFocusRef.current.focus();
       }
@@ -50,7 +49,7 @@ export const PopoverContent = React.forwardRef(
     });
 
     let arrowElement = null;
-    const restChildren: any = [];
+    let restChildren: any = [];
     React.Children.forEach(props.children, (child) => {
       if (child.type.displayName === 'PopperArrow') {
         arrowElement = React.cloneElement(child, {
@@ -70,16 +69,11 @@ export const PopoverContent = React.forwardRef(
           } as any)
         : {};
 
-    //TODO: refactor for responsive prop
-    if (useHasResponsiveProps(props)) {
-      return null;
-    }
-
     return (
       <Popper.Content
         nativeID={popoverContentId}
         {...accessibilityProps}
-        {...resolvedProps}
+        {...newProps}
         {...props}
         ref={ref}
       >

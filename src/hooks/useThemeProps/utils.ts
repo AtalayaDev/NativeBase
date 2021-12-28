@@ -26,7 +26,7 @@ import { useContrastText } from '../useContrastText';
 export function extractProps(
   props: any,
   theme: any,
-  {},
+  colorModeProps: any,
   componentTheme: any,
   currentBreakpoint: number
 ) {
@@ -51,14 +51,15 @@ export function extractProps(
           );
         }
       } else if (property === 'shadow') {
-        let shadowProps = theme[themePropertyMap[property]][props[property]];
+        let shadowProps = theme[themePropertyMap[property]](colorModeProps)[
+          props[property]
+        ];
         if (!isNil(shadowProps)) {
           newProps = { ...newProps, ...shadowProps };
         }
       } else {
         newProps[property] = resolveValueWithBreakpoint(
           props[property],
-          theme.breakpoints,
           currentBreakpoint,
           property
         );
@@ -66,7 +67,6 @@ export function extractProps(
     } else {
       newProps[property] = resolveValueWithBreakpoint(
         props[property],
-        theme.breakpoints,
         currentBreakpoint,
         property
       );
@@ -164,14 +164,13 @@ export function mergeUnderscoreProps(newProps: any, props: any) {
  */
 export const resolveValueWithBreakpoint = (
   values: any,
-  breakpointTheme: any,
   currentBreakpoint: number,
   property: any
 ) => {
-  if (hasValidBreakpointFormat(values, breakpointTheme, property)) {
+  if (hasValidBreakpointFormat(values, property)) {
     // Check the last valid breakpoint value from all values
     // If current breakpoint is `md` and we have `base` then `lg`, then last value will be taken(`base` in this case)
-    return findLastValidBreakpoint(values, breakpointTheme, currentBreakpoint);
+    return findLastValidBreakpoint(values, currentBreakpoint);
   } else {
     return values;
   }

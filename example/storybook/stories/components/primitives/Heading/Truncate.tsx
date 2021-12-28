@@ -4,8 +4,7 @@ import { Heading } from 'native-base';
 export function Example() {
   return (
     <Heading isTruncated>
-      NativeBase is a simple, modular and accessible component library that
-      gives you building blocks to build you React applications.
+      Basic text writing, including headings, body text, lists, and more.
     </Heading>
   );
 }

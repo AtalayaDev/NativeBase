@@ -8,12 +8,8 @@ export const Example = () => {
       // Add new color
       custom: {
         100: '#f7c',
-        200: '#333',
+        200: '#faa',
         300: '#1ac',
-      },
-      amber: {
-        400: '#4B5563',
-        500: '#E7E5E4',
       },
     },
     config: {
@@ -24,7 +20,7 @@ export const Example = () => {
       Button: {
         // Can simply pass default props to change default behaviour of components.
         defaultProps: {
-          colorScheme: 'primary',
+          colorScheme: 'red',
         },
       },
       Checkbox: {
@@ -42,7 +38,7 @@ export const Example = () => {
         // Can pass also function, giving you access themeingTools
         baseStyle: (props: any) => {
           return {
-            color: themeTools.mode('coolGray.800', 'warmGray.50')(props),
+            color: themeTools.mode('red.300', 'blue.300')(props),
             fontWeight: 'normal',
           };
         },

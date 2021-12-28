@@ -1,13 +1,8 @@
 import React from 'react';
 import Center from './Center';
 import type { ISquareProps } from './types';
-import { useHasResponsiveProps } from '../../../hooks/useHasResponsiveProps';
 
 const Square = ({ style, size, ...props }: ISquareProps) => {
-  //TODO: refactor for responsive prop
-  if (useHasResponsiveProps(props)) {
-    return null;
-  }
   return (
     <Center
       size={size}

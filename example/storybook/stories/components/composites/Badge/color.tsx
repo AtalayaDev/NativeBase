@@ -7,7 +7,7 @@ export function Example() {
       <Badge colorScheme="success">SUCCESS</Badge>
       <Badge colorScheme="danger">DANGER</Badge>
       <Badge colorScheme="info">INFO</Badge>
-      <Badge colorScheme="coolGray">DARK</Badge>
+      <Badge colorScheme="dark">DARK</Badge>
     </HStack>
   );
 }

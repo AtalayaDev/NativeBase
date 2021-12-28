@@ -13,15 +13,13 @@ import {
   ActionsheetItem,
 } from './actionsheet';
 import { Select, SelectItem } from './select';
-import { Alert, AlertIcon } from './alert';
-import AspectRatio from './aspect-ratio';
+import { Alert, AlertDescription, AlertTitle, AlertIcon } from './alert';
 import Avatar from './avatar';
 import AvatarBadge from './avatar-badge';
 import AvatarGroup from './avatar-group';
 import Badge from './badge';
-import { Breadcrumb, BreadcrumbText, BreadcrumbIcon } from './breadcrumb';
+import Breadcrumb from './breadcrumb';
 import Button, { ButtonGroup } from './button';
-import Card from './card';
 import Center from './center';
 import Checkbox from './checkbox';
 import Box from './box';
@@ -61,22 +59,12 @@ import {
   ModalOverlay,
   ModalCloseButton,
 } from './modal';
-import {
-  AlertDialog,
-  AlertDialogContent,
-  AlertDialogHeader,
-  AlertDialogBody,
-  AlertDialogFooter,
-  AlertDialogOverlay,
-  AlertDialogCloseButton,
-} from './alert-dialog';
 import * as PopoverComponentTheme from './popover';
 import { default as NumberInput, NumberInputStepper } from './number-input';
 import PinInput from './pin-input';
-import Pressable from './pressable';
 import Progress from './progress';
 import Radio from './radio';
-import { Skeleton, SkeletonText } from './skeleton';
+import Skeleton from './skeleton';
 import Spinner from './spinner';
 import Stat from './stat';
 import Switch from './switch';
@@ -97,8 +85,7 @@ import View from './view';
 import ZStack from './zstack';
 import FAB from './fab';
 import { SliderTrack, Slider, SliderThumb, SliderFilledTrack } from './slider';
-import InputLeftAddon from './inputleftaddon';
-import InputRightAddon from './inputrightaddon';
+
 export default {
   FlatList,
   KeyboardAvoidingView,
@@ -116,21 +103,17 @@ export default {
   // ActionsheetFooter,
   ActionsheetItem,
   Alert,
-  // AlertDescription,
-  // AlertTitle,
+  AlertDescription,
+  AlertTitle,
   AlertIcon,
-  AspectRatio,
   Avatar,
   AvatarBadge,
   AvatarGroup,
   Badge,
   Box,
   Breadcrumb,
-  BreadcrumbText,
-  BreadcrumbIcon,
   Button,
   ButtonGroup,
-  Card,
   Center,
   Checkbox,
   CircularProgress,
@@ -151,8 +134,6 @@ export default {
   IconButton,
   Image,
   Input,
-  InputLeftAddon,
-  InputRightAddon,
   Kbd,
   Link,
   List,
@@ -168,17 +149,9 @@ export default {
   ModalFooter,
   ModalOverlay,
   ModalCloseButton,
-  AlertDialog,
-  AlertDialogContent,
-  AlertDialogHeader,
-  AlertDialogBody,
-  AlertDialogFooter,
-  AlertDialogOverlay,
-  AlertDialogCloseButton,
   NumberInput,
   NumberInputStepper,
   PinInput,
-  Pressable,
   ...PopoverComponentTheme,
   Progress,
   Radio,
@@ -187,7 +160,6 @@ export default {
   SelectItem,
   SimpleGrid,
   Skeleton,
-  SkeletonText,
   SliderFilledTrack,
   SliderThumb,
   SliderTrack,

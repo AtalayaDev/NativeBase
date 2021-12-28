@@ -1,20 +1,20 @@
 import { mode } from '../tools';
 
 function baseStyle(props: Record<string, any>) {
-  const { orientation, thickness } = props;
+  const { orientation, size } = props;
   const orientationProps =
     orientation === 'vertical'
       ? {
-          width: `${thickness}px`, // handle for web : To be discussed
+          width: `${size}px`, // handle for web : To be discussed
           height: '100%',
         }
       : {
           width: '100%',
-          height: `${thickness}px`,
+          height: `${size}px`,
         };
 
   return {
-    bg: mode('coolGray.200', 'gray.600')(props),
+    bg: mode('muted.200', 'muted.500')(props),
     ...orientationProps,
   };
 }
@@ -23,6 +23,6 @@ export default {
   baseStyle,
   defaultProps: {
     orientation: 'horizontal',
-    thickness: '1',
+    size: 1,
   },
 };

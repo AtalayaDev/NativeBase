@@ -1,15 +1,13 @@
 import React from 'react';
 import { VStack } from '../Stack';
 import type { IListProps } from './types';
-import { usePropsResolution } from '../../../hooks';
-import { useHasResponsiveProps } from '../../../hooks/useHasResponsiveProps';
+import { useThemeProps } from '../../../hooks';
 
-const UnorderedList = ({ children, ...props }: IListProps, ref?: any) => {
-  const { _text, _hover, ...resolvedProps } = usePropsResolution('List', props);
-  //TODO: refactor for responsive prop
-  if (useHasResponsiveProps(props)) {
-    return null;
-  }
+const UnorderedList = (
+  { style, children, ...props }: IListProps,
+  ref?: any
+) => {
+  const { _text, _hover, ...newProps } = useThemeProps('List', props);
   // add props to children
   children = React.Children.map(children, (child: any, ind: number) => {
     return React.cloneElement(
@@ -26,7 +24,7 @@ const UnorderedList = ({ children, ...props }: IListProps, ref?: any) => {
   });
 
   return (
-    <VStack {...resolvedProps} ref={ref}>
+    <VStack style={style} {...newProps} ref={ref}>
       {children}
     </VStack>
   );

@@ -2,77 +2,67 @@ import React, { memo, forwardRef } from 'react';
 import { Platform } from 'react-native';
 import type { ILinkProps } from './types';
 import Box from '../Box';
-import Text from '../Text';
 import { usePropsResolution } from '../../../hooks';
 import { useLink } from './useLink';
 import { mergeRefs } from '../../../utils';
 import { Pressable } from '../Pressable';
 import { useHover } from '@react-native-aria/interactions';
-import { useHasResponsiveProps } from '../../../hooks/useHasResponsiveProps';
+import { extractInObject, stylingProps } from '../../../theme/tools/utils';
 
-const Link = (props: ILinkProps, ref: any) => {
-  const _ref = React.useRef(null);
-  const { isHovered } = useHover({}, _ref);
-  const {
-    isUnderlined,
-    children,
-    _text,
+const Link = (
+  {
+    style,
     href,
+    isUnderlined = false,
     onPress,
     isExternal,
-    ...resolvedProps
-  } = usePropsResolution('Link', props, { isHovered });
-  const { linkProps } = useLink({ href, onPress, isExternal, _ref });
-
+    children,
+    wrapperRef,
+    ...props
+  }: ILinkProps,
+  ref: any
+) => {
+  const [layoutProps, remProps] = extractInObject(props, [
+    ...stylingProps.margin,
+    ...stylingProps.position,
+    ...stylingProps.layout,
+  ]);
+  let { _hover, _text, ...newProps } = usePropsResolution('Link', remProps);
+  const _ref = React.useRef(null);
+  const { isHovered } = useHover({}, _ref);
   const linkTextProps = {
     textDecorationLine: isUnderlined ? 'underline' : 'none',
     ..._text,
   };
-  // function getHoverProps() {
-  //   let hoverTextProps = {
-  //     ...linkTextProps,
-  //     ..._hover?._text,
-  //   };
-  //   return {
-  //     ...hoverTextProps,
-  //   };
-  // }
-  //TODO: refactor for responsive prop
-  if (useHasResponsiveProps(props)) {
-    return null;
-  }
+  const { linkProps } = useLink({ href, onPress, isExternal, _ref });
   return (
-    <>
+    <Box {...layoutProps} ref={wrapperRef}>
       {/* On web we render Link in anchor tag */}
       {Platform.OS === 'web' ? (
         <Box
           {...linkProps}
-          {...resolvedProps}
+          {...newProps}
           _text={linkTextProps}
+          {...(isHovered && _hover)}
           ref={mergeRefs([ref, _ref])}
           flexDirection="row"
+          style={style}
         >
           {children}
         </Box>
       ) : (
-        <Pressable
-          {...linkProps}
-          {...resolvedProps}
-          ref={ref}
-          flexDirection="row"
-        >
-          {React.Children.map(children, (child) =>
-            typeof child === 'string' || typeof child === 'number' ? (
-              <Text {...resolvedProps._text} {...linkTextProps}>
-                {child}
-              </Text>
-            ) : (
-              child
-            )
-          )}
+        <Pressable {...linkProps} {...newProps} ref={ref}>
+          <Box
+            _text={linkTextProps}
+            {...newProps}
+            flexDirection="row"
+            style={style}
+          >
+            {children}
+          </Box>
         </Pressable>
       )}
-    </>
+    </Box>
   );
 };
 

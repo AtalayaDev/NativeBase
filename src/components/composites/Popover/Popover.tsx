@@ -11,7 +11,6 @@ import { PresenceTransition } from '../Transitions';
 import { StyleSheet } from 'react-native';
 import { useId } from '@react-aria/utils';
 import { Overlay } from '../../primitives/Overlay';
-import { useHasResponsiveProps } from '../../../hooks/useHasResponsiveProps';
 
 const Popover = (
   {
@@ -24,7 +23,7 @@ const Popover = (
     initialFocusRef,
     finalFocusRef,
     trapFocus = true,
-    ...props
+    ...rest
   }: IPopoverProps,
   ref: any
 ) => {
@@ -49,7 +48,7 @@ const Popover = (
     setIsOpen(true);
   }, [setIsOpen]);
 
-  const updatedTrigger = () => {
+  let updatedTrigger = () => {
     return trigger(
       {
         'ref': mergedRef,
@@ -65,10 +64,6 @@ const Popover = (
   const handleClose = () => {
     setIsOpen(false);
   };
-  //TODO: refactor for responsive prop
-  if (useHasResponsiveProps(props)) {
-    return null;
-  }
 
   return (
     <Box ref={ref}>
@@ -81,7 +76,7 @@ const Popover = (
           visible={isOpen}
           style={StyleSheet.absoluteFill}
         >
-          <Popper onClose={handleClose} triggerRef={triggerRef} {...props}>
+          <Popper onClose={handleClose} triggerRef={triggerRef} {...rest}>
             <Backdrop onPress={handleClose} bg="transparent" />
             <PopoverContext.Provider
               value={{

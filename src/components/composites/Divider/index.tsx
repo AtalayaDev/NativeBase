@@ -3,22 +3,14 @@ import { Platform } from 'react-native';
 import { usePropsResolution } from '../../../hooks/useThemeProps';
 import Box from './../../primitives/Box';
 import type { IDividerProps } from './types';
-import { useHasResponsiveProps } from '../../../hooks/useHasResponsiveProps';
+import { extractInObject } from '../../../theme/tools';
 
 const Divider = (props: IDividerProps, ref?: any) => {
-  const { orientation, ...resolvedProps } = usePropsResolution(
-    'Divider',
-    props,
-    {},
-    { resolveResponsively: ['thickness'] }
-  );
-  //TODO: refactor for responsive prop
-  if (useHasResponsiveProps(props)) {
-    return null;
-  }
+  const { orientation, ...newProps } = usePropsResolution('Divider', props);
+  const [, remainingProps] = extractInObject(newProps, ['size']);
   return (
     <Box
-      {...resolvedProps}
+      {...remainingProps}
       ref={ref}
       aria-orientation={orientation}
       //@ts-ignore web only role

@@ -9,33 +9,11 @@ import {
   useColorModeValue,
   Tooltip,
   SunIcon,
-  extendTheme,
-  Button,
 } from 'native-base';
 import type { StorageManager } from 'native-base';
+import { Button } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
 import Config from '../../../nativebase.config';
-
-const myTheme = extendTheme({
-  space: {
-    mySpace: '29px',
-  },
-  components: {
-    Button: {
-      variants: {
-        myBtn: {
-          padding: 10,
-        },
-      },
-    },
-  },
-});
-
-type MyThemeType = typeof myTheme;
-declare module 'native-base' {
-  interface ICustomTheme extends MyThemeType {}
-}
 
 function MyWrapper({ children }: any) {
   const { colorMode, toggleColorMode } = useColorMode();
@@ -45,7 +23,6 @@ function MyWrapper({ children }: any) {
   return (
     <Box
       flex={1}
-      px="3"
       justifyContent="center"
       alignItems="center"
       bg={bgColor}
@@ -61,7 +38,6 @@ function MyWrapper({ children }: any) {
           position="absolute"
           top={12}
           right={8}
-          zIndex={4}
           onPress={toggleColorMode}
           icon={colorMode === 'dark' ? <SunIcon /> : <MoonIcon />}
         />
@@ -103,10 +79,6 @@ export default ({ children, theme }: any) => {
       theme={theme}
       config={Config}
       colorModeManager={colorModeManager}
-      initialWindowMetrics={{
-        frame: { x: 0, y: 0, width: 0, height: 0 },
-        insets: { top: 0, left: 0, right: 0, bottom: 0 },
-      }}
     >
       <MyWrapper>{children}</MyWrapper>
     </NativeBaseProvider>

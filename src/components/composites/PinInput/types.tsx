@@ -1,7 +1,4 @@
-import type { MutableRefObject } from 'react';
 import type { IInputProps } from '../../primitives';
-import type { ResponsiveValue } from '../../../components/types';
-import type { ISizes } from '../../../theme/base/sizes';
 
 export type IPinInputProps = IInputProps & {
   onChange?: (value: string) => void;
@@ -11,22 +8,20 @@ export type IPinInputProps = IInputProps & {
 
 export type IPinInputFieldProps = IInputProps & {
   fieldIndex?: number;
-  inputSize?: number | string;
+  inputSize?: any;
 };
 export type IPinInputComponentType = ((
-  props: IPinInputProps & { ref?: MutableRefObject<any> }
+  props: IPinInputProps & { ref?: any }
 ) => JSX.Element) & {
   Field: React.MemoExoticComponent<
-    (
-      props: IPinInputFieldProps & { ref?: MutableRefObject<any> }
-    ) => JSX.Element
+    (props: IPinInputFieldProps & { ref?: any }) => JSX.Element
   >;
 };
 export type IPinInputContext = IPinInputProps & {
   handleChange?: (value: string, index: number) => void;
   handleMultiValueChange?: (value: string, index: number) => void;
   value?: string[] | string;
-  size?: ResponsiveValue<ISizes | (string & {}) | number>;
+  size?: string;
   defaultValue?: string[] | string;
   setRefList?: (ref: any, index: number) => void;
 };

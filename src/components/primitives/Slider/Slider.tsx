@@ -1,15 +1,14 @@
 import React, { forwardRef } from 'react';
 import { useSliderState } from '@react-stately/slider';
 import { useLayout } from '../../../hooks';
-import { usePropsResolution } from '../../../hooks';
+import { usePropsResolution } from '../../../hooks/useThemeProps';
 import type { ISliderProps } from './types';
 import Box from '../Box';
 import { SliderContext } from './Context';
 import { useSlider } from '@react-native-aria/slider';
-import { useHasResponsiveProps } from '../../../hooks/useHasResponsiveProps';
 
-function Slider({ isDisabled, isReadOnly, ...props }: ISliderProps, ref?: any) {
-  const newProps = {
+function Slider(props: ISliderProps, ref?: any) {
+  let newProps = {
     ...props,
     'aria-label': props.accessibilityLabel ?? 'Slider',
   };
@@ -27,14 +26,9 @@ function Slider({ isDisabled, isReadOnly, ...props }: ISliderProps, ref?: any) {
   props = newProps;
 
   const { onLayout, layout: trackLayout } = useLayout();
-  const updatedProps: ISliderProps = Object.assign({}, props);
-
-  if (isReadOnly || isDisabled) {
-    updatedProps.isDisabled = true;
-  }
 
   const state = useSliderState({
-    ...updatedProps,
+    ...props,
     //@ts-ignore
     numberFormatter: { format: (e) => e },
     minValue: props.minValue,
@@ -47,62 +41,35 @@ function Slider({ isDisabled, isReadOnly, ...props }: ISliderProps, ref?: any) {
     },
   });
 
-  const resolvedProps = usePropsResolution('Slider', props, {
-    isDisabled,
-    isReadOnly,
-  });
+  const themeProps = usePropsResolution('Slider', props);
 
-  const { trackProps } = useSlider(
-    (props as unknown) as any,
-    state,
-    trackLayout
-  );
+  let { trackProps } = useSlider((props as unknown) as any, state, trackLayout);
 
   const wrapperStyle = {
     height: props.orientation === 'vertical' ? '100%' : undefined,
     width: props.orientation !== 'vertical' ? '100%' : undefined,
   };
-  const contextValue = React.useMemo(() => {
-    return {
-      trackLayout,
-      state,
-      orientation: props.orientation,
-      isDisabled: isDisabled,
-      isReversed: props.isReversed,
-      colorScheme: props.colorScheme,
-      trackProps,
-      isReadOnly: isReadOnly,
-      onTrackLayout: onLayout,
-      thumbSize: resolvedProps.thumbSize,
-      sliderSize: resolvedProps.sliderSize,
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    trackLayout,
-    state,
-    props.orientation,
-    isDisabled,
-    props.isReversed,
-    props.colorScheme,
-    isReadOnly,
-    onLayout,
-    resolvedProps.thumbSize,
-    resolvedProps.sliderSize,
-  ]);
-
-  //TODO: refactor for responsive prop
-  if (useHasResponsiveProps(props)) {
-    return null;
-  }
 
   return (
-    <SliderContext.Provider value={contextValue}>
+    <SliderContext.Provider
+      value={{
+        trackLayout,
+        state,
+        orientation: props.orientation,
+        isReversed: props.isReversed,
+        colorScheme: props.colorScheme,
+        trackProps,
+        onTrackLayout: onLayout,
+        thumbSize: themeProps.thumbSize,
+        sliderSize: themeProps.sliderSize,
+      }}
+    >
       <Box
         {...wrapperStyle}
         justifyContent="center"
         ref={ref}
         alignItems="center"
-        {...resolvedProps}
+        {...themeProps}
       >
         {React.Children.map(props.children, (child, index) => {
           if (child.displayName === 'SliderThumb') {

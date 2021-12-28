@@ -2,9 +2,8 @@ import React, { memo, forwardRef } from 'react';
 import { default as Box, IBoxProps } from '../Box';
 import { getAbsoluteChildren } from '../../../utils';
 import { usePropsResolution } from '../../../hooks/useThemeProps';
-import { useHasResponsiveProps } from '../../../hooks/useHasResponsiveProps';
 
-export interface IZStackProps extends IBoxProps<IZStackProps> {
+export interface IZStackProps extends IBoxProps {
   /**
    * The direction to stack the elements.
    */
@@ -12,13 +11,9 @@ export interface IZStackProps extends IBoxProps<IZStackProps> {
 }
 
 const ZStack = ({ children, reversed, ...props }: IZStackProps, ref?: any) => {
-  const resolvedProps = usePropsResolution('ZStack', props);
-  //TODO: refactor for responsive prop
-  if (useHasResponsiveProps(props)) {
-    return null;
-  }
+  const newProps = usePropsResolution('ZStack', props);
   return (
-    <Box {...resolvedProps} ref={ref}>
+    <Box {...newProps} ref={ref}>
       {getAbsoluteChildren(children, reversed)}
     </Box>
   );

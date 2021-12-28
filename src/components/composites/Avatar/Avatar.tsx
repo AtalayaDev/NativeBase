@@ -2,14 +2,16 @@ import React, { memo, forwardRef } from 'react';
 import { Box, Image, Text } from '../../primitives';
 import { usePropsResolution } from '../../../hooks/useThemeProps';
 import type { IAvatarProps } from './types';
-import { useHasResponsiveProps } from '../../../hooks/useHasResponsiveProps';
 
-const Avatar = ({ children, ...props }: IAvatarProps, ref: any) => {
+const Avatar = ({ wrapperRef, ...props }: IAvatarProps, ref: any) => {
   const [error, setError] = React.useState(false);
-  const { _text, source, style, ...resolvedProps } = usePropsResolution(
-    'Avatar',
-    props
-  );
+  const { size, style, source, children, ...remainingProps } = props;
+
+  const { _text, ...newProps } = usePropsResolution('Avatar', {
+    ...remainingProps,
+    name: 'avatar',
+    size,
+  });
 
   let Badge = <></>;
   const remainingChildren: JSX.Element[] = [];
@@ -22,7 +24,7 @@ const Avatar = ({ children, ...props }: IAvatarProps, ref: any) => {
       Badge = child;
     } else {
       remainingChildren.push(
-        typeof child === 'string' || typeof child === 'number' ? (
+        typeof child === 'string' ? (
           <Text key={'avatar-children-' + key} {..._text}>
             {child}
           </Text>
@@ -33,16 +35,13 @@ const Avatar = ({ children, ...props }: IAvatarProps, ref: any) => {
     }
   });
 
-  const imageFitStyle: any = { height: '100%', width: '100%' };
-  //TODO: refactor for responsive prop
-  if (useHasResponsiveProps(props)) {
-    return null;
-  }
+  const imageFitStyle = { height: '100%', width: '100%' };
+
   return (
-    <Box {...resolvedProps}>
+    <Box {...newProps} style={style} ref={wrapperRef}>
       {source && !error ? (
         <Image
-          borderRadius={resolvedProps.borderRadius}
+          borderRadius={newProps.borderRadius}
           source={source}
           alt={'--'}
           _alt={_text}

@@ -1,14 +1,25 @@
 import type { ActivityIndicatorProps } from 'react-native';
-import type { StyledProps } from '../../../theme/types';
-import type { ResponsiveValue } from '../../../components/types';
+import type { SpaceProps, LayoutProps, PositionProps } from '../../types';
+
 export interface ISpinnerProps
   extends Omit<ActivityIndicatorProps, 'size'>,
-    Omit<StyledProps, 'size' | 'color'> {
+    SpaceProps,
+    LayoutProps,
+    LayoutProps,
+    PositionProps,
+    PositionProps {
+  /**
+   * Style to be passed in ActivityIndicator
+   */
+  style?: any | undefined;
   /**
    * Size of Spinner
    */
-  size?: ResponsiveValue<'sm' | 'lg'>;
-
+  size?: 'sm' | 'lg' | 'small' | 'large' | number;
+  /**
+   * Accessibility label. This will be announced by screen reader when a user hovers or touches the spinner.
+   */
+  accessibilityLabel?: string;
   // variant?:
   //   | 'custom'
   //   | 'dotted'

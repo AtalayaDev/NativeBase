@@ -14,7 +14,6 @@ export const Example = () => {
       borderRadius={999}
       borderWidth={2}
       borderColor={'black'}
-      bg="teal.600"
       size={select('size', ['sm', 'md', 'lg'], 'md')}
     >
       {text('name', 'NB')}

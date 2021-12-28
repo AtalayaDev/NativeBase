@@ -1,30 +1,50 @@
 import React, { memo, forwardRef } from 'react';
 import { useToggleState } from '@react-stately/toggle';
-import { Switch as RNSwitch } from 'react-native';
+import { StyleSheet, ViewStyle, Switch as RNSwitch } from 'react-native';
+import styled from 'styled-components/native';
 import isNil from 'lodash.isnil';
 import { usePropsResolution } from '../../../hooks/useThemeProps';
 import { useToken } from '../../../hooks';
-import { makeStyledComponent } from '../../../utils/styled';
+import { border, color, flexbox, layout, space, position } from 'styled-system';
+import {
+  customBorder,
+  customBackground,
+  customOutline,
+  customLayout,
+  customExtra,
+  customShadow,
+  customPosition,
+} from '../../../utils/customProps';
 import type { ISwitchProps } from './types';
 import { mergeRefs } from '../../../utils';
 import { useHover } from '@react-native-aria/interactions';
-import { useHasResponsiveProps } from '../../../hooks/useHasResponsiveProps';
 
-const StyledNBSwitch = makeStyledComponent(RNSwitch);
+const StyledNBSwitch = styled(RNSwitch)<ISwitchProps>(
+  color,
+  space,
+  layout,
+  flexbox,
+  border,
+  position,
+  customPosition,
+  customBorder,
+  customBackground,
+  customOutline,
+  customShadow,
+  customExtra,
+  customLayout
+);
 
-// TODO: Needs proper refactor
 const Switch = (
   {
-    disabled,
+    style,
+    onToggle,
     isDisabled,
     isInvalid,
     isChecked,
     defaultIsChecked,
     accessibilityLabel,
     accessibilityHint,
-    onToggle,
-    value,
-    onValueChange,
     ...props
   }: ISwitchProps,
   ref: any
@@ -32,42 +52,36 @@ const Switch = (
   const state = useToggleState({
     defaultSelected: !isNil(defaultIsChecked) ? defaultIsChecked : false,
   });
-  const checked = !isNil(isChecked) ? isChecked : state.isSelected;
-  const _ref = React.useRef(null);
-  const { isHovered } = useHover({}, _ref);
-
   const {
     onTrackColor: _onTrackColor,
     offTrackColor: _offTrackColor,
     onThumbColor: _onThumbColor,
     offThumbColor: _offThumbColor,
-    ...resolvedProps
-  } = usePropsResolution('Switch', props, {
-    isHovered,
-    isDisabled: disabled || isDisabled,
-    isInvalid,
-    isChecked: checked,
-  });
-
+    style: themeStyle,
+    _hover,
+    ...newProps
+  } = usePropsResolution('Switch', props);
+  const borderColorInvalid = useToken('colors', 'danger.600');
+  const checked = !isNil(isChecked) ? isChecked : state.isSelected;
   const onTrackColor = useToken('colors', _onTrackColor);
   const offTrackColor = useToken('colors', _offTrackColor);
   const onThumbColor = useToken('colors', _onThumbColor);
   const offThumbColor = useToken('colors', _offThumbColor);
+  const inValidPropFactors = {
+    borderWidth: 1,
+    borderRadius: 16,
+    borderColor: borderColorInvalid,
+  };
 
-  //TODO: refactor for responsive prop
-  if (
-    useHasResponsiveProps({
-      ...props,
-      isDisabled,
-      isInvalid,
-      isChecked,
-      defaultIsChecked,
-      accessibilityLabel,
-      accessibilityHint,
-    })
-  ) {
-    return null;
-  }
+  let computedStyle: ViewStyle = StyleSheet.flatten([
+    themeStyle,
+    style,
+    isInvalid ? inValidPropFactors : {},
+  ]);
+
+  const _ref = React.useRef(null);
+  const { isHovered } = useHover({}, _ref);
+
   return (
     <StyledNBSwitch
       accessibilityLabel={accessibilityLabel}
@@ -76,14 +90,14 @@ const Switch = (
       thumbColor={checked ? onThumbColor : offThumbColor}
       activeThumbColor={onThumbColor} // react-native-web prop for active thumbColor
       ios_backgroundColor={offTrackColor}
-      {...resolvedProps}
-      disabled={disabled || isDisabled}
-      onValueChange={(val: boolean) => {
-        onValueChange && onValueChange(val);
-        onToggle ? onToggle() : state.toggle();
-      }}
-      value={value || checked}
+      {...(isHovered && _hover)}
+      {...newProps}
+      disabled={isDisabled}
+      onValueChange={onToggle ? onToggle : state.toggle}
+      value={checked}
+      style={computedStyle}
       ref={mergeRefs([ref, _ref])}
+      opacity={isDisabled ? 0.4 : 1}
     />
   );
 };

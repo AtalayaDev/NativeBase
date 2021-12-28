@@ -1,85 +1,79 @@
-import React, { useState, memo, forwardRef, useCallback, useRef } from 'react';
+import React, { useState, memo, forwardRef } from 'react';
 import { Image as RNImage } from 'react-native';
+import styled from 'styled-components/native';
+import { border, color, flexbox, layout, space, position } from 'styled-system';
+import {
+  customBorder,
+  customBackground,
+  customOutline,
+  customLayout,
+  customExtra,
+  customShadow,
+  customPosition,
+} from '../../../utils/customProps';
 import Text from '../Text';
 import { usePropsResolution } from '../../../hooks/useThemeProps';
 import type { IImageProps } from './types';
-import { useHasResponsiveProps } from '../../../hooks/useHasResponsiveProps';
-import { makeStyledComponent } from '../../../utils/styled';
 
-const StyledImage = makeStyledComponent(RNImage);
+const StyledImage = styled(RNImage)<IImageProps>(
+  color,
+  space,
+  layout,
+  flexbox,
+  border,
+  position,
+  customPosition,
+  customBorder,
+  customBackground,
+  customOutline,
+  customShadow,
+  customExtra,
+  customLayout
+);
 
-const Image = (props: IImageProps, ref: any) => {
+const Image = ({ source, ...props }: IImageProps, ref: any) => {
   const {
-    source,
-    src,
-    fallbackElement,
     alt,
     fallbackSource,
     ignoreFallback,
     _alt,
-    ...resolvedProps
+    ...newProps
   } = usePropsResolution('Image', props);
-
-  const finalSource: any = useRef(null);
-  const getSource = useCallback(() => {
-    if (source) {
-      finalSource.current = source;
-    } else if (src) {
-      finalSource.current = { uri: src };
-    }
-    return finalSource.current;
-  }, [source, src]);
-
-  const [renderedSource, setSource] = useState(getSource());
+  const [renderedSource, setSource] = useState(source);
   const [alternate, setAlternate] = useState(false);
-  const [fallbackSourceFlag, setfallbackSourceFlag] = useState(true);
 
   React.useEffect(() => {
-    return () => {
-      finalSource.current = null;
-    };
-  }, [source, src, getSource]);
+    setAlternate(false);
+    setSource(source);
+  }, [source]);
 
-  const onImageLoadError = useCallback(
-    (event: any) => {
-      props.onError && props.onError(event);
-      console.warn(event.nativeEvent.error);
-      if (
-        !ignoreFallback &&
-        fallbackSource &&
-        fallbackSource !== renderedSource &&
-        fallbackSourceFlag
-      ) {
-        setfallbackSourceFlag(false);
-        setSource(fallbackSource);
-      } else {
-        setAlternate(true);
-      }
-    },
-    [fallbackSource, fallbackSourceFlag, ignoreFallback, props, renderedSource]
-  );
-  //TODO: refactor for responsive prop
-  if (useHasResponsiveProps(props)) {
-    return null;
-  }
+  const onImageLoadError = (event: any) => {
+    console.warn(event.nativeEvent.error);
+    if (
+      !ignoreFallback &&
+      fallbackSource &&
+      fallbackSource !== renderedSource
+    ) {
+      setSource(fallbackSource);
+    } else {
+      setAlternate(true);
+    }
+  };
+
   if (!alt) {
     console.warn('Please pass alt prop to Image component');
   }
 
   if (alternate) {
-    if (fallbackElement) {
-      if (React.isValidElement(fallbackElement)) {
-        return fallbackElement;
-      }
-    } else return <Text {..._alt}>{alt}</Text>;
+    return <Text {..._alt}>{alt}</Text>;
   }
   return (
     <StyledImage
       source={renderedSource}
       accessibilityLabel={alt}
       alt={alt}
-      {...resolvedProps}
-      onError={onImageLoadError}
+      {...newProps}
+      onError={props.onError ? props.onError : onImageLoadError}
       ref={ref}
     />
   );

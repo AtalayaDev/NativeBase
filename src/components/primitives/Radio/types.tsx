@@ -2,14 +2,12 @@ import type { IBoxProps } from '../../primitives';
 import type { IFormControlContext } from '../../composites';
 import type { AccessibilityRole } from 'react-native';
 import type { RadioGroupState } from '@react-stately/radio';
-import type { MutableRefObject } from 'react';
-import type { ResponsiveValue } from '../../../components/types';
-import type { ISizes } from '../../../theme/base/sizes';
+
 export type IRadioValue = string;
 
 export type IRadioGroupOnChangeHandler = (value: IRadioValue) => any;
 
-export interface IRadioProps extends IBoxProps<IRadioProps> {
+export interface IRadioProps extends IBoxProps {
   /**
    * The value to be used in the radio input. This is the value that will be returned on form submission
    */
@@ -30,9 +28,7 @@ export interface IRadioProps extends IBoxProps<IRadioProps> {
   /**
    * 	The size (width and height) of the radio.
    */
-
-  size?: ResponsiveValue<ISizes | (string & {}) | number>;
-
+  size?: 'sm' | 'md' | 'lg';
   /**
    * If given, will use this icon instead of the default.
    */
@@ -42,7 +38,7 @@ export interface IRadioProps extends IBoxProps<IRadioProps> {
    */
   wrapperRef?: any;
 }
-export interface IRadioGroupProps extends IBoxProps<IRadioGroupProps> {
+export interface IRadioGroupProps extends IBoxProps {
   /**
    * The value of the radio group.
    */
@@ -63,7 +59,7 @@ export interface IRadioGroupProps extends IBoxProps<IRadioGroupProps> {
   /**
    * 	The size (width and height) of the radio.
    */
-  size?: ResponsiveValue<ISizes | (string & {}) | number>;
+  size?: 'sm' | 'md' | 'lg';
   /**
    *
    */
@@ -78,7 +74,8 @@ export interface IRadioGroupProps extends IBoxProps<IRadioGroupProps> {
 }
 export interface IRadioContext extends IFormControlContext {
   colorScheme?: string;
-  size?: ResponsiveValue<ISizes | (string & {}) | number>;
+  size?: 'sm' | 'md' | 'lg';
+  style?: any;
   state: RadioGroupState;
 }
 
@@ -93,6 +90,6 @@ export type IUseRadioGroupReturnType = {
 
 export type IRadioComponentType = ((props: IRadioProps) => JSX.Element) & {
   Group: React.MemoExoticComponent<
-    (props: IRadioGroupProps & { ref?: MutableRefObject<any> }) => JSX.Element
+    (props: IRadioGroupProps & { ref?: any }) => JSX.Element
   >;
 };

@@ -1,16 +1,15 @@
 import React, { memo, forwardRef } from 'react';
 import { View } from 'react-native';
-import { usePropsResolution } from '../../../hooks/useThemeProps';
+import { usePropsResolution } from '../../../hooks';
 import Text from './../Text';
-import { makeStyledComponent } from '../../../utils/styled';
+import { makeStyledBox } from '../../../utils/styled';
 import type { IBoxProps } from './types';
 import { useSafeArea } from '../../../hooks/useSafeArea';
 import { useNativeBaseConfig } from '../../../core/NativeBaseContext';
-import { useHasResponsiveProps } from '../../../hooks/useHasResponsiveProps';
 
-const StyledBox = makeStyledComponent(View);
+const StyledBox = makeStyledBox(View);
 
-let MemoizedGradient: any;
+let MemoizedGradient: any = undefined;
 
 const Box = ({ children, ...props }: IBoxProps, ref: any) => {
   // const { _text, ...resolvedProps } = useThemeProps('Box', props);
@@ -19,11 +18,6 @@ const Box = ({ children, ...props }: IBoxProps, ref: any) => {
     .dependencies?.['linear-gradient'];
 
   const safeAreaProps = useSafeArea(resolvedProps);
-
-  //TODO: refactor for responsive prop
-  if (useHasResponsiveProps(props)) {
-    return null;
-  }
 
   if (
     resolvedProps.bg?.linearGradient ||
@@ -39,12 +33,12 @@ const Box = ({ children, ...props }: IBoxProps, ref: any) => {
 
     if (Gradient) {
       if (!MemoizedGradient) {
-        MemoizedGradient = makeStyledComponent(Gradient);
+        MemoizedGradient = makeStyledBox(Gradient);
       }
 
       Gradient = MemoizedGradient;
 
-      let startObj = { x: 0, y: 0 };
+      let startObj = { x: 1, y: 0 };
       let endObj = { x: 0, y: 1 };
       if (lgrad.start && lgrad.start.length === 2) {
         startObj = {
@@ -79,13 +73,13 @@ const Box = ({ children, ...props }: IBoxProps, ref: any) => {
           locations={lgrad.locations}
         >
           {React.Children.map(children, (child) =>
-            typeof child === 'string' || typeof child === 'number' ? (
-              <Text {..._text}>{child}</Text>
-            ) : (
-              child
-            )
+            typeof child === 'string' ? <Text {..._text}>{child}</Text> : child
           )}
         </Gradient>
+      );
+    } else if (__DEV__) {
+      console.error(
+        'To enable gradient props support please provide linear gradient dependency in NativeBaseConfig'
       );
     }
   }
@@ -93,10 +87,8 @@ const Box = ({ children, ...props }: IBoxProps, ref: any) => {
     <StyledBox ref={ref} {...safeAreaProps}>
       {React.Children.map(children, (child) => {
         return typeof child === 'string' ||
-          typeof child === 'number' ||
           (child?.type === React.Fragment &&
-            (typeof child.props?.children === 'string' ||
-              typeof child.props?.children === 'number')) ? (
+            typeof child.props?.children === 'string') ? (
           <Text {..._text}>{child}</Text>
         ) : (
           child

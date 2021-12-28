@@ -1,7 +1,6 @@
-import type { MutableRefObject } from 'react';
 import type { IBoxProps } from '../Box';
 
-export interface ISliderProps extends IBoxProps<ISliderProps> {
+export interface ISliderProps extends IBoxProps {
   /** The current value of the Slider */
   value?: number;
   /** The default value (uncontrolled). */
@@ -44,34 +43,9 @@ export interface ISliderProps extends IBoxProps<ISliderProps> {
    * @default 1
    */
   step?: number;
-  /** Whether the whole Slider is readonly. */
-  isReadOnly?: boolean;
-  /** Props applied if isDisabled is true. */
-  _disabled?: any;
-  /** Props applied if isReadOnly is true. */
-  _readOnly?: any;
 }
 
-export interface ISliderTrackProps extends IBoxProps<ISliderTrackProps> {
-  /** Whether the whole Slider is readonly. */
-  isReadOnly?: boolean;
-  /** Props applied if isDisabled is true. */
-  _disabled?: any;
-  /** Props applied if isReadOnly is true. */
-  _readOnly?: any;
-}
-
-export interface ISliderTrackFilledProps
-  extends IBoxProps<ISliderTrackFilledProps> {
-  /** Whether the whole Slider is readonly. */
-  isReadOnly?: boolean;
-  /** Props applied if isDisabled is true. */
-  _disabled?: any;
-  /** Props applied if isReadOnly is true. */
-  _readOnly?: any;
-}
-
-export interface ISliderThumbProps extends IBoxProps<ISliderThumbProps> {
+export interface ISliderThumbProps extends IBoxProps {
   /**
    * The orientation of the Slider.
    * @default 'horizontal'
@@ -79,26 +53,18 @@ export interface ISliderThumbProps extends IBoxProps<ISliderThumbProps> {
   orientation?: 'horizontal' | 'vertical';
   /** Whether the Thumb is disabled. */
   isDisabled?: boolean;
-  /** Whether the whole Slider is readonly. */
-  isReadOnly?: boolean;
-  /** Props applied if isDisabled is true. */
-  _disabled?: any;
-  /** Props applied if isReadOnly is true. */
-  _readOnly?: any;
 }
 
 export type ISliderComponentType = ((
-  props: ISliderProps & { ref?: MutableRefObject<any> }
+  props: ISliderProps & { ref?: any }
 ) => JSX.Element) & {
   Thumb: React.MemoExoticComponent<
-    (props: ISliderThumbProps & { ref?: MutableRefObject<any> }) => JSX.Element
+    (props: ISliderThumbProps & { ref?: any }) => JSX.Element
   >;
   Track: React.MemoExoticComponent<
-    (props: ISliderTrackProps & { ref?: MutableRefObject<any> }) => JSX.Element
+    (props: IBoxProps & { ref?: any }) => JSX.Element
   >;
   FilledTrack: React.MemoExoticComponent<
-    (
-      props: ISliderTrackFilledProps & { ref?: MutableRefObject<any> }
-    ) => JSX.Element
+    (props: IBoxProps & { ref?: any }) => JSX.Element
   >;
 };

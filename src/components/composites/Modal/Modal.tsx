@@ -10,7 +10,6 @@ import type { IModalProps } from './types';
 import { Fade } from '../../composites/Transitions';
 import { useKeyboardBottomInset } from '../../../utils';
 import { Overlay } from '../../primitives/Overlay';
-import { useHasResponsiveProps } from '../../../hooks/useHasResponsiveProps';
 
 const Modal = (
   {
@@ -32,7 +31,7 @@ const Modal = (
   ref: any
 ) => {
   const bottomInset = useKeyboardBottomInset();
-  const { contentSize, _backdrop, ...resolvedProps } = usePropsResolution(
+  const { contentSize, _backdrop, ...restThemeProps } = usePropsResolution(
     'Modal',
     rest
   );
@@ -45,12 +44,12 @@ const Modal = (
     },
   });
 
-  const handleClose = React.useCallback(() => setVisible(false), [setVisible]);
+  const handleClose = () => setVisible(false);
 
-  const child = (
+  let child = (
     <Box
       bottom={avoidKeyboard ? bottomInset + 'px' : undefined}
-      {...resolvedProps}
+      {...restThemeProps}
       ref={ref}
       pointerEvents="box-none"
     >
@@ -58,30 +57,21 @@ const Modal = (
     </Box>
   );
 
-  const contextValue = React.useMemo(() => {
-    return {
-      handleClose,
-      contentSize,
-      initialFocusRef,
-      finalFocusRef,
-    };
-  }, [handleClose, contentSize, initialFocusRef, finalFocusRef]);
-
-  //TODO: refactor for responsive prop
-  if (useHasResponsiveProps(rest)) {
-    return null;
-  }
-
-  // console.log('visible here', visible);
   return (
     <Overlay
       isOpen={visible}
       onRequestClose={handleClose}
       isKeyboardDismissable={isKeyboardDismissable}
-      animationPreset={animationPreset}
       useRNModalOnAndroid
     >
-      <ModalContext.Provider value={contextValue}>
+      <ModalContext.Provider
+        value={{
+          handleClose,
+          contentSize,
+          initialFocusRef,
+          finalFocusRef,
+        }}
+      >
         <Fade
           exitDuration={150}
           entryDuration={200}

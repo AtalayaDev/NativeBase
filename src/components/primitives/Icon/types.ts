@@ -1,16 +1,40 @@
-import type { PlatformProps } from '../../types';
-import type { StyledProps } from '../../../theme/types';
-import type { ResponsiveValue } from '../../types/responsiveValue';
-import type { ISizes } from '../../../theme/base/sizes';
+import type {
+  BorderProps,
+  ColorProps,
+  FlexboxProps,
+  LayoutProps,
+  PositionProps,
+  SpaceProps,
+  TypographyProps,
+  ExtraProps,
+  OutlineProps,
+  ShadowProps,
+  BackgroundProps,
+  SafeAreaProps,
+  TransformProps,
+  PlatformProps,
+} from '../../types';
 import type { SvgProps } from 'react-native-svg';
-import type { IColors } from '../../../theme/base/colors';
+
 export interface IIconProps
   extends Omit<
       SvgProps,
-      'opacity' | 'fill' | 'stroke' | 'height' | 'width' | 'transform' | 'color'
+      'opacity' | 'fill' | 'stroke' | 'height' | 'width' | 'transform'
     >,
-    StyledProps,
-    PlatformProps<IIconProps> {
+    BorderProps,
+    ColorProps,
+    FlexboxProps,
+    LayoutProps,
+    PositionProps,
+    SpaceProps,
+    TypographyProps,
+    ExtraProps,
+    OutlineProps,
+    ShadowProps,
+    BackgroundProps,
+    SafeAreaProps,
+    TransformProps,
+    PlatformProps {
   // name?: IconNameType;
   // type?: IconType;
   /**
@@ -24,13 +48,11 @@ export interface IIconProps
   /**
    * The size of the icon.
    */
-  size?: ResponsiveValue<ISizes | (string & {}) | number>;
-
+  size?: string | number;
   /**
    * The color of the icon.
    */
-  // color?: string;
-  color?: ResponsiveValue<IColors | (string & {})>;
+  color?: string;
   /**
    *
    */

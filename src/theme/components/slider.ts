@@ -16,10 +16,8 @@ export const SliderThumb = {
     return {
       borderRadius: 99999,
       zIndex: 999,
-      alignItems: 'center',
-      justifyContent: 'center',
       bg: mode(
-        `${simplifiedColorScheme}.600`,
+        `${simplifiedColorScheme}.500`,
         `${simplifiedColorScheme}.300`
       )(props),
       scaleOnPressed: 1.2,
@@ -32,7 +30,7 @@ export const SliderFilledTrack = {
     const simplifiedColorScheme = getColorScheme(props);
     return {
       bg: mode(
-        `${simplifiedColorScheme}.600`,
+        `${simplifiedColorScheme}.500`,
         `${simplifiedColorScheme}.300`
       )(props),
     };

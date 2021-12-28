@@ -1,14 +1,6 @@
 // @ts-nocheck
 import React from 'react';
-import {
-  Modal,
-  Button,
-  ScrollView,
-  Text,
-  Heading,
-  Center,
-  VStack,
-} from 'native-base';
+import { Modal, Button, Stack } from 'native-base';
 
 export function Example() {
   const [modalVisible, setModalVisible] = React.useState(false);
@@ -21,55 +13,45 @@ export function Example() {
   return (
     <>
       <Modal isOpen={modalVisible} onClose={setModalVisible} size={size}>
-        <Modal.Content maxH="212">
+        <Modal.Content>
           <Modal.CloseButton />
-          <Modal.Header>Return Policy</Modal.Header>
+          <Modal.Header>Modal Title</Modal.Header>
           <Modal.Body>
-            <ScrollView>
-              <Text>
-                Create a 'Return Request' under “My Orders” section of
-                App/Website. Follow the screens that come up after tapping on
-                the 'Return’ button. Please make a note of the Return ID that we
-                generate at the end of the process. Keep the item ready for pick
-                up or ship it to us basis on the return mode.
-              </Text>
-            </ScrollView>
+            Sit nulla est ex deserunt exercitation anim occaecat. Nostrud
+            ullamco deserunt aute id consequat veniam incididunt duis in sint
+            irure nisi. Mollit officia cillum Lorem ullamco minim nostrud elit
+            officia tempor esse quis. Sunt ad dolore quis aute consequat. Magna
+            exercitation reprehenderit magna aute tempor cupidatat consequat
+            elit dolor adipisicing. Mollit dolor eiusmod sunt ex incididunt
+            cillum quis. Velit duis sit officia eiusmod Lorem aliqua enim
+            laboris do dolor eiusmod. Et mollit incididunt nisi consectetur esse
+            laborum eiusmod pariatur
           </Modal.Body>
           <Modal.Footer>
-            <Button.Group space={2}>
-              <Button
-                variant="ghost"
-                colorScheme="blueGray"
-                onPress={() => {
-                  setModalVisible(false);
-                }}
-              >
-                Cancel
-              </Button>
+            <Button.Group variant="ghost" space={2}>
+              <Button>SAVE</Button>
               <Button
                 onPress={() => {
-                  setModalVisible(false);
+                  setModalVisible(!modalVisible);
                 }}
+                colorScheme="muted"
               >
-                Save
+                CLOSE
               </Button>
             </Button.Group>
           </Modal.Footer>
         </Modal.Content>
       </Modal>
-      <Center>
-        <Heading mb="10">Sizes</Heading>
-        <VStack space={2}>
-          {['xs', 'sm', 'md', 'lg', 'xl', 'full'].map((size) => {
-            return (
-              <Button
-                onPress={() => handleSizeClick(size)}
-                key={size}
-              >{`Open ${size} Modal`}</Button>
-            );
-          })}
-        </VStack>
-      </Center>
+      <Stack direction={{ base: 'column', md: 'row' }} space={2}>
+        {['sm', 'md', 'lg', 'full'].map((size) => {
+          return (
+            <Button
+              onPress={() => handleSizeClick(size)}
+              key={size}
+            >{`Open ${size} Modal`}</Button>
+          );
+        })}
+      </Stack>
     </>
   );
 }

@@ -1,26 +1,33 @@
+import type { ITextProps } from '../../primitives/Text';
 import type { IBoxProps } from '../../primitives/Box';
 import type { ImageSourcePropType } from 'react-native';
-import type { MutableRefObject } from 'react';
-import type { ResponsiveValue } from '../../../components/types';
-import type { ISizes } from '../../../theme/base/sizes';
 
-export interface IAvatarProps extends IBoxProps<IAvatarProps> {
+export interface IAvatarProps extends IBoxProps {
+  /**
+   * Text styling for fallback text
+   */
+  _text?: ITextProps;
+  /**
+   * Style to be passed in rendered Image component
+   */
+  style?: any;
   /**
    * The image source of the avatar.
    */
   source?: ImageSourcePropType;
+
   /**
    * The size of the avatar
    * @default md
    */
-  size?: ResponsiveValue<ISizes | (string & {}) | number>;
+  size?: '2xl' | 'xl' | 'lg' | 'md' | 'sm' | 'xs' | string | number;
   /**
    * ref to be attached to Avatar wrapper
    */
-  wrapperRef?: MutableRefObject<any>;
+  wrapperRef?: any;
 }
 
-export interface IAvatarBadgeProps extends IBoxProps<IAvatarBadgeProps> {}
+export interface IAvatarBadgeProps extends IBoxProps {}
 
 export interface IAvatarGroupProps extends IAvatarProps {
   /**
@@ -38,12 +45,12 @@ export interface IAvatarGroupProps extends IAvatarProps {
 }
 
 export type IAvatarComponentType = ((
-  props: IAvatarProps & { ref?: MutableRefObject<any> }
+  props: IAvatarProps & { ref?: any }
 ) => JSX.Element) & {
   Group: React.MemoExoticComponent<
-    (props: IAvatarGroupProps & { ref?: MutableRefObject<any> }) => JSX.Element
+    (props: IAvatarGroupProps & { ref?: any }) => JSX.Element
   >;
   Badge: React.MemoExoticComponent<
-    (props: IAvatarBadgeProps & { ref?: MutableRefObject<any> }) => JSX.Element
+    (props: IAvatarBadgeProps & { ref?: any }) => JSX.Element
   >;
 };

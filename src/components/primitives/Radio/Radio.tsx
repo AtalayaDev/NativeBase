@@ -8,176 +8,81 @@ import { useRadio } from '@react-native-aria/radio';
 import { RadioContext } from './RadioGroup';
 import { mergeRefs } from '../../../utils';
 import { CircleIcon } from '../Icon/Icons';
-import { useHasResponsiveProps } from '../../../hooks/useHasResponsiveProps';
-import {
-  composeEventHandlers,
-  combineContextAndProps,
-  isEmptyObj,
-} from '../../../utils';
-import { extractInObject, stylingProps } from '../../../theme/tools/utils';
-import {
-  useHover,
-  useFocus,
-  useIsPressed,
-} from '../../primitives/Pressable/Pressable';
 
-const RadioComponent = memo(
-  forwardRef(
-    (
-      { icon, inputProps, combinedProps, size, children, wrapperRef }: any,
-      ref: any
-    ) => {
-      const { isInvalid, isReadOnly, isIndeterminate } = combinedProps;
+const Radio = ({ icon, wrapperRef, size, ...props }: IRadioProps, ref: any) => {
+  const contextState = React.useContext(RadioContext);
+  const {
+    _interactionBox: { _pressed: _iterationBoxPressed, ..._interactionBox },
+    _radio: {
+      _checked: _radioChecked,
+      _disabled: _radioDisabled,
+      _invalid: _radioInvalid,
+      ..._radio
+    },
+    _icon,
+    isInvalid,
+    ...themedProps
+  } = usePropsResolution('Radio', {
+    ...contextState,
+    ...props,
+    size,
+  });
 
-      const { hoverProps, isHovered } = useHover();
-      const { pressableProps, isPressed } = useIsPressed();
-      const { focusProps, isFocused } = useFocus();
+  const inputRef = React.useRef(null);
+  const { inputProps } = useRadio(props, contextState.state, inputRef);
+  const { disabled, checked } = inputProps;
 
-      const { disabled: isDisabled, checked: isChecked } = inputProps;
+  // only calling below function when icon exist.
+  const sizedIcon = () =>
+    //@ts-ignore
+    React.cloneElement(icon, {
+      ..._icon,
+    });
 
-      const {
-        onPressIn,
-        onPressOut,
-        onHoverIn,
-        onHoverOut,
-        onFocus,
-        onBlur,
-        _interactionBox,
-        _icon,
-        ...resolvedProps
-      } = usePropsResolution(
-        'Radio',
-        {
-          ...combinedProps,
-          size,
-        },
-        {
-          isInvalid,
-          isReadOnly,
-          isDisabled,
-          isIndeterminate,
-          isChecked,
-          isHovered,
-          isPressed,
-          isFocused,
-        }
-      );
-
-      const [layoutProps, nonLayoutProps] = extractInObject(resolvedProps, [
-        ...stylingProps.margin,
-        ...stylingProps.layout,
-        ...stylingProps.flexbox,
-        ...stylingProps.position,
-        '_text',
-      ]);
-
-      // only calling below function when icon exist.
-      const sizedIcon = () =>
-        //@ts-ignore
-        React.cloneElement(icon, {
-          ..._icon,
-        });
-
-      return (
-        <Pressable
-          {...pressableProps}
-          {...(inputProps as IPressableProps)}
-          ref={mergeRefs([ref, wrapperRef])}
-          accessibilityRole="radio"
-          onPressIn={composeEventHandlers(onPressIn, pressableProps.onPressIn)}
-          onPressOut={composeEventHandlers(
-            onPressOut,
-            pressableProps.onPressOut
-          )}
-          // @ts-ignore - web only
-          onHoverIn={composeEventHandlers(onHoverIn, hoverProps.onHoverIn)}
-          // @ts-ignore - web only
-          onHoverOut={composeEventHandlers(onHoverOut, hoverProps.onHoverOut)}
-          // @ts-ignore - web only
-          onFocus={composeEventHandlers(
-            composeEventHandlers(onFocus, focusProps.onFocus)
-            // focusRingProps.onFocu
-          )}
-          // @ts-ignore - web only
-          onBlur={composeEventHandlers(
-            composeEventHandlers(onBlur, focusProps.onBlur)
-            // focusRingProps.onBlur
-          )}
-        >
+  return (
+    <Pressable
+      {...(inputProps as IPressableProps)}
+      ref={mergeRefs([ref, wrapperRef])}
+      accessibilityRole="radio"
+    >
+      {({ isPressed }: any) => {
+        return (
           <Center
             flexDirection="row"
-            justifyContent="center"
+            justifyContent="center "
             alignItems="center"
             borderRadius="full"
-            {...layoutProps}
+            {...themedProps}
           >
             <Center>
               {/* Interaction Wrapper */}
-              <Box {..._interactionBox} p={5} w="100%" height="100%" />
+              <Box
+                {..._interactionBox}
+                {...(isPressed && _iterationBoxPressed)}
+                p={5}
+                w="100%"
+                height="100%"
+              />
               {/* radio */}
-              <Center {...nonLayoutProps}>
-                {icon && sizedIcon && isChecked ? (
+              <Center
+                {..._radio}
+                {...(checked && _radioChecked)}
+                {...(disabled && _radioDisabled)}
+                {...(isInvalid && _radioInvalid)}
+              >
+                {icon && sizedIcon && checked ? (
                   sizedIcon()
                 ) : (
-                  <CircleIcon {..._icon} opacity={isChecked ? 1 : 0} />
+                  <CircleIcon {..._icon} opacity={checked ? 1 : 0} />
                 )}
               </Center>
             </Center>
             {/* Label */}
-            {children}
+            {props.children}
           </Center>
-        </Pressable>
-      );
-    }
-  )
-);
-
-const Radio = (
-  { icon, children, size, wrapperRef, ...props }: IRadioProps,
-  ref: any
-) => {
-  const contextState = React.useContext(RadioContext);
-
-  const combinedProps = combineContextAndProps(contextState, props);
-
-  const inputRef = React.useRef(null);
-  const radioState = useRadio(
-    { ...combinedProps, 'aria-label': props.accessibilityLabel, children },
-    contextState.state ?? {},
-    inputRef
-  );
-
-  // console.log('radio', radioState);
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const inputProps = React.useMemo(() => radioState.inputProps, [
-    radioState.inputProps.checked,
-    radioState.inputProps.disabled,
-  ]);
-
-  const [contextCombinedProps] = React.useState({
-    ...combinedProps,
-  });
-
-  //TODO: refactor for responsive prop
-  if (useHasResponsiveProps(props)) {
-    return null;
-  }
-  if (isEmptyObj(contextState)) {
-    console.error('Error: Radio must be wrapped inside a Radio.Group');
-    return <></>;
-  }
-
-  return (
-    <RadioComponent
-      inputProps={inputProps}
-      combinedProps={contextCombinedProps}
-      children={children}
-      size={size}
-      ref={ref}
-      icon={icon}
-      wrapperRef={wrapperRef}
-    />
+        );
+      }}
+    </Pressable>
   );
 };
 

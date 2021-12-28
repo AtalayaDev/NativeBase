@@ -11,7 +11,6 @@ import { PresenceTransition } from '../Transitions';
 import { FocusScope } from '@react-native-aria/focus';
 import { MenuContext } from './MenuContext';
 import { Overlay } from '../../primitives/Overlay';
-import { useHasResponsiveProps } from '../../../hooks/useHasResponsiveProps';
 
 const Menu = (
   {
@@ -23,7 +22,7 @@ const Menu = (
     isOpen: isOpenProp,
     defaultIsOpen,
     placement = 'bottom left',
-    ...props
+    ...restProps
   }: IMenuProps,
   ref?: any
 ) => {
@@ -36,7 +35,7 @@ const Menu = (
     },
   });
 
-  const { transition, ...resolvedProps } = usePropsResolution('Menu', props);
+  const { transition, ...newProps } = usePropsResolution('Menu', restProps);
   const handleOpen = React.useCallback(() => {
     setIsOpen(true);
   }, [setIsOpen]);
@@ -50,7 +49,7 @@ const Menu = (
     isOpen,
   });
 
-  const updatedTrigger = () => {
+  let updatedTrigger = () => {
     return trigger(
       {
         ...triggerProps,
@@ -67,10 +66,6 @@ const Menu = (
     }
   }, [isOpen]);
 
-  //TODO: refactor for responsive prop
-  if (useHasResponsiveProps(resolvedProps)) {
-    return null;
-  }
   return (
     <>
       {updatedTrigger()}
@@ -80,7 +75,7 @@ const Menu = (
             triggerRef={triggerRef}
             onClose={handleClose}
             placement={placement}
-            {...props}
+            {...restProps}
           >
             <Backdrop bg="transparent" onPress={handleClose} />
             <Popper.Content>
@@ -88,7 +83,7 @@ const Menu = (
                 value={{ closeOnSelect, onClose: handleClose }}
               >
                 <FocusScope contain restoreFocus autoFocus>
-                  <MenuContent menuRef={ref} {...resolvedProps}>
+                  <MenuContent menuRef={ref} {...newProps}>
                     {children}
                   </MenuContent>
                 </FocusScope>
@@ -103,15 +98,14 @@ const Menu = (
 
 const MenuContent = ({
   menuRef,
-  children,
-  ...props
+  ...restProps
 }: Omit<IMenuProps, 'trigger'> & { menuRef: any }) => {
   const menuProps = useMenu();
   const typeaheadProps = useMenuTypeahead(menuProps);
 
   return (
-    <Box {...props} {...menuProps} {...typeaheadProps} ref={menuRef}>
-      <ScrollView>{children}</ScrollView>
+    <Box {...restProps} {...menuProps} {...typeaheadProps} ref={menuRef}>
+      <ScrollView>{restProps.children}</ScrollView>
     </Box>
   );
 };

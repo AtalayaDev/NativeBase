@@ -1,6 +1,5 @@
 import type { IBoxProps, IIconProps } from '../../primitives';
 import type { ICollapseProps } from '../../composites/Collapse';
-import type { MutableRefObject } from 'react';
 
 export type IAccordionProps = ICollapseProps & {
   allowMultiple?: boolean;
@@ -9,16 +8,17 @@ export type IAccordionProps = ICollapseProps & {
   defaultIndex?: number[];
   onChange?: (index?: number[]) => void;
 };
-export type IAccordionItemProps = IBoxProps<IAccordionItemProps> & {
+export type IAccordionItemProps = IBoxProps & {
   index?: number;
   defaultIsOpen?: boolean;
   isDisabled?: boolean;
   id?: number;
 };
-export type IAccordionSummaryProps = IBoxProps<IAccordionSummaryProps> & {
-  _expanded?: Omit<IAccordionSummaryProps, '_expanded'>;
-  _disabled?: Omit<IAccordionSummaryProps, '_disabled'>;
-  _hover?: Omit<IAccordionSummaryProps, '_hover'>;
+export type IAccordionSummaryProps = IBoxProps & {
+  style?: any;
+  _expanded?: any;
+  _disabled?: any;
+  _hover?: any;
 };
 export type IAccordionDetailsProps = ICollapseProps & {};
 export type IAccordionContextProps = {
@@ -33,29 +33,23 @@ export type IAccordionItemContextProps = {
   onClose?: () => void;
   onOpen?: () => void;
 };
-export type IAccordionIconProps = IIconProps;
+export type IAccordionIconProps = IIconProps & {
+  style?: any;
+};
 
 export type IAccordionComponentType = ((
-  props: IAccordionProps & { ref?: MutableRefObject<any> }
+  props: IAccordionProps & { ref?: any }
 ) => JSX.Element) & {
   Item: React.MemoExoticComponent<
-    (
-      props: IAccordionItemProps & { ref?: MutableRefObject<any> }
-    ) => JSX.Element
+    (props: IAccordionItemProps & { ref?: any }) => JSX.Element
   >;
   Summary: React.MemoExoticComponent<
-    (
-      props: IAccordionSummaryProps & { ref?: MutableRefObject<any> }
-    ) => JSX.Element
+    (props: IAccordionSummaryProps & { ref?: any }) => JSX.Element
   >;
   Details: React.MemoExoticComponent<
-    (
-      props: IAccordionDetailsProps & { ref?: MutableRefObject<any> }
-    ) => JSX.Element
+    (props: IAccordionDetailsProps & { ref?: any }) => JSX.Element
   >;
   Icon: React.MemoExoticComponent<
-    (
-      props: IAccordionIconProps & { ref?: MutableRefObject<any> }
-    ) => JSX.Element
+    (props: IAccordionIconProps & { ref?: any }) => JSX.Element
   >;
 };

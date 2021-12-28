@@ -8,19 +8,18 @@ export const Actionsheet = {
 
 // ActionsheetContent
 export const ActionsheetContent = {
-  baseStyle: (props: any) => ({
+  baseStyle: {
     alignItems: 'center',
-    px: 2,
-    py: 2,
+    p: 2,
     borderRadius: 'none',
-    roundedTop: 20,
+    roundedTop: 10,
     _dragIndicator: {
-      bg: mode('gray.400', 'gray.400')(props),
+      bg: 'coolGray.400',
       height: 1,
-      width: 10,
+      width: 9,
       borderRadius: 2,
     },
-  }),
+  },
 };
 
 // ActionsheetItem
@@ -28,17 +27,12 @@ export const ActionsheetItem = {
   baseStyle: (props: any) => ({
     width: '100%',
     justifyContent: 'flex-start',
-    p: 4,
-    _text: {
-      fontSize: 16,
-      fontWeight: 'normal',
-      color: mode('coolGray.800', 'warmGray.50')(props),
-    },
+    px: 5,
     _pressed: {
-      bg: mode('coolGray.300', 'gray.600')(props),
+      bg: mode('gray.200', 'gray.600')(props),
     },
     _hover: {
-      bg: mode('coolGray.200', 'gray.500')(props),
+      bg: mode('gray.100', 'gray.600')(props),
     },
   }),
   defaultProps: {

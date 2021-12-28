@@ -1,9 +1,19 @@
-import { usePropsResolutionWithComponentTheme } from './usePropsResolution';
-import type { ComponentTheme } from '../../theme';
+import omit from 'lodash.omit';
+import { useWindowDimensions } from 'react-native';
+import { useNativeBase } from './../useNativeBase';
+import { calculateProps } from './utils';
 
 export function usePropsWithComponentTheme(
-  localTheme: ComponentTheme,
+  localTheme: any,
   propsReceived: any
 ) {
-  return usePropsResolutionWithComponentTheme(localTheme, propsReceived);
+  const { theme, ...colorModeProps } = useNativeBase();
+  let windowWidth = useWindowDimensions()?.width;
+  return calculateProps(
+    omit(theme, 'components'),
+    colorModeProps,
+    localTheme,
+    propsReceived,
+    windowWidth
+  );
 }
